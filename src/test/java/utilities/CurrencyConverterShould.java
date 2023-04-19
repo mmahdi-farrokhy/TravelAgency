@@ -7,6 +7,9 @@ public class CurrencyConverterShould {
 
     @Test
     void convert_currencies_using_a_web_server() {
+        CurrencyConverter currencyConverter = new CurrencyConverter();
+
+        currencyConverter.setCurrencyType(CurrencyType.USD);
 
     }
 }
