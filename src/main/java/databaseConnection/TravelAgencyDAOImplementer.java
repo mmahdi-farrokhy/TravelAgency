@@ -1,8 +1,16 @@
-package utilities;
+package databaseConnection;
 
 import commonStructures.AirportCode;
+import flight.Airport;
+
+import java.util.List;
 
 public class TravelAgencyDAOImplementer implements TravelAgencyDAO{
+    @Override
+    public List<Airport> getAllAirPorts() {
+        return null;
+    }
+
     @Override
     public String getAirportCityByCode(AirportCode airportCode) {
         return null;
