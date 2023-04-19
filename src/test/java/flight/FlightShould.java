@@ -27,7 +27,6 @@ public class FlightShould {
 
     @Test
     void check_if_its_time_and_date_is_in_a_specific_range() {
-        // Given
         LocalDateTime startDate1 = LocalDateTime.of(2023, 3, 29, 12, 50);
         LocalDateTime endDate1 = LocalDateTime.of(2023, 4, 29, 12, 50);
         LocalDateTime startDate2 = LocalDateTime.of(2023, 4, 29, 12, 50);
@@ -65,11 +64,11 @@ public class FlightShould {
 
     @Test
     void calculate_distance_between_two_airports() {
-        flight.setOriginAirport(new Airport(AirportCode.AYT));
-        flight.setDestinationAirport(new Airport(AirportCode.ATL));
+        flight.setOriginAirport(new Airport(AirportCode.ATL, new Coordinate(33.6407, -84.4277)));
+        flight.setDestinationAirport(new Airport(AirportCode.CUN, new Coordinate(21.0417, -86.8740)));
 
         double distance = flight.estimateDistanceOfAirports();
 
-        assertThat(distance).isEqualTo(6021);
+        assertThat(distance).isEqualTo(1421.48);
     }
 }
