@@ -2,32 +2,31 @@ package databaseConnection;
 
 import commonStructures.AirportCode;
 import flight.Airport;
+import flight.Coordinate;
+import flight.Location;
 
 import java.util.List;
 
 public class TravelAgencyDAOImplementer implements TravelAgencyDAO{
+
+
     @Override
     public List<Airport> getAllAirPorts() {
         return null;
     }
 
     @Override
-    public String getAirportCityByCode(AirportCode airportCode) {
+    public Airport getAirPortByCode(AirportCode airportCode) {
         return null;
     }
 
     @Override
-    public String getAirportCountryByCode(AirportCode airportCode) {
+    public Location getAirportLocationByCode(AirportCode airportCode) {
         return null;
     }
 
     @Override
-    public double getAirportLatitudeByCode(AirportCode airportCode) {
-        return 0;
-    }
-
-    @Override
-    public double getAirportLongitudeByCode(AirportCode airportCode) {
-        return 0;
+    public Coordinate getAirportCoordinateByCode(AirportCode airportCode) {
+        return null;
     }
 }

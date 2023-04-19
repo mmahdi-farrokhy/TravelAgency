@@ -1,5 +1,4 @@
 package flight;
-
 import commonStructures.AirportCode;
 
 import java.util.Objects;
