@@ -44,6 +44,15 @@ public class Airport {
     }
 
     @Override
+    public String toString() {
+        return "Airport{" +
+                "code=" + code +
+                ", coordinate=" + coordinate +
+                ", location=" + location +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -6,9 +6,8 @@ import flight.Coordinate;
 import flight.Location;
 
 import java.util.List;
-import java.util.Locale;
 
-public interface TravelAgencyDAO {
+public interface DAO {
     List<Airport> getAllAirPorts();
     Airport getAirPortByCode(AirportCode airportCode);
     Location getAirportLocationByCode(AirportCode airportCode);
