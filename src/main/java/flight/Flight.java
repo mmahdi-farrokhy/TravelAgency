@@ -1,24 +1,23 @@
 package flight;
 
-import utilities.Converter;
-
 import java.time.LocalDateTime;
 
 import static java.lang.Math.*;
+import static utilities.Converter.limitNumberOfDecimalPlaces;
 
 public class Flight {
     private static final double RADIAN_DIVISOR_CONST = 57.299577951;
     public static final int EARTH_RADIUS = 6371;
-    private LocalDateTime dateTime;
+    private LocalDateTime departureTime;
     private Airport originAirport;
     private Airport destinationAirport;
 
-    public void setDateTime(LocalDateTime flightDateAndTime) {
-        this.dateTime = flightDateAndTime;
+    public void setDepartureTime(LocalDateTime flightDateAndTime) {
+        this.departureTime = flightDateAndTime;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
     }
 
     public void setOriginAirport(Airport originAirport) {
@@ -40,14 +39,14 @@ public class Flight {
     }
 
     public boolean isInTimeRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return dateTime.isAfter(startDate) && dateTime.isBefore(endDate);
+        return departureTime.isAfter(startDate) && departureTime.isBefore(endDate);
     }
 
     public boolean validDestination() {
         return !(originAirport.equals(destinationAirport));
     }
 
-    public double estimateDistanceOfAirports() {
+    public double estimateFlightDistance() {
         double originLatitudeInRadian = toRadians(originAirport.getCoordinate().getLatitude());
         double originLongitudeInRadian = toRadians(originAirport.getCoordinate().getLongitude());
         double destinationLatitudeInRadian = toRadians(destinationAirport.getCoordinate().getLatitude());
@@ -59,9 +58,9 @@ public class Flight {
         double haversine = pow(Math.sin(deltaLatitude / 2), 2) +
                 cos(originLatitudeInRadian) * cos(destinationLatitudeInRadian) * pow(Math.sin(deltaLongitude / 2), 2);
 
-        double c = 2 * Math.asin(Math.sqrt(haversine));
+        double c = 2 * asin(Math.sqrt(haversine));
 
-        return Converter.limitNumberOfDecimalPlaces(c * EARTH_RADIUS, 2);
+        return limitNumberOfDecimalPlaces(c * EARTH_RADIUS, 2);
     }
 
     //private double haversineFormula()

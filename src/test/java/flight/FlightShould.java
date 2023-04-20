@@ -16,12 +16,12 @@ public class FlightShould {
     void setUp() {
         flight = new Flight();
         flightDateAndTime = LocalDateTime.of(2023, 4, 18, 20, 34);
-        flight.setDateTime(flightDateAndTime);
+        flight.setDepartureTime(flightDateAndTime);
     }
 
     @Test
     void have_a_time_and_date() {
-        String flightDateString = flight.getDateTime().toString();
+        String flightDateString = flight.getDepartureTime().toString();
         assertThat(flightDateString).isEqualTo("2023-04-18T20:34");
     }
 
@@ -67,7 +67,7 @@ public class FlightShould {
         flight.setOriginAirport(new Airport(AirportCode.ATL, new Coordinate(33.6407, -84.4277)));
         flight.setDestinationAirport(new Airport(AirportCode.CUN, new Coordinate(21.0417, -86.8740)));
 
-        double distance = flight.estimateDistanceOfAirports();
+        double distance = flight.estimateFlightDistance();
 
         assertThat(distance).isEqualTo(1421.48);
     }

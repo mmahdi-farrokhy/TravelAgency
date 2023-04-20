@@ -3,24 +3,18 @@ package flight;
 import java.util.Objects;
 
 public class Coordinate {
-    private double Latitude;
-    private double Longitude;
+    private final double Latitude;
+    private final double Longitude;
 
     public Coordinate(double latitude, double longitude) {
         this.Latitude = latitude;
         this.Longitude = longitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.Latitude = latitude;
-    }
     public double getLatitude() {
         return Latitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.Longitude = longitude;
-    }
     public double getLongitude() {
         return Longitude;
     }
