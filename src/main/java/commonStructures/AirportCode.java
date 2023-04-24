@@ -1,6 +1,6 @@
 package commonStructures;
 
-public enum AirportCode {
+public enum AirportCode implements TableId {
     ATL,
     PEK,
     DXB,
