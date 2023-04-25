@@ -1,4 +1,4 @@
-package flight;
+package applicationLayer;
 
 import org.junit.jupiter.api.Test;
 

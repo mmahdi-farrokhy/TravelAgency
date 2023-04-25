@@ -1,4 +1,4 @@
-package flight;
+package applicationLayer;
 
 import commonStructures.AirportCode;
 import org.junit.jupiter.api.BeforeEach;

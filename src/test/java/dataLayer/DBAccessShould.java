@@ -1,9 +1,9 @@
-package databaseConnection;
+package dataLayer;
 
 import commonStructures.AirportCode;
-import flight.Airport;
-import flight.Coordinate;
-import flight.Location;
+import applicationLayer.Airport;
+import applicationLayer.Coordinate;
+import applicationLayer.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,13 +38,13 @@ public class DBAccessShould {
 
     @Test
     void get_a_specific_airports_location_from_the_airport_table() {
-        Location airportLocationByRUHCode = dbAccess.getRecordLocationById(AirportCode.RUH);
+        Location airportLocationByRUHCode = dbAccess.getAirportLocationById(AirportCode.RUH);
         assertThat(airportLocationByRUHCode).isEqualTo(new Location("Riyadh", "Saudi Arabia"));
     }
 
     @Test
     void get_a_specific_airports_coordinate_from_the_airport_table() {
-        Coordinate airportCoordinateByRUHCode = dbAccess.getRecordCoordinateById(AirportCode.RUH);
+        Coordinate airportCoordinateByRUHCode = dbAccess.getAirportCoordinateById(AirportCode.RUH);
         assertThat(airportCoordinateByRUHCode).isEqualTo(new Coordinate(24.9596, 46.7024));
     }
 

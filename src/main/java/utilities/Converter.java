@@ -1,17 +1,19 @@
 package utilities;
 
 import com.google.gson.Gson;
-import flight.Coordinate;
-import flight.Location;
+import applicationLayer.Coordinate;
+import applicationLayer.Location;
 
 import java.text.DecimalFormat;
+
+import static java.lang.Double.parseDouble;
 
 public class Converter {
 
     private Converter() {}
 
     public static double limitNumberOfDecimalPlaces(double value, int limit) {
-        return Double.parseDouble(new DecimalFormat(getDecimalFormatterInput(limit)).format(value));
+        return parseDouble(new DecimalFormat(getDecimalFormatterInput(limit)).format(value));
     }
 
     private static String getDecimalFormatterInput(int numberOfDecimalPlaces) {
@@ -19,14 +21,10 @@ public class Converter {
     }
 
     public static Coordinate jsonToCoordinate(String jsonCoordinate){
-        Gson gsonMapper = new Gson();
-        final Coordinate coordinateFromDb = gsonMapper.fromJson(jsonCoordinate, Coordinate.class);
-        return coordinateFromDb;
+        return new Gson().fromJson(jsonCoordinate, Coordinate.class);
     }
 
     public static Location jsonToLocation(String jsonLocation){
-        Gson gsonMapper = new Gson();
-        final Location locationFromDb = gsonMapper.fromJson(jsonLocation, Location.class);
-        return locationFromDb;
+        return new Gson().fromJson(jsonLocation, Location.class);
     }
 }

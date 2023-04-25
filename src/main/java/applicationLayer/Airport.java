@@ -1,9 +1,10 @@
-package flight;
+package applicationLayer;
 import commonStructures.AirportCode;
+import dataLayer.DBTable;
 
 import java.util.Objects;
 
-public class Airport {
+public class Airport extends DBTable {
     private final AirportCode code;
     private Coordinate coordinate;
     private Location location;

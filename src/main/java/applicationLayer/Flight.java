@@ -1,4 +1,4 @@
-package flight;
+package applicationLayer;
 
 import java.time.LocalDateTime;
 
