@@ -1,22 +1,25 @@
 package applicationLayer;
 
+import commonStructures.DBTable;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static java.lang.Math.*;
 import static utilities.Converter.limitNumberOfDecimalPlaces;
 
-public class Flight {
+public class Flight extends DBTable {
     private static final int EARTH_RADIUS = 6371;
-    private int id;
+    private String id;
     private LocalDateTime departureTime;
     private Airport originAirport;
     private Airport destinationAirport;
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -71,5 +74,26 @@ public class Flight {
         return limitNumberOfDecimalPlaces(c * EARTH_RADIUS, 2);
     }
 
-    //private double haversineFormula()
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "id='" + id + '\'' +
+                ", departureTime=" + departureTime +
+                ", originAirport=" + originAirport +
+                ", destinationAirport=" + destinationAirport +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return Objects.equals(id, flight.id) && Objects.equals(departureTime, flight.departureTime) && Objects.equals(originAirport, flight.originAirport) && Objects.equals(destinationAirport, flight.destinationAirport);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, departureTime, originAirport, destinationAirport);
+    }
 }

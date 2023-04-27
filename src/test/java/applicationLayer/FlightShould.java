@@ -21,8 +21,8 @@ public class FlightShould {
 
     @Test
     void have_an_id() {
-        flight.setId(123);
-        assertThat(flight.getId()).isEqualTo(123);
+        flight.setId("123");
+        assertThat(flight.getId()).isEqualTo("123");
     }
 
     @Test

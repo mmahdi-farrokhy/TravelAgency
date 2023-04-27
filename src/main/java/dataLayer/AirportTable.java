@@ -1,6 +1,7 @@
 package dataLayer;
 
 import commonStructures.AirportCode;
+import commonStructures.DBTable;
 import commonStructures.TableId;
 import applicationLayer.Airport;
 import applicationLayer.Coordinate;
@@ -24,19 +25,19 @@ import static java.sql.DriverManager.getConnection;
 import static utilities.Converter.jsonToCoordinate;
 import static utilities.Converter.jsonToLocation;
 
-public class AirportTable extends DBTable implements DBAccess<Airport> {
+public class AirportTable implements DBAccess<Airport> {
     public static String dbs_where = " WHERE AirportCode = ?";
     public static String query = "";
 
     public AirportTable() {
-        tableName = "airport";
+        DBTable.tableName = "airport";
 
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
             final Properties properties = new Properties();
             properties.load(configFile);
-            host = properties.get("host").toString();
-            username = properties.get("user").toString();
-            password = properties.get("pass").toString();
+            DBTable.host = properties.get("host").toString();
+            DBTable.username = properties.get("user").toString();
+            DBTable.password = properties.get("pass").toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,9 +46,9 @@ public class AirportTable extends DBTable implements DBAccess<Airport> {
     @Override
     public List<Airport> getAllRecords() {
         List<Airport> allAirports = new LinkedList<>();
-        query = dbq_select + tableName;
+        query = DBTable.dbq_select + DBTable.tableName;
 
-        try (final Connection con = getConnection(host, username, password);
+        try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
 
             final ResultSet resultSet = SELECT_ALL.executeQuery();
@@ -67,9 +68,9 @@ public class AirportTable extends DBTable implements DBAccess<Airport> {
     @Override
     public Airport getRecordById(TableId id) {
         Airport airportByCode;
-        query = dbq_select + tableName + dbs_where;
+        query = DBTable.dbq_select + DBTable.tableName + dbs_where;
 
-        try (final Connection con = getConnection(host, username, password);
+        try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
 
             SELECT_BY_CODE.setString(1, id.toString());

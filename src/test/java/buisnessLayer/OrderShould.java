@@ -29,8 +29,8 @@ public class OrderShould {
 
     @Test
     void have_an_id() {
-        order.setId(123);
-        assertThat(order.getId()).isEqualTo(123);
+        order.setId("123");
+        assertThat(order.getId()).isEqualTo("123");
     }
 
     @Test

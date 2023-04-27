@@ -1,7 +1,7 @@
 package applicationLayer;
 import commonStructures.AirportCode;
 import dataLayer.AirportTable;
-import dataLayer.DBTable;
+import commonStructures.DBTable;
 
 import java.util.Objects;
 

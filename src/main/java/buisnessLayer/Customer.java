@@ -1,8 +1,10 @@
 package buisnessLayer;
 
+import commonStructures.DBTable;
+
 import java.time.LocalDate;
 
-public class Customer {
+public class Customer extends DBTable {
     public String nationalCode;
     private FullName fullName;
     private LocalDate birthDate;

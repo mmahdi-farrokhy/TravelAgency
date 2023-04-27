@@ -19,8 +19,8 @@ public class CustomerShould {
 
     @Test
     void have_a_national_code() {
-        customer.setNationalCode("0123456789");
-        assertThat(customer.getNationalCode()).isEqualTo("0123456789");
+        customer.setNationalCode("1234567890");
+        assertThat(customer.getNationalCode()).isEqualTo("1234567890");
     }
 
     @Test

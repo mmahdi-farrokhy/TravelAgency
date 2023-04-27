@@ -2,22 +2,23 @@ package buisnessLayer;
 
 import applicationLayer.Flight;
 import commonStructures.CurrencyType;
+import commonStructures.DBTable;
 
 import java.time.LocalDateTime;
 
-public class Order {
-    private int id;
+public class Order extends DBTable {
+    private String id;
     private int quantity;
     private Price price;
     private LocalDateTime registrationTime;
     private Customer customerInfo;
     private Flight flight;
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
