@@ -6,10 +6,19 @@ import static java.lang.Math.*;
 import static utilities.Converter.limitNumberOfDecimalPlaces;
 
 public class Flight {
-    public static final int EARTH_RADIUS = 6371;
+    private static final int EARTH_RADIUS = 6371;
+    private int id;
     private LocalDateTime departureTime;
     private Airport originAirport;
     private Airport destinationAirport;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public void setDepartureTime(LocalDateTime flightDateAndTime) {
         this.departureTime = flightDateAndTime;

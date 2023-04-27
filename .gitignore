@@ -1,22 +1,6 @@
-/.idea/.gitignore
-/.idea/compiler.xml
-/.idea/encodings.xml
-/.idea/jarRepositories.xml
-/.idea/misc.xml
+/.idea/*
 /~$$Class Diagram.~vsdx
 /~$$Class Diagram.~vsdx
 /Class Diagram.vsdx
 /Class Diagram.vsdx
-/target/classes/applicationLayer/Airport.class
-/target/classes/applicationLayer/Flight.class
-/target/classes/buisnessLayer/Customer.class
-/target/classes/buisnessLayer/Order.class
-/target/classes/buisnessLayer/Price.class
-/target/classes/commonStructures/CurrencyType.class
-/target/classes/dataLayer/AirportTable.class
-/target/classes/dataLayer/DBTable.class
-/target/test-classes/applicationLayer/CoordinateShould.class
-/target/test-classes/applicationLayer/FlightShould.class
-/target/test-classes/buisnessLayer/OrderShould.class
-/target/test-classes/dataLayer/AirportTableShould.class
-/target/test-classes/dataLayer/DBAccessShould.class
+/target/*

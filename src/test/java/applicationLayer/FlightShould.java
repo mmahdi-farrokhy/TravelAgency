@@ -20,6 +20,12 @@ public class FlightShould {
     }
 
     @Test
+    void have_an_id() {
+        flight.setId(123);
+        assertThat(flight.getId()).isEqualTo(123);
+    }
+
+    @Test
     void have_a_time_and_date() {
         String flightDateString = flight.getDepartureTime().toString();
         assertThat(flightDateString).isEqualTo("2023-04-18T20:34");
