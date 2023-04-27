@@ -1,5 +1,6 @@
 package applicationLayer;
 import commonStructures.AirportCode;
+import dataLayer.AirportTable;
 import dataLayer.DBTable;
 
 import java.util.Objects;
@@ -9,17 +10,15 @@ public class Airport extends DBTable {
     private Coordinate coordinate;
     private Location location;
 
-    public Airport(AirportCode airportName) {
-        this.code = airportName;
+    public Airport(AirportCode airportCode) {
+        AirportTable airportTable = new AirportTable();
+        this.code = airportCode;
+        this.coordinate = airportTable.getAirportCoordinateById(code);
+        this.location = airportTable.getAirportLocationById(code);
     }
 
-    public Airport(AirportCode code, Coordinate coordinate) {
-        this.code = code;
-        this.coordinate = coordinate;
-    }
-
-    public Airport(AirportCode code, Coordinate coordinate, Location location) {
-        this.code = code;
+    public Airport(AirportCode airportCode, Coordinate coordinate, Location location) {
+        this.code = airportCode;
         this.coordinate = coordinate;
         this.location = location;
     }

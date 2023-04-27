@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DBAccessShould {
+public class AirportTableShould {
     private AirportTable dbAccess;
 
     @BeforeEach
@@ -24,16 +24,16 @@ public class DBAccessShould {
         List<Airport> allAirPorts = dbAccess.getAllRecords();
 
         assertThat(allAirPorts.size()).isEqualTo(100);
-        assertThat(allAirPorts.get(0)).isEqualTo(new Airport(AirportCode.AMS, new Coordinate(52.3105, 4.7683), new Location("Amsterdam", "Netherlands")));
+        assertThat(allAirPorts.get(0)).isEqualTo(new Airport(AirportCode.AMS));
     }
 
     @Test
     void get_a_specific_airport_from_airport_table() {
         Airport airPortByRUHCode = dbAccess.getRecordById(AirportCode.RUH);
-        assertThat(airPortByRUHCode).isEqualTo(new Airport(AirportCode.RUH, new Coordinate(24.9596, 46.7024), new Location("Riyadh", "Saudi Arabia")));
+        assertThat(airPortByRUHCode).isEqualTo(new Airport(AirportCode.RUH));
 
         Airport airPortByMANCode = dbAccess.getRecordById(AirportCode.MAN);
-        assertThat(airPortByMANCode).isEqualTo(new Airport(AirportCode.MAN, new Coordinate(53.3554, -2.2773), new Location("Manchester", "United Kingdom")));
+        assertThat(airPortByMANCode).isEqualTo(new Airport(AirportCode.MAN));
     }
 
     @Test

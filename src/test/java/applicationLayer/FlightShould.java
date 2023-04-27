@@ -64,8 +64,8 @@ public class FlightShould {
 
     @Test
     void calculate_distance_between_two_airports() {
-        flight.setOriginAirport(new Airport(AirportCode.ATL, new Coordinate(33.6407, -84.4277)));
-        flight.setDestinationAirport(new Airport(AirportCode.CUN, new Coordinate(21.0417, -86.8740)));
+        flight.setOriginAirport(new Airport(AirportCode.ATL));
+        flight.setDestinationAirport(new Airport(AirportCode.CUN));
 
         double distance = flight.estimateFlightDistance();
 

@@ -92,6 +92,7 @@ public class AirportTable extends DBTable implements DBAccess<Airport> {
             final AirportCode airportCode = valueOf(resultSet.getString("AirportCode"));
             final Coordinate coordinate = jsonToCoordinate(resultSet.getString("Coordinate"));
             final Location location = jsonToLocation(resultSet.getString("Location"));
+
             airportByCode = new Airport(airportCode, coordinate, location);
         } catch (IllegalArgumentException | SQLException e) {
             throw new RuntimeException(e);

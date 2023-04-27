@@ -1,10 +1,10 @@
 package dataLayer;
 
 public class DBTable {
-    public final String dbq_select = "SELECT * FROM ";
-    public String tableName;
-    public String host;
-    public String username;
-    public String password;
+    public static final String dbq_select = "SELECT * FROM ";
+    public static String tableName;
+    public static String host;
+    public static String username;
+    public static String password;
 
 }

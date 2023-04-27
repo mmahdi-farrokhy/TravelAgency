@@ -6,7 +6,6 @@ import static java.lang.Math.*;
 import static utilities.Converter.limitNumberOfDecimalPlaces;
 
 public class Flight {
-    private static final double RADIAN_DIVISOR_CONST = 57.299577951;
     public static final int EARTH_RADIUS = 6371;
     private LocalDateTime departureTime;
     private Airport originAirport;

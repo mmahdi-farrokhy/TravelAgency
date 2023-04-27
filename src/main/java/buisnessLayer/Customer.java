@@ -3,7 +3,7 @@ package buisnessLayer;
 import java.time.LocalDate;
 
 public class Customer {
-    private String nationalCode;
+    public String nationalCode;
     private FullName fullName;
     private LocalDate birthDate;
     private Address address;
