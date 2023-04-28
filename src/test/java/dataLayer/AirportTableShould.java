@@ -29,10 +29,10 @@ public class AirportTableShould {
 
     @Test
     void get_a_specific_airport_from_airport_table() {
-        Airport airPortByRUHCode = dbAccess.getRecordById(AirportCode.RUH);
+        Airport airPortByRUHCode = dbAccess.getRecordById(AirportCode.RUH.toString());
         assertThat(airPortByRUHCode).isEqualTo(new Airport(AirportCode.RUH));
 
-        Airport airPortByMANCode = dbAccess.getRecordById(AirportCode.MAN);
+        Airport airPortByMANCode = dbAccess.getRecordById(AirportCode.MAN.toString());
         assertThat(airPortByMANCode).isEqualTo(new Airport(AirportCode.MAN));
     }
 

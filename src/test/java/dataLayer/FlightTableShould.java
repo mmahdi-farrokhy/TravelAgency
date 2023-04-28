@@ -13,16 +13,16 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FlightTableShould {
-    private FlightTable flightTable;
+    private FlightTable dbAccess;
 
     @BeforeEach
     void setUp() {
-        flightTable = new FlightTable();
+        dbAccess = new FlightTable();
     }
 
     @Test
     void get_all_flights_from_the_flight_table() {
-        List<Flight> allFlights = flightTable.getAllRecords();
+        List<Flight> allFlights = dbAccess.getAllRecords();
         assertThat(allFlights.isEmpty()).isFalse();
 
         Flight flight = new Flight();
@@ -31,9 +31,39 @@ public class FlightTableShould {
         flight.setOriginAirport(new Airport(AirportCode.ATL));
         flight.setDestinationAirport(new Airport(AirportCode.RUH));
         assertThat(allFlights.get(0)).isEqualTo(flight);
-
-        assertThat(allFlights.size()).isEqualTo(3);
     }
 
+    @Test
+    void get_a_specific_airport_from_flight_table() {
+        Flight flightById1 = dbAccess.getRecordById("1");
+        assertThat(flightById1.getOriginAirport()).isEqualTo(new Airport(AirportCode.ATL));
+        assertThat(flightById1.getDestinationAirport()).isEqualTo(new Airport(AirportCode.RUH));
 
+        Flight flightById2 = dbAccess.getRecordById("2");
+        assertThat(flightById2.getOriginAirport()).isEqualTo(new Airport(AirportCode.MAN));
+        assertThat(flightById2.getDestinationAirport()).isEqualTo(new Airport(AirportCode.NKG));
+    }
+
+    @Test
+    void insert_a_new_record_to_flight_table() {
+        Flight newRecord = new Flight();
+        newRecord.setDepartureTime(LocalDateTime.of(2029, 8, 1, 8, 0, 0));
+        newRecord.setOriginAirport(new Airport(AirportCode.CUN));
+        newRecord.setDestinationAirport(new Airport(AirportCode.ZRH));
+        boolean recordInserted = dbAccess.insertNewRecord(newRecord);
+        assertThat(recordInserted).isFalse();
+
+        newRecord.setDepartureTime(LocalDateTime.of(2029, 8, 1, 8, 0, 0));
+        newRecord.setOriginAirport(new Airport(AirportCode.SAW));
+        newRecord.setDestinationAirport(new Airport(AirportCode.PEK));
+        recordInserted = dbAccess.insertNewRecord(newRecord);
+        assertThat(recordInserted).isFalse();
+    }
+
+    @Test
+    void delete_a_record_from_flight_table() {
+        dbAccess.deleteRecordById("4");
+        Assertions.assertThatExceptionOfType(java.lang.RuntimeException.class)
+                .isThrownBy(() -> dbAccess.getRecordById("4"));
+    }
 }

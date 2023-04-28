@@ -27,12 +27,12 @@ import static utilities.Converter.jsonToCoordinate;
 import static utilities.Converter.jsonToLocation;
 
 public class FlightTable implements DBUpdate<Flight> {
+    public static String dbq_insert = " INSERT INTO tableName (DepartureTime, OriginAirportCode, DestinationAirportCode) VALUES (?, ?, ?)";
+    public static String dbq_delete = " DELETE FROM ";
     public static String dbs_where = " WHERE ID = ?";
     public static String query = "";
 
     public FlightTable() {
-        DBTable.tableName = "flight";
-
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
             final Properties properties = new Properties();
             properties.load(configFile);
@@ -47,6 +47,7 @@ public class FlightTable implements DBUpdate<Flight> {
     @Override
     public List<Flight> getAllRecords() {
         List<Flight> allFlights = new LinkedList<>();
+        DBTable.tableName = "flight";
         query = DBTable.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
@@ -87,17 +88,59 @@ public class FlightTable implements DBUpdate<Flight> {
     }
 
     @Override
-    public Flight getRecordById(TableId id) {
-        return null;
+    public Flight getRecordById(String id) {
+        Flight flightById;
+        DBTable.tableName = "flight";
+        query = DBTable.dbq_select + DBTable.tableName + dbs_where;
+
+        try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
+             PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
+            SELECT_BY_CODE.setInt(1, Integer.valueOf(id));
+            final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
+            resultSet.next();
+            flightById = generateFlightFromResultSet(resultSet);
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return flightById;
     }
 
     @Override
     public boolean insertNewRecord(Flight newRecord) {
-        return false;
+        DBTable.tableName = "flight";
+        query = dbq_insert.replace("tableName", DBTable.tableName);
+        boolean recordInserted = false;
+
+        try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
+             PreparedStatement INSERT = con.prepareStatement(query)) {
+            List<Flight> flightList = getAllRecords();
+            if (!flightList.contains(newRecord)) {
+                INSERT.setString(1, newRecord.getDepartureTime().toString());
+                INSERT.setString(2, newRecord.getOriginAirport().getCode().toString());
+                INSERT.setString(3, newRecord.getDestinationAirport().getCode().toString());
+                INSERT.executeUpdate();
+                recordInserted = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return recordInserted;
     }
 
     @Override
-    public boolean deleteRecordById(String id) {
-        return false;
+    public void deleteRecordById(String id) {
+        DBTable.tableName = "flight";
+        query = dbq_delete + DBTable.tableName + dbs_where;
+
+        try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
+             PreparedStatement DELETE_BY_ID = con.prepareStatement(query)) {
+            DELETE_BY_ID.setInt(1, Integer.valueOf(id));
+            DELETE_BY_ID.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -89,7 +89,7 @@ public class Flight extends DBTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return Objects.equals(id, flight.id) && Objects.equals(departureTime, flight.departureTime) && Objects.equals(originAirport, flight.originAirport) && Objects.equals(destinationAirport, flight.destinationAirport);
+        return Objects.equals(departureTime, flight.departureTime) && Objects.equals(originAirport, flight.originAirport) && Objects.equals(destinationAirport, flight.destinationAirport);
     }
 
     @Override

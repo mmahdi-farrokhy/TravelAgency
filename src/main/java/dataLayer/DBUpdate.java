@@ -2,7 +2,7 @@ package dataLayer;
 
 import commonStructures.DBTable;
 
-public interface DBUpdate<DBEntity extends DBTable> extends DBAccess{
+public interface DBUpdate<DBEntity extends DBTable> extends DBAccess<DBEntity>{
     boolean insertNewRecord(DBEntity newRecord);
-    boolean deleteRecordById(String id);
+    void deleteRecordById(String id);
 }

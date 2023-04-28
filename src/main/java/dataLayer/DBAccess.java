@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface DBAccess<DBEntity extends DBTable> {
     List<DBEntity> getAllRecords();
-    DBEntity getRecordById(TableId id);
+    DBEntity getRecordById(String id);
 }

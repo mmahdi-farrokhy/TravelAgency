@@ -30,8 +30,6 @@ public class AirportTable implements DBAccess<Airport> {
     public static String query = "";
 
     public AirportTable() {
-        DBTable.tableName = "airport";
-
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
             final Properties properties = new Properties();
             properties.load(configFile);
@@ -46,6 +44,7 @@ public class AirportTable implements DBAccess<Airport> {
     @Override
     public List<Airport> getAllRecords() {
         List<Airport> allAirports = new LinkedList<>();
+        DBTable.tableName = "airport";
         query = DBTable.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
@@ -66,14 +65,15 @@ public class AirportTable implements DBAccess<Airport> {
     }
 
     @Override
-    public Airport getRecordById(TableId id) {
+    public Airport getRecordById(String id) {
         Airport airportByCode;
+        DBTable.tableName = "airport";
         query = DBTable.dbq_select + DBTable.tableName + dbs_where;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
 
-            SELECT_BY_CODE.setString(1, id.toString());
+            SELECT_BY_CODE.setString(1, id);
             final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
             resultSet.next();
             airportByCode = generateAirportFromResultSet(resultSet);
@@ -102,11 +102,11 @@ public class AirportTable implements DBAccess<Airport> {
         return airportByCode;
     }
 
-    public Location getAirportLocationById(TableId airportCode) {
-        return getRecordById(airportCode).getLocation();
+    public Location getAirportLocationById(AirportCode airportCode) {
+        return getRecordById(airportCode.toString()).getLocation();
     }
 
     public Coordinate getAirportCoordinateById(TableId airportCode) {
-        return getRecordById(airportCode).getCoordinate();
+        return getRecordById(airportCode.toString()).getCoordinate();
     }
 }
