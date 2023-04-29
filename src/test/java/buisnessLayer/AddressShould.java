@@ -1,7 +1,6 @@
 package buisnessLayer;
 
 import commonStructures.City;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,17 +11,17 @@ public class AddressShould {
 
     @BeforeEach
     void setUp() {
-        address = new Address(City.AMSTERDAM, "Brouwersgracht", "1011 AA");
+        address = new Address(City.AMSTERDAM.toString(), "Brouwersgracht", "1011 AA");
     }
 
     @Test
     void have_a_city_name() {
-        assertThat(address.getCity()).isEqualTo(City.AMSTERDAM);
+        assertThat(address.getCityName()).isEqualTo(City.AMSTERDAM.toString());
     }
 
     @Test
     void have_a_street_name() {
-        assertThat(address.getStreet()).isEqualTo("Brouwersgracht");
+        assertThat(address.getStreetName()).isEqualTo("Brouwersgracht");
     }
 
     @Test
@@ -32,14 +31,14 @@ public class AddressShould {
 
     @Test
     void change_the_city_name() {
-        address.setCity(City.LAS_VEGAS);
-        assertThat(address.getCity()).isEqualTo(City.LAS_VEGAS);
+        address.setCityName(City.LAS_VEGAS.toString());
+        assertThat(address.getCityName()).isEqualTo(City.LAS_VEGAS.toString());
     }
 
     @Test
     void change_the_street_name() {
-        address.setStreet("The Strip");
-        assertThat(address.getStreet()).isEqualTo("The Strip");
+        address.setStreetName("The Strip");
+        assertThat(address.getStreetName()).isEqualTo("The Strip");
     }
 
     @Test

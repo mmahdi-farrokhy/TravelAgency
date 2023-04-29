@@ -1,7 +1,6 @@
 package buisnessLayer;
 
 import applicationLayer.Airport;
-import applicationLayer.Coordinate;
 import applicationLayer.Flight;
 import commonStructures.AirportCode;
 import commonStructures.City;
@@ -9,7 +8,6 @@ import dataLayer.AirportTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -55,6 +53,12 @@ public class OrderShould {
         order.setFlight(orderFlight);
         order.calculateOrderPriceAmountByUSD();
         assertThat(order.getPrice().getAmount()).isEqualTo(794.98);
+
+//        orderFlight.setOriginAirport(new Airport(AirportCode.CUN));
+//        orderFlight.setDestinationAirport(new Airport(AirportCode.ZRH));
+//        order.setFlight(orderFlight);
+//        order.calculateOrderPriceAmountByUSD();
+//        System.out.println(order.getPrice().getAmount());
     }
 
     @Test
@@ -69,13 +73,13 @@ public class OrderShould {
         customerInfo.setNationalCode("0123");
         customerInfo.setFullName(new FullName("Brad", "Pitt"));
         customerInfo.setBirthDate(of(1963, 12, 18));
-        customerInfo.setAddress(new Address(City.LOS_ANGELES, "Alpine Drive", "90001"));
+        customerInfo.setAddress(new Address(City.LOS_ANGELES.toString(), "Alpine Drive", "90001"));
         customerInfo.setPhoneNumber("0123456789");
         order.setCustomerInfo(customerInfo);
 
         assertThat(order.getCustomerInfo().getNationalCode()).isEqualTo("0123");
-        assertThat(order.getCustomerInfo().getFullName().getFirstname()).isEqualTo("Brad");
-        assertThat(order.getCustomerInfo().getFullName().getLastname()).isEqualTo("Pitt");
+        assertThat(order.getCustomerInfo().getFullName().getFirstName()).isEqualTo("Brad");
+        assertThat(order.getCustomerInfo().getFullName().getLastName()).isEqualTo("Pitt");
         assertThat(order.getCustomerInfo().getPhoneNumber()).isEqualTo("0123456789");
     }
 

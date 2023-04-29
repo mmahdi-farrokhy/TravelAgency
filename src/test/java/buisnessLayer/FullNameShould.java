@@ -15,23 +15,23 @@ public class FullNameShould {
 
     @Test
     void have_a_first_name() {
-        assertThat(fullName.getFirstname()).isEqualTo("Brad");
+        assertThat(fullName.getFirstName()).isEqualTo("Brad");
     }
 
     @Test
     void have_a_last_name() {
-        assertThat(fullName.getLastname()).isEqualTo("Pitt");
+        assertThat(fullName.getLastName()).isEqualTo("Pitt");
     }
 
     @Test
     void change_the_first_name() {
-        fullName.setFirstname("Angelina");
-        assertThat(fullName.getFirstname()).isEqualTo("Angelina");
+        fullName.setFirstName("Angelina");
+        assertThat(fullName.getFirstName()).isEqualTo("Angelina");
     }
 
     @Test
     void change_the_last_name() {
-        fullName.setLastname("Jolie");
-        assertThat(fullName.getLastname()).isEqualTo("Jolie");
+        fullName.setLastName("Jolie");
+        assertThat(fullName.getLastName()).isEqualTo("Jolie");
     }
 }

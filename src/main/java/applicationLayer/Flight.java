@@ -1,6 +1,7 @@
 package applicationLayer;
 
 import commonStructures.DBTable;
+import dataLayer.FlightTable;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,6 +15,22 @@ public class Flight extends DBTable {
     private LocalDateTime departureTime;
     private Airport originAirport;
     private Airport destinationAirport;
+
+    public Flight() {
+        this.id = "";
+        this.departureTime = null;
+        this.originAirport = null;
+        this.destinationAirport = null;
+    }
+
+    public Flight(String id) {
+        FlightTable flightTable = new FlightTable();
+        Flight flightById = flightTable.getRecordById(id);
+        this.id = id;
+        this.departureTime = flightById.departureTime;
+        this.originAirport = flightById.originAirport;
+        this.destinationAirport = flightById.destinationAirport;
+    }
 
     public void setId(String id) {
         this.id = id;

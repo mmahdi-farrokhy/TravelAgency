@@ -1,5 +1,7 @@
 package utilities;
 
+import buisnessLayer.Address;
+import buisnessLayer.FullName;
 import com.google.gson.Gson;
 import applicationLayer.Coordinate;
 import applicationLayer.Location;
@@ -26,5 +28,13 @@ public class Converter {
 
     public static Location jsonToLocation(String jsonLocation){
         return new Gson().fromJson(jsonLocation, Location.class);
+    }
+
+    public static FullName jsonToFullName(String jsonFullName){
+        return new Gson().fromJson(jsonFullName, FullName.class);
+    }
+
+    public static Address jsonToAddress(String jsonAddress){
+        return new Gson().fromJson(jsonAddress, Address.class);
     }
 }

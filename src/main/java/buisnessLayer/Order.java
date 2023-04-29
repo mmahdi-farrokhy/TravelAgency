@@ -5,6 +5,7 @@ import commonStructures.CurrencyType;
 import commonStructures.DBTable;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Order extends DBTable {
     private String id;
@@ -30,6 +31,9 @@ public class Order extends DBTable {
         return quantity;
     }
 
+    public void setPrice(Price price){
+        this.price = price;
+    }
     public Price getPrice() {
         return price;
     }
@@ -93,5 +97,30 @@ public class Order extends DBTable {
 
     private void registerOrder() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return quantity == order.quantity && Objects.equals(price, order.price) && Objects.equals(registrationTime, order.registrationTime) && Objects.equals(customerInfo, order.customerInfo) && Objects.equals(flight, order.flight);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quantity, price, registrationTime, customerInfo, flight);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", registrationTime=" + registrationTime +
+                ", customerInfo=" + customerInfo +
+                ", flight=" + flight +
+                '}';
     }
 }

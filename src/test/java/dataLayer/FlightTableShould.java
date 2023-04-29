@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class FlightTableShould {
     private FlightTable dbAccess;
@@ -27,7 +28,7 @@ public class FlightTableShould {
 
         Flight flight = new Flight();
         flight.setId("1");
-        flight.setDepartureTime(LocalDateTime.of(2023, 04, 28, 12, 54, 30));
+        flight.setDepartureTime(LocalDateTime.of(2023, 4, 28, 12, 54, 30));
         flight.setOriginAirport(new Airport(AirportCode.ATL));
         flight.setDestinationAirport(new Airport(AirportCode.RUH));
         assertThat(allFlights.get(0)).isEqualTo(flight);
@@ -45,7 +46,7 @@ public class FlightTableShould {
     }
 
     @Test
-    void insert_a_new_record_to_flight_table() {
+    void insert_a_new_flight_to_flight_table() {
         Flight newRecord = new Flight();
         newRecord.setDepartureTime(LocalDateTime.of(2029, 8, 1, 8, 0, 0));
         newRecord.setOriginAirport(new Airport(AirportCode.CUN));
@@ -61,9 +62,9 @@ public class FlightTableShould {
     }
 
     @Test
-    void delete_a_record_from_flight_table() {
+    void delete_a_flight_from_flight_table() {
         dbAccess.deleteRecordById("4");
-        Assertions.assertThatExceptionOfType(java.lang.RuntimeException.class)
+        assertThatExceptionOfType(java.lang.RuntimeException.class)
                 .isThrownBy(() -> dbAccess.getRecordById("4"));
     }
 }

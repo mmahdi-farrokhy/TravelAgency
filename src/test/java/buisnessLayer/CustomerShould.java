@@ -1,7 +1,6 @@
 package buisnessLayer;
 
 import commonStructures.City;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +25,8 @@ public class CustomerShould {
     @Test
     void have_a_name() {
         customer.setFullName(new FullName("Brad", "Pitt"));
-        assertThat(customer.getFullName().getFirstname()).isEqualTo("Brad");
-        assertThat(customer.getFullName().getLastname()).isEqualTo("Pitt");
+        assertThat(customer.getFullName().getFirstName()).isEqualTo("Brad");
+        assertThat(customer.getFullName().getLastName()).isEqualTo("Pitt");
     }
 
     @Test
@@ -42,9 +41,9 @@ public class CustomerShould {
 
     @Test
     void have_an_address() {
-        customer.setAddress(new Address(City.LAS_VEGAS, "The Strip", "88901"));
-        assertThat(customer.getAddress().getCity()).isEqualTo(City.LAS_VEGAS);
-        assertThat(customer.getAddress().getStreet()).isEqualTo("The Strip");
+        customer.setAddress(new Address(City.LAS_VEGAS.toString(), "The Strip", "88901"));
+        assertThat(customer.getAddress().getCityName()).isEqualTo(City.LAS_VEGAS.toString());
+        assertThat(customer.getAddress().getStreetName()).isEqualTo("The Strip");
         assertThat(customer.getAddress().getPostalCode()).isEqualTo("88901");
     }
 

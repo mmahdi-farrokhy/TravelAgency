@@ -2,31 +2,33 @@ package buisnessLayer;
 
 import commonStructures.City;
 
-public class Address {
-    private City city;
-    private String street;
-    String postalCode;
+import java.util.Objects;
 
-    public Address(City city, String street, String postalCode) {
-        this.city = city;
-        this.street = street;
+public class Address {
+    private String cityName;
+    private String streetName;
+    private String postalCode;
+
+    public Address(String city, String street, String postalCode) {
+        this.cityName = city;
+        this.streetName = street;
         this.postalCode = postalCode;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
-    public City getCity() {
-        return city;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
-    public String getStreet() {
-        return street;
+    public String getStreetName() {
+        return streetName;
     }
 
     public void setPostalCode(String postalCode) {
@@ -35,5 +37,34 @@ public class Address {
 
     public String getPostalCode() {
         return postalCode;
+    }
+
+    public String toJson() {
+        return new StringBuilder().append("{\"cityName\" : \"").append(cityName).append("\", ")
+                .append("\"streetName\" : \"").append(streetName).append("\", ")
+                .append("\"postalCode\" : \"").append(postalCode).append("\" }")
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(cityName, address.cityName) && Objects.equals(streetName, address.streetName) && Objects.equals(postalCode, address.postalCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cityName, streetName, postalCode);
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "cityName='" + cityName + '\'' +
+                ", streetName='" + streetName + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
     }
 }

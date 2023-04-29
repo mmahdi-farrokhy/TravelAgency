@@ -1,12 +1,9 @@
 package dataLayer;
 
-import applicationLayer.Airport;
-import applicationLayer.Coordinate;
-import applicationLayer.Flight;
-import applicationLayer.Location;
-import commonStructures.AirportCode;
+import buisnessLayer.Address;
+import buisnessLayer.Customer;
+import buisnessLayer.FullName;
 import commonStructures.DBTable;
-import commonStructures.TableId;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,21 +13,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
-import static utilities.Converter.jsonToCoordinate;
-import static utilities.Converter.jsonToLocation;
+import static utilities.Converter.jsonToAddress;
+import static utilities.Converter.jsonToFullName;
 
-public class FlightTable implements DBUpdate<Flight> {
-    public static String dbs_where = " WHERE ID = ?";
+public class CustomerTable implements DBUpdate<Customer> {
+    public static String dbs_where = " WHERE NationalCode = ?";
     public static String query = "";
 
-    public FlightTable() {
+    public CustomerTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
             final Properties properties = new Properties();
             properties.load(configFile);
@@ -43,9 +39,9 @@ public class FlightTable implements DBUpdate<Flight> {
     }
 
     @Override
-    public List<Flight> getAllRecords() {
-        List<Flight> allFlights = new LinkedList<>();
-        DBTable.tableName = "flights";
+    public List<Customer> getAllRecords() {
+        List<Customer> allCustomers = new LinkedList<>();
+        DBTable.tableName = "customers";
         query = DBTable.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
@@ -53,7 +49,7 @@ public class FlightTable implements DBUpdate<Flight> {
 
             final ResultSet resultSet = SELECT_ALL.executeQuery();
             while (resultSet.next()) {
-                allFlights.add(generateFlightFromResultSet(resultSet));
+                allCustomers.add(generateCustomerFromResultSet(resultSet));
             }
 
             resultSet.close();
@@ -62,62 +58,67 @@ public class FlightTable implements DBUpdate<Flight> {
             throw new RuntimeException(e);
         }
 
-        return allFlights;
+        return allCustomers;
     }
 
-    private Flight generateFlightFromResultSet(ResultSet resultSet) {
-        Flight flightById = new Flight();
+    private Customer generateCustomerFromResultSet(ResultSet resultSet) {
+        Customer customerById = new Customer();
 
         try {
-            final String id = resultSet.getString("ID");
-            final LocalDateTime departureTime = resultSet.getObject("DepartureTime", LocalDateTime.class);
-            final Airport originAirport = new Airport(AirportCode.valueOf(resultSet.getString("OriginAirportCode")));
-            final Airport destinationAirport = new Airport(AirportCode.valueOf(resultSet.getString("DestinationAirportCode")));
+            final String nationalCode = resultSet.getString("NationalCode");
+            final FullName fullName = jsonToFullName(resultSet.getString("FullName"));
+            final LocalDate birthDate = resultSet.getObject("BirthDate", LocalDate.class);
+            final Address address = jsonToAddress(resultSet.getString("Address"));
+            final String phoneNumber = resultSet.getString("PhoneNumber");
 
-            flightById.setId(id);
-            flightById.setDepartureTime(departureTime);
-            flightById.setOriginAirport(originAirport);
-            flightById.setDestinationAirport(destinationAirport);
+            customerById.setNationalCode(nationalCode);
+            customerById.setFullName(fullName);
+            customerById.setBirthDate(birthDate);
+            customerById.setAddress(address);
+            customerById.setPhoneNumber(phoneNumber);
         } catch (IllegalArgumentException | SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return flightById;
+        return customerById;
+
     }
 
     @Override
-    public Flight getRecordById(String id) {
-        Flight flightById;
-        DBTable.tableName = "flights";
+    public Customer getRecordById(String id) {
+        Customer customerByNationalCode;
+        DBTable.tableName = "customers";
         query = DBTable.dbq_select + DBTable.tableName + dbs_where;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
-            SELECT_BY_CODE.setInt(1, Integer.valueOf(id));
+            SELECT_BY_CODE.setInt(1, Integer.parseInt(id));
             final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
             resultSet.next();
-            flightById = generateFlightFromResultSet(resultSet);
+            customerByNationalCode = generateCustomerFromResultSet(resultSet);
             resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return flightById;
+        return customerByNationalCode;
     }
 
     @Override
-    public boolean insertNewRecord(Flight newRecord) {
-        DBTable.tableName = "flights";
-        query = dbq_insert + DBTable.tableName + " (DepartureTime, OriginAirportCode, DestinationAirportCode) VALUES (?, ?, ?)";
+    public boolean insertNewRecord(Customer newRecord) {
+        DBTable.tableName = "customers";
+        query = dbq_insert + DBTable.tableName + " (NationalCode, FullName, BirthDate, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)";
         boolean recordInserted = false;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement INSERT = con.prepareStatement(query)) {
-            List<Flight> flightList = getAllRecords();
-            if (!flightList.contains(newRecord)) {
-                INSERT.setString(1, newRecord.getDepartureTime().toString());
-                INSERT.setString(2, newRecord.getOriginAirport().getCode().toString());
-                INSERT.setString(3, newRecord.getDestinationAirport().getCode().toString());
+            List<Customer> customerList = getAllRecords();
+            if (!customerList.contains(newRecord)) {
+                INSERT.setString(1, newRecord.getNationalCode());
+                INSERT.setString(2, newRecord.getFullName().toJson());
+                INSERT.setString(3, newRecord.getBirthDate().toString());
+                INSERT.setString(4, newRecord.getAddress().toJson());
+                INSERT.setString(5, newRecord.getPhoneNumber());
                 INSERT.executeUpdate();
                 recordInserted = true;
             }
@@ -126,16 +127,17 @@ public class FlightTable implements DBUpdate<Flight> {
         }
 
         return recordInserted;
+
     }
 
     @Override
     public void deleteRecordById(String id) {
-        DBTable.tableName = "flights";
+        DBTable.tableName = "customers";
         query = dbq_delete + DBTable.tableName + dbs_where;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(query)) {
-            DELETE_BY_ID.setInt(1, Integer.valueOf(id));
+            DELETE_BY_ID.setInt(1, Integer.parseInt(id));
             DELETE_BY_ID.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

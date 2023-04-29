@@ -26,7 +26,6 @@ import static utilities.Converter.jsonToCoordinate;
 import static utilities.Converter.jsonToLocation;
 
 public class AirportTable implements DBAccess<Airport> {
-    public static String dbs_where = " WHERE AirportCode = ?";
     public static String query = "";
 
     public AirportTable() {
@@ -44,7 +43,7 @@ public class AirportTable implements DBAccess<Airport> {
     @Override
     public List<Airport> getAllRecords() {
         List<Airport> allAirports = new LinkedList<>();
-        DBTable.tableName = "airport";
+        DBTable.tableName = "airports";
         query = DBTable.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
@@ -67,7 +66,7 @@ public class AirportTable implements DBAccess<Airport> {
     @Override
     public Airport getRecordById(String id) {
         Airport airportByCode;
-        DBTable.tableName = "airport";
+        DBTable.tableName = "airports";
         query = DBTable.dbq_select + DBTable.tableName + dbs_where;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);

@@ -1,5 +1,4 @@
 package applicationLayer;
-
 import java.util.Objects;
 
 public class Location {
