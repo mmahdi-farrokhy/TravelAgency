@@ -1,12 +1,9 @@
 package dataLayer;
 
 import applicationLayer.Airport;
-import applicationLayer.Coordinate;
 import applicationLayer.Flight;
-import applicationLayer.Location;
 import commonStructures.AirportCode;
 import commonStructures.DBTable;
-import commonStructures.TableId;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,11 +20,8 @@ import java.util.Properties;
 
 import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
-import static utilities.Converter.jsonToCoordinate;
-import static utilities.Converter.jsonToLocation;
 
 public class FlightTable implements DBUpdate<Flight> {
-    public static String query = "";
 
     public FlightTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
@@ -45,14 +39,14 @@ public class FlightTable implements DBUpdate<Flight> {
     public List<Flight> getAllRecords() {
         List<Flight> allFlights = new LinkedList<>();
         DBTable.tableName = "flights";
-        query = DBAccess.dbq_select + DBTable.tableName;
+        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
+             PreparedStatement SELECT_ALL = con.prepareStatement(DBTable.query)) {
 
             final ResultSet resultSet = SELECT_ALL.executeQuery();
             while (resultSet.next()) {
-                allFlights.add(generateFlightFromResultSet(resultSet));
+                allFlights.add(generateRecordFromResultSet(resultSet));
             }
 
             resultSet.close();
@@ -64,7 +58,8 @@ public class FlightTable implements DBUpdate<Flight> {
         return allFlights;
     }
 
-    private Flight generateFlightFromResultSet(ResultSet resultSet) {
+    @Override
+    public Flight generateRecordFromResultSet(ResultSet resultSet) {
         Flight flightById = new Flight();
 
         try {
@@ -88,14 +83,14 @@ public class FlightTable implements DBUpdate<Flight> {
     public Flight getRecordById(String id) {
         Flight flightById;
         DBTable.tableName = "flights";
-        query = DBAccess.dbq_select + DBTable.tableName + dbs_where.replace("id", "ID");
+        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName + DBS_WHERE.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
+             PreparedStatement SELECT_BY_CODE = con.prepareStatement(DBTable.query)) {
             SELECT_BY_CODE.setInt(1, Integer.valueOf(id));
             final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
             resultSet.next();
-            flightById = generateFlightFromResultSet(resultSet);
+            flightById = generateRecordFromResultSet(resultSet);
             resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -107,11 +102,11 @@ public class FlightTable implements DBUpdate<Flight> {
     @Override
     public boolean insertNewRecord(Flight newRecord) {
         DBTable.tableName = "flights";
-        query = dbq_insert + DBTable.tableName + " (DepartureTime, OriginAirportCode, DestinationAirportCode) VALUES (?, ?, ?)";
+        DBTable.query = DBQ_INSERT + DBTable.tableName + " (DepartureTime, OriginAirportCode, DestinationAirportCode) VALUES (?, ?, ?)";
         boolean recordInserted = false;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement INSERT = con.prepareStatement(query)) {
+             PreparedStatement INSERT = con.prepareStatement(DBTable.query)) {
             List<Flight> flightList = getAllRecords();
             if (!flightList.contains(newRecord)) {
                 INSERT.setString(1, newRecord.getDepartureTime().toString());
@@ -130,10 +125,10 @@ public class FlightTable implements DBUpdate<Flight> {
     @Override
     public void deleteRecordById(String id) {
         DBTable.tableName = "flights";
-        query = dbq_delete + DBTable.tableName + dbs_where.replace("id", "ID");
+        DBTable.query = DBQ_DELETE + DBTable.tableName + DBS_WHERE.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement DELETE_BY_ID = con.prepareStatement(query)) {
+             PreparedStatement DELETE_BY_ID = con.prepareStatement(DBTable.query)) {
             DELETE_BY_ID.setInt(1, Integer.valueOf(id));
             DELETE_BY_ID.execute();
         } catch (SQLException e) {

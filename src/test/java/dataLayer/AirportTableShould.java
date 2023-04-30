@@ -38,13 +38,13 @@ public class AirportTableShould {
 
     @Test
     void get_a_specific_airports_location_from_the_airport_table() {
-        Location airportLocationByRUHCode = dbAccess.getAirportLocationById(AirportCode.RUH);
+        Location airportLocationByRUHCode = dbAccess.getAirportLocationByCode(AirportCode.RUH);
         assertThat(airportLocationByRUHCode).isEqualTo(new Location("Riyadh", "Saudi Arabia"));
     }
 
     @Test
     void get_a_specific_airports_coordinate_from_the_airport_table() {
-        Coordinate airportCoordinateByRUHCode = dbAccess.getAirportCoordinateById(AirportCode.RUH);
+        Coordinate airportCoordinateByRUHCode = dbAccess.getAirportCoordinateByCode(AirportCode.RUH);
         assertThat(airportCoordinateByRUHCode).isEqualTo(new Coordinate(24.9596, 46.7024));
     }
 }

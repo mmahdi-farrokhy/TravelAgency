@@ -6,7 +6,6 @@ import commonStructures.TableId;
 import applicationLayer.Airport;
 import applicationLayer.Coordinate;
 import applicationLayer.Location;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,8 +25,6 @@ import static utilities.Converter.jsonToCoordinate;
 import static utilities.Converter.jsonToLocation;
 
 public class AirportTable implements DBAccess<Airport> {
-    public static String query = "";
-
     public AirportTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
             final Properties properties = new Properties();
@@ -44,14 +41,14 @@ public class AirportTable implements DBAccess<Airport> {
     public List<Airport> getAllRecords() {
         List<Airport> allAirports = new LinkedList<>();
         DBTable.tableName = "airports";
-        query = DBAccess.dbq_select + DBTable.tableName;
+        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
+             PreparedStatement SELECT_ALL = con.prepareStatement(DBTable.query)) {
 
             final ResultSet resultSet = SELECT_ALL.executeQuery();
             while (resultSet.next()) {
-                allAirports.add(generateAirportFromResultSet(resultSet));
+                allAirports.add(generateRecordFromResultSet(resultSet));
             }
 
             resultSet.close();
@@ -67,15 +64,15 @@ public class AirportTable implements DBAccess<Airport> {
     public Airport getRecordById(String id) {
         Airport airportByCode;
         DBTable.tableName = "airports";
-        query = DBAccess.dbq_select + DBTable.tableName + DBAccess.dbs_where.replace("id","AirportCode");
+        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName + DBAccess.DBS_WHERE.replace("id","AirportCode");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
+             PreparedStatement SELECT_BY_CODE = con.prepareStatement(DBTable.query)) {
 
             SELECT_BY_CODE.setString(1, id);
             final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
             resultSet.next();
-            airportByCode = generateAirportFromResultSet(resultSet);
+            airportByCode = generateRecordFromResultSet(resultSet);
             resultSet.close();
 
         } catch (SQLException e) {
@@ -85,7 +82,8 @@ public class AirportTable implements DBAccess<Airport> {
         return airportByCode;
     }
 
-    private static Airport generateAirportFromResultSet(@NotNull ResultSet resultSet) {
+    @Override
+    public Airport generateRecordFromResultSet(ResultSet resultSet) {
         Airport airportByCode;
 
         try {
@@ -101,11 +99,11 @@ public class AirportTable implements DBAccess<Airport> {
         return airportByCode;
     }
 
-    public Location getAirportLocationById(AirportCode airportCode) {
+    public Location getAirportLocationByCode(AirportCode airportCode) {
         return getRecordById(airportCode.toString()).getLocation();
     }
 
-    public Coordinate getAirportCoordinateById(TableId airportCode) {
+    public Coordinate getAirportCoordinateByCode(TableId airportCode) {
         return getRecordById(airportCode.toString()).getCoordinate();
     }
 }

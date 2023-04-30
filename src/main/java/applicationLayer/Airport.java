@@ -13,8 +13,8 @@ public class Airport extends DBTable {
     public Airport(AirportCode airportCode) {
         AirportTable airportTable = new AirportTable();
         this.code = airportCode;
-        this.coordinate = airportTable.getAirportCoordinateById(code);
-        this.location = airportTable.getAirportLocationById(code);
+        this.coordinate = airportTable.getAirportCoordinateByCode(code);
+        this.location = airportTable.getAirportLocationByCode(code);
     }
 
     public Airport(AirportCode airportCode, Coordinate coordinate, Location location) {

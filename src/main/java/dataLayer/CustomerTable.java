@@ -23,7 +23,6 @@ import static utilities.Converter.jsonToAddress;
 import static utilities.Converter.jsonToFullName;
 
 public class CustomerTable implements DBUpdate<Customer> {
-    public static String query = "";
 
     public CustomerTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
@@ -41,14 +40,14 @@ public class CustomerTable implements DBUpdate<Customer> {
     public List<Customer> getAllRecords() {
         List<Customer> allCustomers = new LinkedList<>();
         DBTable.tableName = "customers";
-        query = DBAccess.dbq_select + DBTable.tableName;
+        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
+             PreparedStatement SELECT_ALL = con.prepareStatement(DBTable.query)) {
 
             final ResultSet resultSet = SELECT_ALL.executeQuery();
             while (resultSet.next()) {
-                allCustomers.add(generateCustomerFromResultSet(resultSet));
+                allCustomers.add(generateRecordFromResultSet(resultSet));
             }
 
             resultSet.close();
@@ -60,7 +59,8 @@ public class CustomerTable implements DBUpdate<Customer> {
         return allCustomers;
     }
 
-    private Customer generateCustomerFromResultSet(ResultSet resultSet) {
+    @Override
+    public Customer generateRecordFromResultSet(ResultSet resultSet) {
         Customer customerById = new Customer();
 
         try {
@@ -87,14 +87,14 @@ public class CustomerTable implements DBUpdate<Customer> {
     public Customer getRecordById(String id) {
         Customer customerByNationalCode;
         DBTable.tableName = "customers";
-        query = DBAccess.dbq_select + DBTable.tableName + dbs_where.replace("id", "NationalCode");;
+        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode");;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
+             PreparedStatement SELECT_BY_CODE = con.prepareStatement(DBTable.query)) {
             SELECT_BY_CODE.setInt(1, Integer.parseInt(id));
             final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
             resultSet.next();
-            customerByNationalCode = generateCustomerFromResultSet(resultSet);
+            customerByNationalCode = generateRecordFromResultSet(resultSet);
             resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -106,11 +106,11 @@ public class CustomerTable implements DBUpdate<Customer> {
     @Override
     public boolean insertNewRecord(Customer newRecord) {
         DBTable.tableName = "customers";
-        query = dbq_insert + DBTable.tableName + " (NationalCode, FullName, BirthDate, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)";
+        DBTable.query = DBQ_INSERT + DBTable.tableName + " (NationalCode, FullName, BirthDate, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)";
         boolean recordInserted = false;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement INSERT = con.prepareStatement(query)) {
+             PreparedStatement INSERT = con.prepareStatement(DBTable.query)) {
             List<Customer> customerList = getAllRecords();
             if (!customerList.contains(newRecord)) {
                 INSERT.setString(1, newRecord.getNationalCode());
@@ -132,10 +132,10 @@ public class CustomerTable implements DBUpdate<Customer> {
     @Override
     public void deleteRecordById(String id) {
         DBTable.tableName = "customers";
-        query = dbq_delete + DBTable.tableName + dbs_where.replace("id", "NationalCode");;
+        DBTable.query = DBQ_DELETE + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode");;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
-             PreparedStatement DELETE_BY_ID = con.prepareStatement(query)) {
+             PreparedStatement DELETE_BY_ID = con.prepareStatement(DBTable.query)) {
             DELETE_BY_ID.setInt(1, Integer.parseInt(id));
             DELETE_BY_ID.execute();
         } catch (SQLException e) {

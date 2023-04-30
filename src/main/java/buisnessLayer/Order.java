@@ -95,10 +95,6 @@ public class Order extends DBTable {
         price = new Price(priceAmount, priceCurrency);
     }
 
-    private void registerOrder() {
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
