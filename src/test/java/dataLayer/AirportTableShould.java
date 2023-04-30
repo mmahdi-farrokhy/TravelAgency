@@ -47,5 +47,4 @@ public class AirportTableShould {
         Coordinate airportCoordinateByRUHCode = dbAccess.getAirportCoordinateById(AirportCode.RUH);
         assertThat(airportCoordinateByRUHCode).isEqualTo(new Coordinate(24.9596, 46.7024));
     }
-
 }

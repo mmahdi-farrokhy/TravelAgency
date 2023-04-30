@@ -23,7 +23,6 @@ import static utilities.Converter.jsonToAddress;
 import static utilities.Converter.jsonToFullName;
 
 public class CustomerTable implements DBUpdate<Customer> {
-    public static String dbs_where = " WHERE NationalCode = ?";
     public static String query = "";
 
     public CustomerTable() {
@@ -42,7 +41,7 @@ public class CustomerTable implements DBUpdate<Customer> {
     public List<Customer> getAllRecords() {
         List<Customer> allCustomers = new LinkedList<>();
         DBTable.tableName = "customers";
-        query = DBTable.dbq_select + DBTable.tableName;
+        query = DBAccess.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
@@ -88,7 +87,7 @@ public class CustomerTable implements DBUpdate<Customer> {
     public Customer getRecordById(String id) {
         Customer customerByNationalCode;
         DBTable.tableName = "customers";
-        query = DBTable.dbq_select + DBTable.tableName + dbs_where;
+        query = DBAccess.dbq_select + DBTable.tableName + dbs_where.replace("id", "NationalCode");;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
@@ -133,7 +132,7 @@ public class CustomerTable implements DBUpdate<Customer> {
     @Override
     public void deleteRecordById(String id) {
         DBTable.tableName = "customers";
-        query = dbq_delete + DBTable.tableName + dbs_where;
+        query = dbq_delete + DBTable.tableName + dbs_where.replace("id", "NationalCode");;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(query)) {

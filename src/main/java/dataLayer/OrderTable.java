@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -24,7 +25,6 @@ import static java.lang.Integer.parseInt;
 import static java.sql.DriverManager.getConnection;
 
 public class OrderTable implements DBUpdate<Order> {
-    public static String dbs_where = " WHERE ID = ?";
     public static String query = "";
 
     public OrderTable() {
@@ -43,7 +43,7 @@ public class OrderTable implements DBUpdate<Order> {
     public List<Order> getAllRecords() {
         List<Order> allOrders = new LinkedList<>();
         DBTable.tableName = "orders";
-        query = DBTable.dbq_select + DBTable.tableName;
+        query = DBAccess.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
@@ -92,7 +92,7 @@ public class OrderTable implements DBUpdate<Order> {
     public Order getRecordById(String id) {
         Order orderById;
         DBTable.tableName = "orders";
-        query = DBTable.dbq_select + DBTable.tableName + dbs_where;
+        query = DBAccess.dbq_select + DBTable.tableName + dbs_where.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
@@ -136,8 +136,8 @@ public class OrderTable implements DBUpdate<Order> {
 
     @Override
     public void deleteRecordById(String id) {
-        DBTable.tableName = "customer";
-        query = dbq_delete + DBTable.tableName + dbs_where;
+        DBTable.tableName = "orders";
+        query = dbq_delete + DBTable.tableName + dbs_where.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(query)) {

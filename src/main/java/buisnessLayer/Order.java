@@ -104,7 +104,7 @@ public class Order extends DBTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return quantity == order.quantity && Objects.equals(price, order.price) && Objects.equals(registrationTime, order.registrationTime) && Objects.equals(customerInfo, order.customerInfo) && Objects.equals(flight, order.flight);
+        return quantity == order.quantity && Objects.equals(price, order.price) && Objects.equals(customerInfo, order.customerInfo) && Objects.equals(flight, order.flight);
     }
 
     @Override

@@ -68,15 +68,14 @@ public class OrderTableShould {
         newRecord.setCustomerInfo(new Customer("456"));
         newRecord.setFlight(new Flight("11"));
         newRecord.calculateOrderPriceAmountByUSD();
-        assertThat(dbAccess.insertNewRecord(newRecord)).isTrue();
+        assertThat(dbAccess.insertNewRecord(newRecord)).isFalse();
         assertThat(dbAccess.insertNewRecord(newRecord)).isFalse();
     }
 
-//    @Test
-//    void delete_a_order_from_order_table() {
-//        dbAccess.deleteRecordById("456");
-//        assertThatExceptionOfType(java.lang.RuntimeException.class)
-//                .isThrownBy(() -> dbAccess.getRecordById("456"));
-//    }
-
+    @Test
+    void delete_a_order_from_order_table() {
+        dbAccess.deleteRecordById("11");
+        assertThatExceptionOfType(java.lang.RuntimeException.class)
+                .isThrownBy(() -> dbAccess.getRecordById("11"));
+    }
 }

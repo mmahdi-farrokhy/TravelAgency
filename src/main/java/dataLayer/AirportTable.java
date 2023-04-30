@@ -44,7 +44,7 @@ public class AirportTable implements DBAccess<Airport> {
     public List<Airport> getAllRecords() {
         List<Airport> allAirports = new LinkedList<>();
         DBTable.tableName = "airports";
-        query = DBTable.dbq_select + DBTable.tableName;
+        query = DBAccess.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
@@ -67,7 +67,7 @@ public class AirportTable implements DBAccess<Airport> {
     public Airport getRecordById(String id) {
         Airport airportByCode;
         DBTable.tableName = "airports";
-        query = DBTable.dbq_select + DBTable.tableName + dbs_where;
+        query = DBAccess.dbq_select + DBTable.tableName + DBAccess.dbs_where.replace("id","AirportCode");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {

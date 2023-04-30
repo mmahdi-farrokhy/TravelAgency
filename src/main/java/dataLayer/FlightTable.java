@@ -27,7 +27,6 @@ import static utilities.Converter.jsonToCoordinate;
 import static utilities.Converter.jsonToLocation;
 
 public class FlightTable implements DBUpdate<Flight> {
-    public static String dbs_where = " WHERE ID = ?";
     public static String query = "";
 
     public FlightTable() {
@@ -46,7 +45,7 @@ public class FlightTable implements DBUpdate<Flight> {
     public List<Flight> getAllRecords() {
         List<Flight> allFlights = new LinkedList<>();
         DBTable.tableName = "flights";
-        query = DBTable.dbq_select + DBTable.tableName;
+        query = DBAccess.dbq_select + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_ALL = con.prepareStatement(query)) {
@@ -89,7 +88,7 @@ public class FlightTable implements DBUpdate<Flight> {
     public Flight getRecordById(String id) {
         Flight flightById;
         DBTable.tableName = "flights";
-        query = DBTable.dbq_select + DBTable.tableName + dbs_where;
+        query = DBAccess.dbq_select + DBTable.tableName + dbs_where.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(query)) {
@@ -131,7 +130,7 @@ public class FlightTable implements DBUpdate<Flight> {
     @Override
     public void deleteRecordById(String id) {
         DBTable.tableName = "flights";
-        query = dbq_delete + DBTable.tableName + dbs_where;
+        query = dbq_delete + DBTable.tableName + dbs_where.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(query)) {
