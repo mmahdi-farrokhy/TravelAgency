@@ -2,7 +2,6 @@ package dataLayer;
 
 import commonStructures.AirportCode;
 import commonStructures.DBTable;
-import commonStructures.TableId;
 import applicationLayer.Airport;
 import applicationLayer.Coordinate;
 import applicationLayer.Location;
@@ -21,8 +20,7 @@ import java.util.Properties;
 
 import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
-import static utilities.Converter.jsonToCoordinate;
-import static utilities.Converter.jsonToLocation;
+import static utilities.Converter.*;
 
 public class AirportTable implements DBAccess<Airport> {
     public AirportTable() {
@@ -88,8 +86,8 @@ public class AirportTable implements DBAccess<Airport> {
 
         try {
             final AirportCode airportCode = valueOf(resultSet.getString("AirportCode"));
-            final Coordinate coordinate = jsonToCoordinate(resultSet.getString("Coordinate"));
-            final Location location = jsonToLocation(resultSet.getString("Location"));
+            final Coordinate coordinate = jsonToProperty(resultSet.getString("Coordinate"), new Coordinate(0,0));
+            final Location location = jsonToProperty(resultSet.getString("Location"), new Location("",""));
 
             airportByCode = new Airport(airportCode, coordinate, location);
         } catch (IllegalArgumentException | SQLException e) {
@@ -103,7 +101,7 @@ public class AirportTable implements DBAccess<Airport> {
         return getRecordById(airportCode.toString()).getLocation();
     }
 
-    public Coordinate getAirportCoordinateByCode(TableId airportCode) {
+    public Coordinate getAirportCoordinateByCode(AirportCode airportCode) {
         return getRecordById(airportCode.toString()).getCoordinate();
     }
 }

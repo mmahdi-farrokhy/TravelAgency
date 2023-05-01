@@ -1,8 +1,10 @@
 package buisnessLayer;
 
+import commonStructures.Properties;
+
 import java.util.Objects;
 
-public class FullName {
+public class FullName extends Properties {
     private String firstName;
     private String lastName;
 
@@ -28,9 +30,8 @@ public class FullName {
     }
 
     public String toJson() {
-        return new StringBuilder().append("{\"firstName\" : \"").append(firstName).append("\", ")
-                .append("\"lastName\" : \"").append(lastName).append("\" }")
-                .toString();
+        return "{\"firstName\" : \"" + firstName + "\", " +
+                "\"lastName\" : \"" + lastName + "\" }";
     }
 
     @Override

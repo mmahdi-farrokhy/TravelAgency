@@ -18,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
 
 public class FlightTable implements DBUpdate<Flight> {
@@ -87,7 +86,7 @@ public class FlightTable implements DBUpdate<Flight> {
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(DBTable.query)) {
-            SELECT_BY_CODE.setInt(1, Integer.valueOf(id));
+            SELECT_BY_CODE.setInt(1, Integer.parseInt(id));
             final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
             resultSet.next();
             flightById = generateRecordFromResultSet(resultSet);
@@ -129,7 +128,7 @@ public class FlightTable implements DBUpdate<Flight> {
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(DBTable.query)) {
-            DELETE_BY_ID.setInt(1, Integer.valueOf(id));
+            DELETE_BY_ID.setInt(1, Integer.parseInt(id));
             DELETE_BY_ID.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

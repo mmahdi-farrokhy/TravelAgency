@@ -1,10 +1,10 @@
 package buisnessLayer;
 
-import commonStructures.City;
+import commonStructures.Properties;
 
 import java.util.Objects;
 
-public class Address {
+public class Address extends Properties {
     private String cityName;
     private String streetName;
     private String postalCode;
@@ -40,10 +40,9 @@ public class Address {
     }
 
     public String toJson() {
-        return new StringBuilder().append("{\"cityName\" : \"").append(cityName).append("\", ")
-                .append("\"streetName\" : \"").append(streetName).append("\", ")
-                .append("\"postalCode\" : \"").append(postalCode).append("\" }")
-                .toString();
+        return "{\"cityName\" : \"" + cityName + "\", " +
+                "\"streetName\" : \"" + streetName + "\", " +
+                "\"postalCode\" : \"" + postalCode + "\" }";
     }
 
     @Override

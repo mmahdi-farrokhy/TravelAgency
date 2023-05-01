@@ -1,8 +1,10 @@
 package applicationLayer;
 
+import commonStructures.Properties;
+
 import java.util.Objects;
 
-public class Coordinate {
+public class Coordinate extends Properties {
     private final double Latitude;
     private final double Longitude;
 

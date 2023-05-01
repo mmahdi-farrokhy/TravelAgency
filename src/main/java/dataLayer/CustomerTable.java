@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static java.sql.DriverManager.getConnection;
-import static utilities.Converter.jsonToAddress;
-import static utilities.Converter.jsonToFullName;
+import static utilities.Converter.jsonToProperty;
 
 public class CustomerTable implements DBUpdate<Customer> {
 
@@ -65,9 +64,9 @@ public class CustomerTable implements DBUpdate<Customer> {
 
         try {
             final String nationalCode = resultSet.getString("NationalCode");
-            final FullName fullName = jsonToFullName(resultSet.getString("FullName"));
+            final FullName fullName = jsonToProperty(resultSet.getString("FullName"), new FullName("",""));
             final LocalDate birthDate = resultSet.getObject("BirthDate", LocalDate.class);
-            final Address address = jsonToAddress(resultSet.getString("Address"));
+            final Address address = jsonToProperty(resultSet.getString("Address"), new Address("","",""));
             final String phoneNumber = resultSet.getString("PhoneNumber");
 
             customerById.setNationalCode(nationalCode);
@@ -87,7 +86,7 @@ public class CustomerTable implements DBUpdate<Customer> {
     public Customer getRecordById(String id) {
         Customer customerByNationalCode;
         DBTable.tableName = "customers";
-        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode");;
+        DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(DBTable.query)) {
@@ -132,7 +131,7 @@ public class CustomerTable implements DBUpdate<Customer> {
     @Override
     public void deleteRecordById(String id) {
         DBTable.tableName = "customers";
-        DBTable.query = DBQ_DELETE + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode");;
+        DBTable.query = DBQ_DELETE + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(DBTable.query)) {

@@ -1,9 +1,11 @@
 package applicationLayer;
+import commonStructures.Properties;
+
 import java.util.Objects;
 
-public class Location {
-    private String City;
-    private String Country;
+public class Location extends Properties {
+    private final String City;
+    private final String Country;
 
     public Location(String city, String country) {
         this.City = city;

@@ -5,28 +5,16 @@ import commonStructures.CurrencyType;
 import java.util.Objects;
 
 public class Price {
-    private double amount;
-    private CurrencyType currency;
+    private final double amount;
+    private final CurrencyType currency;
 
     public Price(double amount, CurrencyType currency) {
         this.amount = amount;
         this.currency = currency;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
     public double getAmount() {
         return amount;
-    }
-
-    public void setCurrency(CurrencyType currency) {
-        this.currency = currency;
-    }
-
-    public CurrencyType getCurrency() {
-        return currency;
     }
 
     @Override
