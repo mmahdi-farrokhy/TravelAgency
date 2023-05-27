@@ -1,9 +1,9 @@
 package dataLayer;
 
 import commonStructures.AirportCode;
-import applicationLayer.Airport;
-import applicationLayer.Coordinate;
-import applicationLayer.Location;
+import model.Airport;
+import model.submodel.Coordinate;
+import model.submodel.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

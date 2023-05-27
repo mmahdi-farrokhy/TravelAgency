@@ -1,6 +1,7 @@
 package commonStructures;
 
 public enum City {
+    NONE,
     ATLANTA,
     BEIJING,
     DUBAI,
@@ -88,5 +89,18 @@ public enum City {
     FUKUOKA,
     QINGDAO,
     BRISBANE,
-    WUHAN
+    WUHAN;
+
+    @Override
+    public String toString() {
+        return capitalizeEachWord(this.name().replace('_', ' '));
+    }
+
+    private String capitalizeEachWord(String cityValue) {
+        String capitalizedCity = "";
+        String[] cityWords = cityValue.toLowerCase().split(" ");
+        for (String word : cityWords)
+            capitalizedCity += word.substring(0, 1).toUpperCase() + word.substring(1) + " ";
+        return capitalizedCity.trim();
+    }
 }

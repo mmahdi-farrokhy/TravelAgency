@@ -1,8 +1,9 @@
 package dataLayer;
 
-import buisnessLayer.Address;
-import buisnessLayer.Customer;
-import buisnessLayer.FullName;
+import model.submodel.Address;
+import model.Customer;
+import model.submodel.FullName;
+import commonStructures.City;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class CustomerTableShould {
         bradPitt.setNationalCode("123");
         bradPitt.setFullName(new FullName("Brad", "Pitt"));
         bradPitt.setBirthDate(LocalDate.of(1963, 12, 18));
-        bradPitt.setAddress(new Address("Los Angeles", "Wilshire Blvd.", "CA 90212"));
+        bradPitt.setAddress(new Address(City.LOS_ANGELES, "Wilshire Blvd.", "CA 90212"));
         bradPitt.setPhoneNumber("(310) 275-6135");
 
     }
@@ -48,7 +49,7 @@ public class CustomerTableShould {
         newRecord.setNationalCode("456");
         newRecord.setFullName(new FullName("Jason", "Statham"));
         newRecord.setBirthDate(LocalDate.of(1967, 7, 26));
-        newRecord.setAddress(new Address("Los Angeles", "Century Park East", "CA 900067"));
+        newRecord.setAddress(new Address(City.LOS_ANGELES, "Century Park East", "CA 900067"));
         newRecord.setPhoneNumber("(310) 477-8442");
 
         assertThat(dbAccess.insertNewRecord(newRecord)).isTrue();

@@ -1,9 +1,9 @@
 package dataLayer;
 
-import applicationLayer.Flight;
-import buisnessLayer.Customer;
-import buisnessLayer.Order;
-import buisnessLayer.Price;
+import model.Flight;
+import model.Customer;
+import model.Order;
+import model.submodel.Price;
 import commonStructures.CurrencyType;
 import commonStructures.DBTable;
 

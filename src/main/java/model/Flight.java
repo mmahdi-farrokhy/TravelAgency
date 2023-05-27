@@ -1,4 +1,4 @@
-package applicationLayer;
+package model;
 
 import commonStructures.DBTable;
 import dataLayer.FlightTable;

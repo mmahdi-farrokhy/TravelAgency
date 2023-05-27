@@ -1,4 +1,4 @@
-package buisnessLayer;
+package model.submodel;
 
 import commonStructures.Properties;
 

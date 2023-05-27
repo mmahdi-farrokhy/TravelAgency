@@ -1,8 +1,8 @@
-package buisnessLayer;
+package model;
 
-import applicationLayer.Flight;
 import commonStructures.CurrencyType;
 import commonStructures.DBTable;
+import model.submodel.Price;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

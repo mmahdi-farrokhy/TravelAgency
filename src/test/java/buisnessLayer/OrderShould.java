@@ -1,10 +1,14 @@
 package buisnessLayer;
 
-import applicationLayer.Airport;
-import applicationLayer.Flight;
+import model.Airport;
+import model.Flight;
 import commonStructures.AirportCode;
 import commonStructures.City;
 import dataLayer.AirportTable;
+import model.submodel.Address;
+import model.Customer;
+import model.submodel.FullName;
+import model.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,7 +77,7 @@ public class OrderShould {
         customerInfo.setNationalCode("0123");
         customerInfo.setFullName(new FullName("Brad", "Pitt"));
         customerInfo.setBirthDate(of(1963, 12, 18));
-        customerInfo.setAddress(new Address(City.LOS_ANGELES.toString(), "Alpine Drive", "90001"));
+        customerInfo.setAddress(new Address(City.LOS_ANGELES, "Alpine Drive", "90001"));
         customerInfo.setPhoneNumber("0123456789");
         order.setCustomerInfo(customerInfo);
 

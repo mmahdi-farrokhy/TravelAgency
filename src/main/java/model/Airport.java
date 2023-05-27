@@ -1,7 +1,9 @@
-package applicationLayer;
+package model;
 import commonStructures.AirportCode;
 import dataLayer.AirportTable;
 import commonStructures.DBTable;
+import model.submodel.Coordinate;
+import model.submodel.Location;
 
 import java.util.Objects;
 

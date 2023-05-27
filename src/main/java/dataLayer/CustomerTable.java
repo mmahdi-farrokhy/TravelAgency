@@ -1,8 +1,9 @@
 package dataLayer;
 
-import buisnessLayer.Address;
-import buisnessLayer.Customer;
-import buisnessLayer.FullName;
+import model.submodel.Address;
+import model.Customer;
+import model.submodel.FullName;
+import commonStructures.City;
 import commonStructures.DBTable;
 
 import java.io.IOException;
@@ -64,9 +65,9 @@ public class CustomerTable implements DBUpdate<Customer> {
 
         try {
             final String nationalCode = resultSet.getString("NationalCode");
-            final FullName fullName = jsonToProperty(resultSet.getString("FullName"), new FullName("",""));
+            final FullName fullName = jsonToProperty(resultSet.getString("FullName"), new FullName("", ""));
             final LocalDate birthDate = resultSet.getObject("BirthDate", LocalDate.class);
-            final Address address = jsonToProperty(resultSet.getString("Address"), new Address("","",""));
+            final Address address = jsonToProperty(resultSet.getString("Address"), new Address(City.NONE, "", ""));
             final String phoneNumber = resultSet.getString("PhoneNumber");
 
             customerById.setNationalCode(nationalCode);

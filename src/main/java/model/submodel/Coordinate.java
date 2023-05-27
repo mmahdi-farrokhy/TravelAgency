@@ -1,4 +1,4 @@
-package applicationLayer;
+package model.submodel;
 
 import commonStructures.Properties;
 

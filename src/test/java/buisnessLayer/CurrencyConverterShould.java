@@ -1,4 +1,4 @@
-package buisnessLayer.currencyConversion;
+package buisnessLayer;
 
 import commonStructures.CurrencyType;
 import org.junit.jupiter.api.Test;

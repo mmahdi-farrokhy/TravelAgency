@@ -1,25 +1,26 @@
-package buisnessLayer;
+package model.submodel;
 
+import commonStructures.City;
 import commonStructures.Properties;
 
 import java.util.Objects;
 
 public class Address extends Properties {
-    private String cityName;
+    private City cityName;
     private String streetName;
     private String postalCode;
 
-    public Address(String city, String street, String postalCode) {
+    public Address(City city, String street, String postalCode) {
         this.cityName = city;
         this.streetName = street;
         this.postalCode = postalCode;
     }
 
-    public void setCityName(String cityName) {
+    public void setCityName(City cityName) {
         this.cityName = cityName;
     }
 
-    public String getCityName() {
+    public City getCityName() {
         return cityName;
     }
 

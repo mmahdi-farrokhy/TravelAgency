@@ -1,7 +1,7 @@
 package dataLayer;
 
-import applicationLayer.Airport;
-import applicationLayer.Flight;
+import model.Airport;
+import model.Flight;
 import commonStructures.AirportCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

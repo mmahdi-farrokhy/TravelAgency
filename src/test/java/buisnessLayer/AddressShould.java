@@ -1,6 +1,7 @@
 package buisnessLayer;
 
 import commonStructures.City;
+import model.submodel.Address;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +12,12 @@ public class AddressShould {
 
     @BeforeEach
     void setUp() {
-        address = new Address(City.AMSTERDAM.toString(), "Brouwersgracht", "1011 AA");
+        address = new Address(City.AMSTERDAM, "Brouwersgracht", "1011 AA");
     }
 
     @Test
     void have_a_city_name() {
-        assertThat(address.getCityName()).isEqualTo(City.AMSTERDAM.toString());
+        assertThat(address.getCityName().toString()).isEqualTo("Amsterdam");
     }
 
     @Test
@@ -31,8 +32,8 @@ public class AddressShould {
 
     @Test
     void change_the_city_name() {
-        address.setCityName(City.LAS_VEGAS.toString());
-        assertThat(address.getCityName()).isEqualTo(City.LAS_VEGAS.toString());
+        address.setCityName(City.LAS_VEGAS);
+        assertThat(address.getCityName().toString()).isEqualTo("Las Vegas");
     }
 
     @Test

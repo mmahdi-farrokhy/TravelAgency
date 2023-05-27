@@ -1,10 +1,13 @@
 package dataLayer;
 
-import applicationLayer.Airport;
-import applicationLayer.Flight;
-import buisnessLayer.*;
+import model.Airport;
+import model.Customer;
+import model.Flight;
 import commonStructures.AirportCode;
+import commonStructures.City;
 import commonStructures.CurrencyType;
+import model.Order;
+import model.submodel.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +35,7 @@ public class OrderTableShould {
         bradPitt.setNationalCode("123");
         bradPitt.setFullName(new FullName("Brad", "Pitt"));
         bradPitt.setBirthDate(LocalDate.of(1963, 12, 18));
-        bradPitt.setAddress(new Address("Los Angeles", "Wilshire Blvd.", "CA 90212"));
+        bradPitt.setAddress(new Address(City.LOS_ANGELES, "Wilshire Blvd.", "CA 90212"));
         bradPitt.setPhoneNumber("(310) 275-6135");
 
         flight.setDepartureTime(LocalDateTime.of(2029,8,1,8,0,0));

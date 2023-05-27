@@ -1,6 +1,9 @@
 package buisnessLayer;
 
 import commonStructures.City;
+import model.submodel.Address;
+import model.Customer;
+import model.submodel.FullName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +34,7 @@ public class CustomerShould {
 
     @Test
     void have_a_birth_date() {
-        LocalDate birthDate = LocalDate.of(1963,12,18);
+        LocalDate birthDate = LocalDate.of(1963, 12, 18);
         customer.setBirthDate(birthDate);
         assertThat(customer.getBirthDate().getMonth().toString().toLowerCase()).isEqualTo("december");
         assertThat(customer.getBirthDate().getMonth().getValue()).isEqualTo(12);
@@ -41,8 +44,8 @@ public class CustomerShould {
 
     @Test
     void have_an_address() {
-        customer.setAddress(new Address(City.LAS_VEGAS.toString(), "The Strip", "88901"));
-        assertThat(customer.getAddress().getCityName()).isEqualTo(City.LAS_VEGAS.toString());
+        customer.setAddress(new Address(City.LAS_VEGAS, "The Strip", "88901"));
+        assertThat(customer.getAddress().getCityName().toString()).isEqualTo("Las Vegas");
         assertThat(customer.getAddress().getStreetName()).isEqualTo("The Strip");
         assertThat(customer.getAddress().getPostalCode()).isEqualTo("88901");
     }

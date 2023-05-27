@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="410.0">
+         <children>
+            <Button fx:id="loginSignupBtn" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Login / Sign Up">
+               <HBox.margin>
+                  <Insets right="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="editCustomerBtn" layoutX="12.0" layoutY="12.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Edit Customer">
+               <HBox.margin>
+                  <Insets right="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="flightsListBtn" layoutX="114.0" layoutY="12.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Flights List">
+               <HBox.margin>
+                  <Insets right="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="orderHistoryBtn" layoutX="216.0" layoutY="12.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Order History" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+      </HBox>
+      <VBox prefWidth="410.0">
+         <children>
+            <Label fx:id="usernameLbl" prefHeight="17.0" prefWidth="405.0" text="Username: " />
+            <Label fx:id="fullNameBtn" prefHeight="17.0" prefWidth="405.0" text="Full Name: " />
+            <Label fx:id="phoneNumberBtn" prefHeight="17.0" prefWidth="405.0" text="Phone Number: " />
+         </children>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+         <VBox.margin>
+            <Insets top="2.0" />
+         </VBox.margin>
+      </VBox>
+      <ImageView fitHeight="247.0" fitWidth="247.0" opacity="0.4">
+         <image>
+            <Image url="@images/mainWindowBg.png" />
+         </image>
+      </ImageView>
+   </children>
+</VBox>

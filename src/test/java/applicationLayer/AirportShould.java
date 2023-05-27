@@ -1,6 +1,9 @@
 package applicationLayer;
 
 import commonStructures.AirportCode;
+import model.Airport;
+import model.submodel.Coordinate;
+import model.submodel.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
