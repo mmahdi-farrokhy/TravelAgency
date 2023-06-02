@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Customer extends DBTable {
-    public String nationalCode;
+    private String nationalCode;
     private FullName fullName;
     private LocalDate birthDate;
     private Address address;

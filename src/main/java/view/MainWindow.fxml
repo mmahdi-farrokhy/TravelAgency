@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="controller.MainWindowController" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="410.0" style="-fx-background-color: #028174;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="410.0" style="-fx-background-color: #028174;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
    <children>
       <HBox prefHeight="100.0" prefWidth="410.0">
          <children>
@@ -51,17 +51,17 @@
       </HBox>
       <VBox prefWidth="410.0" spacing="2.0">
          <children>
-            <TextField fx:id="usernameField" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Username: ">
+            <TextField fx:id="usernameField" editable="false" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Username: ">
                <font>
                   <Font name="Times New Roman Bold" size="13.0" />
                </font>
             </TextField>
-            <TextField fx:id="fullNameField" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Full Name: ">
+            <TextField fx:id="fullNameField" editable="false" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Full Name: ">
                <font>
                   <Font name="Times New Roman Bold" size="13.0" />
                </font>
             </TextField>
-            <TextField fx:id="phoneNumberField" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Phone Number: ">
+            <TextField fx:id="phoneNumberField" editable="false" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Phone Number: ">
                <font>
                   <Font name="Times New Roman Bold" size="13.0" />
                </font>
