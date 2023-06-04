@@ -44,14 +44,12 @@ public class CustomerTable implements DBUpdate<Customer> {
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_ALL = con.prepareStatement(DBTable.query)) {
-
             final ResultSet resultSet = SELECT_ALL.executeQuery();
             while (resultSet.next()) {
                 allCustomers.add(generateRecordFromResultSet(resultSet));
             }
 
             resultSet.close();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -69,12 +67,16 @@ public class CustomerTable implements DBUpdate<Customer> {
             final LocalDate birthDate = resultSet.getObject("BirthDate", LocalDate.class);
             final Address address = jsonToProperty(resultSet.getString("Address"), new Address(City.NONE, "", ""));
             final String phoneNumber = resultSet.getString("PhoneNumber");
+            final String email = resultSet.getString("Email");
+            final String password = resultSet.getString("Password");
 
             customerById.setNationalCode(nationalCode);
             customerById.setFullName(fullName);
             customerById.setBirthDate(birthDate);
             customerById.setAddress(address);
             customerById.setPhoneNumber(phoneNumber);
+            customerById.setEmail(email);
+            customerById.setPassword(password);
         } catch (IllegalArgumentException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -106,7 +108,7 @@ public class CustomerTable implements DBUpdate<Customer> {
     @Override
     public boolean insertNewRecord(Customer newRecord) {
         DBTable.tableName = "customers";
-        DBTable.query = DBQ_INSERT + DBTable.tableName + " (NationalCode, FullName, BirthDate, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)";
+        DBTable.query = DBQ_INSERT + DBTable.tableName + " (NationalCode, FullName, BirthDate, Address, PhoneNumber, Password, Email) VALUES (?, ?, ?, ?, ?, ?, ?)";
         boolean recordInserted = false;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
@@ -118,6 +120,8 @@ public class CustomerTable implements DBUpdate<Customer> {
                 INSERT.setString(3, newRecord.getBirthDate().toString());
                 INSERT.setString(4, newRecord.getAddress().toJson());
                 INSERT.setString(5, newRecord.getPhoneNumber());
+                INSERT.setString(6, newRecord.getPassword());
+                INSERT.setString(7, newRecord.getEmail());
                 INSERT.executeUpdate();
                 recordInserted = true;
             }

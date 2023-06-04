@@ -4,12 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.Customer;
 import utilities.GUIUtils;
 
 import java.net.URL;
@@ -37,7 +37,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private TextField phoneNumberField;
 
-    static Stage loginStage = null;
+    public static Stage loginStage = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,14 +61,6 @@ public class MainWindowController implements Initializable {
         orderHistoryBtn.setOnAction(e -> showPage("../OrderHistoryPage.fxml"));
     }
 
-    private void mouseEnteredTheButton(Button button) {
-        button.setStyle("-fx-border-color: #e84575; -fx-border-radius: 15; -fx-background-color:  #293556; -fx-background-radius:  15;");
-    }
-
-    private void resetButtonStyle(Button button) {
-        button.setStyle("-fx-background-color:  #293556; -fx-background-radius:  15;");
-    }
-
     private void showPage(String pageName) {
         try {
             if (loginStage == null) {
@@ -79,15 +71,23 @@ public class MainWindowController implements Initializable {
                 loginStage.show();
             }
         } catch (Exception e) {
-            showMessageBox("Error", "UI load failed", "Could not load UI from the fxml file");
+            GUIUtils.showMessageBox("Error", "UI load failed", "Could not load UI from the fxml file");
         }
     }
 
-    private void showMessageBox(String title, String header, String context) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(context);
-        alert.showAndWait();
+    public void setUsername(String newValue) {
+        usernameField.setEditable(true);
+        usernameField.setText(newValue);
+        usernameField.setEditable(false);
+    }
+    public void setFullName(String newValue) {
+        fullNameField.setEditable(true);
+        fullNameField.setText(newValue);
+        fullNameField.setEditable(false);
+    }
+    public void setPhoneNumber(String newValue) {
+        phoneNumberField.setEditable(true);
+        phoneNumberField.setText(newValue);
+        phoneNumberField.setEditable(false);
     }
 }

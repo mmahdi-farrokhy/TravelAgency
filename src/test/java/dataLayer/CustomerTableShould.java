@@ -51,6 +51,8 @@ public class CustomerTableShould {
         newRecord.setBirthDate(LocalDate.of(1967, 7, 26));
         newRecord.setAddress(new Address(City.LOS_ANGELES, "Century Park East", "CA 900067"));
         newRecord.setPhoneNumber("(310) 477-8442");
+        newRecord.setEmail("JasonStatham@mail.com");
+        newRecord.setPassword("JStath1967");
 
         assertThat(dbAccess.insertNewRecord(newRecord)).isTrue();
         assertThat(dbAccess.insertNewRecord(newRecord)).isFalse();

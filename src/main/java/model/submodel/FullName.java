@@ -34,6 +34,10 @@ public class FullName extends Properties {
                 "\"lastName\" : \"" + lastName + "\" }";
     }
 
+    public String getRawFullName(){
+        return firstName + " " + lastName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

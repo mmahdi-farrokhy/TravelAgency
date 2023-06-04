@@ -1,14 +1,11 @@
 package utilities;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 public class GUIUtils {
     private GUIUtils() {
-    }
-
-    private static void mouseEnteredTheButton(Button button) {
-        button.setStyle("-fx-border-color: #e84575; -fx-border-radius: 15; -fx-background-color:  #293556; -fx-background-radius:  15;");
     }
 
     public static void setButtonStyle(Button button, Color borderColor, Color backgroundColor, int radius) {
@@ -21,5 +18,13 @@ public class GUIUtils {
         String styleCommand = "-fx-background-color: %s; -fx-background-radius: %d;";
         String format = String.format(styleCommand, backgroundColor.toString().replace("0x", "#").substring(0, 7), radius);
         button.setStyle(format);
+    }
+
+    public static void showMessageBox(String title, String header, String context) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(context);
+        alert.showAndWait();
     }
 }

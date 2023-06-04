@@ -14,6 +14,8 @@ public class Customer extends DBTable {
     private LocalDate birthDate;
     private Address address;
     private String phoneNumber;
+    private String email;
+    private String password;
 
     public Customer() {
         this.nationalCode = "";
@@ -31,6 +33,8 @@ public class Customer extends DBTable {
         this.birthDate = recordById.birthDate;
         this.address = recordById.address;
         this.phoneNumber = recordById.phoneNumber;
+        this.email = recordById.email;
+        this.password = recordById.password;
     }
 
     public void setNationalCode(String nationalCode) {
@@ -71,6 +75,22 @@ public class Customer extends DBTable {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override
