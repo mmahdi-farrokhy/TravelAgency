@@ -2,9 +2,9 @@ package main;
 
 import controller.MainWindowController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -22,5 +22,11 @@ public class Main extends Application {
         primaryStage.setTitle("Travel Agency");
         primaryStage.setScene(new Scene(loader.getRoot()));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(e -> closeApplication());
+    }
+
+    private void closeApplication(){
+        Platform.exit();
+        System.exit(0);
     }
 }

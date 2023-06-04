@@ -8,10 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Customer;
 import utilities.GUIUtils;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -66,28 +67,26 @@ public class MainWindowController implements Initializable {
             if (loginStage == null) {
                 VBox root = FXMLLoader.load(this.getClass().getResource(pageName));
                 loginStage = new Stage();
-                loginStage.setTitle("");
                 loginStage.setScene(new Scene(root));
+                loginStage.initModality(Modality.APPLICATION_MODAL);
                 loginStage.show();
+                loginStage.setOnCloseRequest(e -> closePage());
             }
         } catch (Exception e) {
             GUIUtils.showMessageBox("Error", "UI load failed", "Could not load UI from the fxml file");
         }
     }
 
-    public void setUsername(String newValue) {
-        usernameField.setEditable(true);
-        usernameField.setText(newValue);
-        usernameField.setEditable(false);
+    private void closePage() {
+        loginStage.close();
+        loginStage = null;
     }
-    public void setFullName(String newValue) {
-        fullNameField.setEditable(true);
-        fullNameField.setText(newValue);
-        fullNameField.setEditable(false);
-    }
-    public void setPhoneNumber(String newValue) {
-        phoneNumberField.setEditable(true);
-        phoneNumberField.setText(newValue);
-        phoneNumberField.setEditable(false);
+
+    public void setFieldText(String fieldName, String newValue) throws NoSuchFieldException, IllegalAccessException {
+        Field field = getClass().getDeclaredField(fieldName);
+        TextField textField = (TextField) field.get(this);
+        field.set(this, textField);
+        field.setAccessible(true);
+        textField.setText(newValue);
     }
 }

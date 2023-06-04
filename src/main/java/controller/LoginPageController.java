@@ -2,7 +2,6 @@ package controller;
 
 import dataLayer.CustomerTable;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -11,8 +10,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
 import model.Customer;
+import utilities.GUIUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,6 +35,11 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
         loginBtn.setOnAction(e -> loginUser());
+        accountCheckText.setOnMouseClicked(e -> showSignupPage());
+    }
+
+    private void showSignupPage() {
+        
     }
 
     private void loginUser() {
@@ -71,9 +75,9 @@ public class LoginPageController implements Initializable {
     private void getUserInfo() {
         try {
             Customer customer = new CustomerTable().getRecordById(nationalCodeField.getText());
-            Main.mainWindowController.setUsername("Username: " + customer.getNationalCode());
-            Main.mainWindowController.setFullName("Full Name: " + customer.getFullName().getRawFullName());
-            Main.mainWindowController.setPhoneNumber("Username: " + customer.getPhoneNumber());
+            Main.mainWindowController.setFieldText("usernameField", "Username: " + customer.getNationalCode());
+            Main.mainWindowController.setFieldText("fullNameField", "Full Name: " + customer.getFullName().getRawFullName());
+            Main.mainWindowController.setFieldText("phoneNumberField", "Phone Number: " + customer.getPhoneNumber());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -81,6 +85,7 @@ public class LoginPageController implements Initializable {
 
     private void closeLoginPage() {
         ((Stage) loginBtn.getScene().getWindow()).close();
+        MainWindowController.loginStage.close();
         MainWindowController.loginStage = null;
     }
 }
