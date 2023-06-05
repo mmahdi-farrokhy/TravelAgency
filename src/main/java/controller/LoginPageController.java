@@ -3,12 +3,11 @@ package controller;
 import dataLayer.CustomerTable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import main.Main;
 import model.Customer;
 import utilities.GUIUtils;
 
@@ -35,21 +34,23 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
         loginBtn.setOnAction(e -> loginUser());
-        accountCheckText.setOnMouseClicked(e -> showSignupPage());
-    }
-
-    private void showSignupPage() {
-        
+        accountCheckText.setOnMouseClicked(e -> GUIUtils.switchUserRegistryPage(this, "..//SignUpPage.fxml"));
     }
 
     private void loginUser() {
         if (userExisting() && correctPassword()) {
             errorText.setVisible(false);
-            closeLoginPage();
+            GUIUtils.UserRegistryPage(loginBtn);
             getUserInfo();
+            GUIUtils.showMessageBox("Login","Done!","Logged in successfully", Alert.AlertType.INFORMATION);
         } else {
             errorText.setVisible(true);
         }
+    }
+
+    private void getUserInfo() {
+        Customer customer = new CustomerTable().getRecordById(nationalCodeField.getText());
+        GUIUtils.fillUserInformation(customer);
     }
 
     private boolean userExisting() {
@@ -70,22 +71,5 @@ public class LoginPageController implements Initializable {
         } catch (RuntimeException e) {
             return false;
         }
-    }
-
-    private void getUserInfo() {
-        try {
-            Customer customer = new CustomerTable().getRecordById(nationalCodeField.getText());
-            Main.mainWindowController.setFieldText("usernameField", "Username: " + customer.getNationalCode());
-            Main.mainWindowController.setFieldText("fullNameField", "Full Name: " + customer.getFullName().getRawFullName());
-            Main.mainWindowController.setFieldText("phoneNumberField", "Phone Number: " + customer.getPhoneNumber());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void closeLoginPage() {
-        ((Stage) loginBtn.getScene().getWindow()).close();
-        MainWindowController.loginStage.close();
-        MainWindowController.loginStage = null;
     }
 }

@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -14,6 +15,7 @@ import utilities.GUIUtils;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
@@ -44,36 +46,30 @@ public class MainWindowController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Color borderColor = Color.rgb(232, 69, 117);
         Color backgroundColor = Color.rgb(41, 53, 86);
+        setButtonAction(loginSignupBtn, borderColor, backgroundColor, "../LoginPage.fxml");
+        setButtonAction(editCustomerBtn, borderColor, backgroundColor, "../CustomerPage.fxml");
+        setButtonAction(flightsListBtn, borderColor, backgroundColor, "../FlightsListPage.fxml");
+        setButtonAction(orderHistoryBtn, borderColor, backgroundColor, "../OrderHistoryPage.fxml");
+    }
 
+    private void setButtonAction(Button loginSignupBtn, Color borderColor, Color backgroundColor, String pageName) {
         loginSignupBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), borderColor, backgroundColor, 15));
         loginSignupBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), backgroundColor, 15));
-        loginSignupBtn.setOnAction(e -> showPage("../LoginPage.fxml"));
-
-        editCustomerBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), borderColor, backgroundColor, 15));
-        editCustomerBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), backgroundColor, 15));
-        editCustomerBtn.setOnAction(e -> showPage("../CustomerPage.fxml"));
-
-        flightsListBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), borderColor, backgroundColor, 15));
-        flightsListBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), backgroundColor, 15));
-        flightsListBtn.setOnAction(e -> showPage("../FlightsListPage.fxml"));
-
-        orderHistoryBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), borderColor, backgroundColor, 15));
-        orderHistoryBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), backgroundColor, 15));
-        orderHistoryBtn.setOnAction(e -> showPage("../OrderHistoryPage.fxml"));
+//        loginSignupBtn.setOnAction(e -> showPage(pageName));
+        loginSignupBtn.setOnAction(e -> GUIUtils.switchUserRegistryPage(this,pageName));
     }
 
     private void showPage(String pageName) {
         try {
-            if (loginStage == null) {
-                VBox root = FXMLLoader.load(this.getClass().getResource(pageName));
-                loginStage = new Stage();
-                loginStage.setScene(new Scene(root));
-                loginStage.initModality(Modality.APPLICATION_MODAL);
-                loginStage.show();
-                loginStage.setOnCloseRequest(e -> closePage());
-            }
+            VBox root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource(pageName)));
+            loginStage = new Stage();
+            loginStage.setScene(new Scene(root));
+            loginStage.initModality(Modality.APPLICATION_MODAL);
+            loginStage.setResizable(false);
+            loginStage.show();
+            loginStage.setOnCloseRequest(e -> closePage());
         } catch (Exception e) {
-            GUIUtils.showMessageBox("Error", "UI load failed", "Could not load UI from the fxml file");
+            GUIUtils.showMessageBox("Error", "UI load failed", "Could not load UI from the fxml file", Alert.AlertType.ERROR);
         }
     }
 

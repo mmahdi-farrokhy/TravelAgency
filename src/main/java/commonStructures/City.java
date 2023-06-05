@@ -103,4 +103,8 @@ public enum City {
             capitalizedCity += word.substring(0, 1).toUpperCase() + word.substring(1) + " ";
         return capitalizedCity.trim();
     }
+
+    public static City getValue(String cityName){
+        return City.valueOf(cityName.replace(' ', '_').toUpperCase());
+    }
 }
