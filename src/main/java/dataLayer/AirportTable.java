@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
-import static utilities.Converter.*;
+import static utilities.ConvertUtils.*;
 
 public class AirportTable implements DBAccess<Airport> {
     public AirportTable() {
@@ -88,8 +88,9 @@ public class AirportTable implements DBAccess<Airport> {
             final AirportCode airportCode = valueOf(resultSet.getString("AirportCode"));
             final Coordinate coordinate = jsonToProperty(resultSet.getString("Coordinate"), new Coordinate(0,0));
             final Location location = jsonToProperty(resultSet.getString("Location"), new Location("",""));
+            final String name = resultSet.getString("AirportName");
 
-            airportByCode = new Airport(airportCode, coordinate, location);
+            airportByCode = new Airport(airportCode, coordinate, location, name);
         } catch (IllegalArgumentException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -103,5 +104,9 @@ public class AirportTable implements DBAccess<Airport> {
 
     public Coordinate getAirportCoordinateByCode(AirportCode airportCode) {
         return getRecordById(airportCode.toString()).getCoordinate();
+    }
+
+    public String getAirportNameByCode(AirportCode airportCode) {
+        return getRecordById(airportCode.toString()).getName();
     }
 }

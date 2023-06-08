@@ -47,4 +47,10 @@ public class AirportTableShould {
         Coordinate airportCoordinateByRUHCode = dbAccess.getAirportCoordinateByCode(AirportCode.RUH);
         assertThat(airportCoordinateByRUHCode).isEqualTo(new Coordinate(24.9596, 46.7024));
     }
+
+    @Test
+    void get_a_specific_airports_name_from_the_airport_table() {
+        String airportNameByRUHCode = dbAccess.getAirportNameByCode(AirportCode.RUH);
+        assertThat(airportNameByRUHCode).isEqualTo("King Khalid International Airport");
+    }
 }

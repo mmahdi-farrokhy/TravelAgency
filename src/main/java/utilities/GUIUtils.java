@@ -60,8 +60,8 @@ public class GUIUtils {
             MainWindowController.loginStage.setResizable(false);
             MainWindowController.loginStage.show();
             MainWindowController.loginStage.setOnCloseRequest(e -> closePage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | NullPointerException e) {
+            showMessageBox("Error", "UI load failed!", "Could not load fxml file! \n Please make sure the file name is correct.", Alert.AlertType.ERROR);
         }
     }
 

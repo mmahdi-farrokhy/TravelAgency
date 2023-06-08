@@ -11,9 +11,9 @@ import java.text.DecimalFormat;
 
 import static java.lang.Double.parseDouble;
 
-public class Converter {
+public class ConvertUtils {
 
-    private Converter() {
+    private ConvertUtils() {
     }
 
     public static double limitNumberOfDecimalPlaces(double value, int limit) {
@@ -27,11 +27,4 @@ public class Converter {
     public static <T extends Properties> T jsonToProperty(String jsonProperty, T type) {
         return new Gson().fromJson(jsonProperty, (Type) type.getClass());
     }
-
-    public static HttpURLConnection connectToAPI(String url) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.setRequestMethod("GET");
-        return connection;
-    }
-
 }

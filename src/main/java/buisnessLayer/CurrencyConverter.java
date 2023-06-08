@@ -9,8 +9,8 @@ import java.net.HttpURLConnection;
 import java.util.stream.Collectors;
 
 import static java.lang.Double.parseDouble;
-import static utilities.Converter.connectToAPI;
-import static utilities.Converter.limitNumberOfDecimalPlaces;
+import static utilities.WebUtils.connectToAPI;
+import static utilities.ConvertUtils.limitNumberOfDecimalPlaces;
 
 public class CurrencyConverter {
 

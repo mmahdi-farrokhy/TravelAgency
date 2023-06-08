@@ -1,6 +1,7 @@
 package commonStructures;
 
 public enum AirportCode {
+    NONE,
     ATL,
     PEK,
     DXB,

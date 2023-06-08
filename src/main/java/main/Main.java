@@ -5,9 +5,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import utilities.GUIUtils;
 
 public class Main extends Application {
     public static MainWindowController mainWindowController;
@@ -26,13 +24,6 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.setOnCloseRequest(e -> closeApplication());
-    }
-
-    private static void fixMainWindowSize(Stage primaryStage) {
-        primaryStage.setMinWidth(410);
-        primaryStage.setMaxWidth(410);
-        primaryStage.setMinHeight(435);
-        primaryStage.setMaxHeight(435);
     }
 
     private void closeApplication() {

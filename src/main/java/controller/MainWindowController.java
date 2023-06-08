@@ -55,8 +55,7 @@ public class MainWindowController implements Initializable {
     private void setButtonAction(Button loginSignupBtn, Color borderColor, Color backgroundColor, String pageName) {
         loginSignupBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), borderColor, backgroundColor, 15));
         loginSignupBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), backgroundColor, 15));
-//        loginSignupBtn.setOnAction(e -> showPage(pageName));
-        loginSignupBtn.setOnAction(e -> GUIUtils.switchUserRegistryPage(this,pageName));
+        loginSignupBtn.setOnAction(e -> GUIUtils.switchUserRegistryPage(this, pageName));
     }
 
     private void showPage(String pageName) {

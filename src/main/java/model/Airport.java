@@ -1,7 +1,8 @@
 package model;
+
 import commonStructures.AirportCode;
-import dataLayer.AirportTable;
 import commonStructures.DBTable;
+import dataLayer.AirportTable;
 import model.submodel.Coordinate;
 import model.submodel.Location;
 
@@ -11,18 +12,21 @@ public class Airport extends DBTable {
     private final AirportCode code;
     private Coordinate coordinate;
     private Location location;
+    private String name;
 
     public Airport(AirportCode airportCode) {
         AirportTable airportTable = new AirportTable();
         this.code = airportCode;
         this.coordinate = airportTable.getAirportCoordinateByCode(code);
         this.location = airportTable.getAirportLocationByCode(code);
+        this.name = airportTable.getAirportNameByCode(code);
     }
 
-    public Airport(AirportCode airportCode, Coordinate coordinate, Location location) {
+    public Airport(AirportCode airportCode, Coordinate coordinate, Location location, String name) {
         this.code = airportCode;
         this.coordinate = coordinate;
         this.location = location;
+        this.name = name;
     }
 
     public AirportCode getCode() {
@@ -43,6 +47,14 @@ public class Airport extends DBTable {
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

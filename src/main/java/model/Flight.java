@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static java.lang.Math.*;
-import static utilities.Converter.limitNumberOfDecimalPlaces;
+import static utilities.ConvertUtils.limitNumberOfDecimalPlaces;
 
 public class Flight extends DBTable {
     private static final int EARTH_RADIUS = 6371;
