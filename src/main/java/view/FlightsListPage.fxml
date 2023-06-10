@@ -75,22 +75,18 @@
       </HBox>
       <TableView fx:id="flightListTable" prefHeight="200.0" prefWidth="200.0">
         <columns>
-            <TableColumn fx:id="flightIdCol" resizable="false" text="Flight Id" />
-          <TableColumn fx:id="originAirportCol" prefWidth="240.0" resizable="false" text="Origin Airport" />
-          <TableColumn fx:id="destinationAirportCol" prefWidth="240.0" resizable="false" text="Destination Airport" />
-            <TableColumn fx:id="flightDateTimeCol" prefWidth="240.0" resizable="false" text="Flight Date And Time" />
+            <TableColumn fx:id="flightIdCol" prefWidth="55.0" resizable="false" text="Flight Id" />
+          <TableColumn fx:id="originAirportCol" prefWidth="290.0" text="Origin Airport" />
+          <TableColumn fx:id="destinationAirportCol" prefWidth="290.0" text="Destination Airport" />
+            <TableColumn fx:id="flightDateCol" prefWidth="82.5" resizable="false" text="Flight Date" />
+            <TableColumn fx:id="flightTimeCol" prefWidth="82.5" resizable="false" text="Flight Time" />
         </columns>
       </TableView>
       <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
          <children>
             <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="266.0">
                <children>
-                  <TextField alignment="CENTER" editable="false" focusTraversable="false" prefHeight="25.0" prefWidth="150.0" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Currency">
-                     <VBox.margin>
-                        <Insets bottom="3.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <ComboBox fx:id="currencyCb" prefWidth="150.0" />
+                  <Button fx:id="clearFiltersBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="145.0" style="-fx-background-color: #293556; -fx-text-fill: #e84575; -fx-background-radius: 8;" text="Button" />
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -98,9 +94,9 @@
             </VBox>
             <VBox alignment="CENTER" fillWidth="false" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="266.0">
                <children>
-                  <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="143.0" style="-fx-background-color: #293556; -fx-text-fill: #e84575; -fx-background-radius: 8;" text="Search">
+                  <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="145.0" style="-fx-background-color: #293556; -fx-text-fill: #e84575; -fx-background-radius: 8;" text="Search">
                      <graphic>
-                        <ImageView fx:id="searchImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/search_icon.png" />
                            </image>

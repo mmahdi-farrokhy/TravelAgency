@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.Main;
@@ -19,15 +18,15 @@ public class GUIUtils {
     private GUIUtils() {
     }
 
-    public static void setButtonStyle(Button button, Color borderColor, Color backgroundColor, int radius) {
-        String styleCommand = "-fx-border-color: %s; -fx-border-radius: %d; -fx-background-color: %s; -fx-background-radius: %d;";
-        String format = String.format(styleCommand, borderColor.toString().replace("0x", "#").substring(0, 7), radius, backgroundColor.toString().replace("0x", "#").substring(0, 7), radius);
+    public static void setButtonStyle(Button button, int radius) {
+        String styleCommand = "-fx-border-color: #e84575; -fx-border-radius: %d; -fx-background-color: #293556; -fx-background-radius: %d; -fx-text-fill : #e84575";
+        String format = String.format(styleCommand, radius, radius);
         button.setStyle(format);
     }
 
-    public static void resetButtonStyle(Button button, Color backgroundColor, int radius) {
-        String styleCommand = "-fx-background-color: %s; -fx-background-radius: %d;";
-        String format = String.format(styleCommand, backgroundColor.toString().replace("0x", "#").substring(0, 7), radius);
+    public static void resetButtonStyle(Button button, int radius) {
+        String styleCommand = "-fx-background-color: #293556; -fx-background-radius: %d; -fx-text-fill : #e84575";
+        String format = String.format(styleCommand, radius, radius);
         button.setStyle(format);
     }
 
@@ -49,7 +48,7 @@ public class GUIUtils {
         }
     }
 
-    public static void switchUserRegistryPage(Object controllerClass, String pageName) {
+    public static void openPage(Object controllerClass, String pageName) {
         try {
             if (MainWindowController.loginStage != null)
                 closePage();

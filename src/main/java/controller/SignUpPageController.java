@@ -12,7 +12,6 @@ import model.submodel.FullName;
 import utilities.GUIUtils;
 
 import java.net.URL;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
@@ -65,7 +64,7 @@ public class SignUpPageController implements Initializable {
         initCityComboBox();
         errorText.setVisible(false);
         signUpBtn.setOnAction(e -> signUpUser());
-        accountCheckText.setOnMouseClicked(e -> GUIUtils.switchUserRegistryPage(this, "..//LoginPage.fxml"));
+        accountCheckText.setOnMouseClicked(e -> GUIUtils.openPage(this, "..//LoginPage.fxml"));
     }
 
     private void initCityComboBox() {
@@ -124,7 +123,7 @@ public class SignUpPageController implements Initializable {
     }
 
     private boolean fieldValueNotNullOrEmpty(String fieldValue) {
-        return fieldValue.trim() != null && fieldValue.trim() != "";
+        return fieldValue != null && fieldValue.trim() != "";
     }
 
     private Customer getSignedUpCustomer() {

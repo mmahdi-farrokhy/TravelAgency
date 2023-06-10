@@ -34,7 +34,7 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
         loginBtn.setOnAction(e -> loginUser());
-        accountCheckText.setOnMouseClicked(e -> GUIUtils.switchUserRegistryPage(this, "..//SignUpPage.fxml"));
+        accountCheckText.setOnMouseClicked(e -> GUIUtils.openPage(this, "..//SignUpPage.fxml"));
     }
 
     private void loginUser() {
