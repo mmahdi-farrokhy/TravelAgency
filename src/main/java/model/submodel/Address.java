@@ -46,6 +46,10 @@ public class Address extends Properties {
                 "\"postalCode\" : \"" + postalCode + "\" }";
     }
 
+    public String getRawAddress(){
+        return cityName.toString() + ", " + streetName + ", " + postalCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -6,8 +6,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Customer;
 
 public class Main extends Application {
+    public static Customer loggedInCustomer;
+
     public static MainWindowController mainWindowController;
 
     public static void main(String... args) {

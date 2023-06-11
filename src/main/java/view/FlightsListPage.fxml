@@ -11,6 +11,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #028174;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FlightsListPageController">
    <children>
@@ -22,8 +23,11 @@
                      <VBox.margin>
                         <Insets bottom="3.0" />
                      </VBox.margin>
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font>
                   </TextField>
-                  <ComboBox fx:id="originAirportCb" prefHeight="25.0" prefWidth="230.0" />
+                  <ComboBox fx:id="originAirportCb" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: #ffffff;" />
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -35,8 +39,11 @@
                      <VBox.margin>
                         <Insets bottom="3.0" />
                      </VBox.margin>
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font>
                   </TextField>
-                  <ComboBox fx:id="destinationAirportCb" prefWidth="230.0" />
+                  <ComboBox fx:id="destinationAirportCb" prefWidth="230.0" style="-fx-background-color: #ffffff;" />
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -48,8 +55,11 @@
                      <VBox.margin>
                         <Insets bottom="3.0" />
                      </VBox.margin>
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font>
                   </TextField>
-                  <DatePicker fx:id="departureDp" prefWidth="150.0" />
+                  <DatePicker fx:id="departureDp" prefWidth="150.0" style="-fx-background-color: #ffffff;" />
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -61,8 +71,11 @@
                      <VBox.margin>
                         <Insets bottom="3.0" />
                      </VBox.margin>
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font>
                   </TextField>
-                  <DatePicker fx:id="arrivalDp" prefWidth="150.0" />
+                  <DatePicker fx:id="arrivalDp" prefWidth="150.0" style="-fx-background-color: #ffffff;" />
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -73,7 +86,7 @@
             </VBox>
          </children>
       </HBox>
-      <TableView fx:id="flightListTable" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="flightListTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
         <columns>
             <TableColumn fx:id="flightIdCol" prefWidth="55.0" resizable="false" text="Flight Id" />
           <TableColumn fx:id="originAirportCol" prefWidth="290.0" text="Origin Airport" />
@@ -86,7 +99,10 @@
          <children>
             <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="266.0">
                <children>
-                  <Button fx:id="clearFiltersBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="145.0" style="-fx-background-color: #293556; -fx-text-fill: #e84575; -fx-background-radius: 8;" text="Button" />
+                  <Button fx:id="clearFiltersBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="145.0" style="-fx-background-color: #293556; -fx-text-fill: #e84575; -fx-background-radius: 8;" text="Button">
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font></Button>
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -102,6 +118,9 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font>
                   </Button>
                </children>
                <padding>
@@ -118,6 +137,9 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font>
                   </Button>
                </children>
                <padding>

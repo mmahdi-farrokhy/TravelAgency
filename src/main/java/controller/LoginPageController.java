@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import main.Main;
 import model.Customer;
 import utilities.GUIUtils;
 
@@ -50,6 +51,7 @@ public class LoginPageController implements Initializable {
 
     private void getUserInfo() {
         Customer customer = new CustomerTable().getRecordById(nationalCodeField.getText());
+        Main.loggedInCustomer = customer;
         GUIUtils.fillUserInformation(customer);
     }
 

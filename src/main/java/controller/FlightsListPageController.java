@@ -172,16 +172,4 @@ public class FlightsListPageController implements Initializable {
         arrivalDp.setValue(null);
         arrivalDp.getEditor().clear();
     }
-
-
-
-//    private void initCurrencyComboBox() {
-//        CurrencyType[] sortedCities = CurrencyType.values();
-//        Arrays.sort(sortedCities, Comparator.comparing(Enum::name));
-//        currencyCb.getItems().clear();
-//        currencyCb.getItems().add("");
-//        for (CurrencyType currency : sortedCities)
-//            if (currency != CurrencyType.NONE)
-//                currencyCb.getItems().add(currency.toString() + " " + currency.getCurrencySymbol(currency));
-//    }
 }

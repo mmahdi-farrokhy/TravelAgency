@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import main.Main;
 import model.Customer;
 import model.submodel.Address;
 import model.submodel.FullName;
@@ -82,6 +83,7 @@ public class SignUpPageController implements Initializable {
             if (passwordConfirmed()) {
                 errorText.setVisible(false);
                 Customer signedUpCustomer = getSignedUpCustomer();
+                Main.loggedInCustomer = signedUpCustomer;
                 if (!saveUserInDatabase(signedUpCustomer)) return;
                 GUIUtils.UserRegistryPage(signUpBtn);
                 GUIUtils.showMessageBox("Sign Up", "Done!", "User created successfully", Alert.AlertType.INFORMATION);
