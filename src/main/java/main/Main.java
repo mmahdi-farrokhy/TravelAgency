@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Customer;
+import model.Flight;
 
 public class Main extends Application {
     public static Customer loggedInCustomer;
+    public static Flight selectedFlight;
 
     public static MainWindowController mainWindowController;
 

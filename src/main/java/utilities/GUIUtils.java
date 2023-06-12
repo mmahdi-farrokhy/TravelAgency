@@ -12,6 +12,7 @@ import main.Main;
 import model.Customer;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
 public class GUIUtils {
@@ -52,7 +53,10 @@ public class GUIUtils {
         try {
             if (MainWindowController.loginStage != null)
                 closePage();
-            VBox root = FXMLLoader.load(Objects.requireNonNull(controllerClass.getClass().getResource(pageName)));
+            Class<?> aClass = controllerClass.getClass();
+            URL resource = aClass.getResource(pageName);
+            URL url = Objects.requireNonNull(resource);
+            VBox root = FXMLLoader.load(url);
             MainWindowController.loginStage = new Stage();
             MainWindowController.loginStage.setScene(new Scene(root));
             MainWindowController.loginStage.initModality(Modality.APPLICATION_MODAL);

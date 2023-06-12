@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import main.Main;
 import model.Airport;
 import model.Flight;
 import model.submodel.FlightTableRow;
@@ -16,9 +17,17 @@ import utilities.GUIUtils;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import static commonStructures.AirportCode.valueOf;
+import static utilities.GUIUtils.openPage;
+import static utilities.GUIUtils.showMessageBox;
 
 public class FlightsListPageController implements Initializable {
     @FXML
@@ -90,7 +99,7 @@ public class FlightsListPageController implements Initializable {
         originAirportCb.getItems().add("");
         for (var airport : airportsList)
             if (airport.getCode() != AirportCode.NONE)
-                originAirportCb.getItems().add(airport.getName());
+                originAirportCb.getItems().add(airport.getCode() + ": " + airport.getName());
     }
 
     private void initDestinationAirportComboBox() {
@@ -98,7 +107,7 @@ public class FlightsListPageController implements Initializable {
         destinationAirportCb.getItems().add("");
         for (var airport : airportsList)
             if (airport.getCode() != AirportCode.NONE)
-                destinationAirportCb.getItems().add(airport.getName());
+                destinationAirportCb.getItems().add(airport.getCode() + ": " + airport.getName());
     }
 
     private void fillFlightsTable() {
@@ -118,8 +127,8 @@ public class FlightsListPageController implements Initializable {
         List<FlightTableRow> flightRows = new LinkedList<>();
         for (Flight flight : flightsList)
             flightRows.add(new FlightTableRow(flight.getId(),
-                    flight.getOriginAirport().getName(),
-                    flight.getDestinationAirport().getName(),
+                    flight.getOriginAirport().getCode() + ": " + flight.getOriginAirport().getName(),
+                    flight.getDestinationAirport().getCode() + ": " + flight.getDestinationAirport().getName(),
                     flight.getDepartureTime().toLocalDate(),
                     flight.getDepartureTime().toLocalTime()));
 
@@ -129,16 +138,16 @@ public class FlightsListPageController implements Initializable {
 
     private List<FlightTableRow> filterFlightRows(List<FlightTableRow> flightRows) {
         List<FlightTableRow> filteredFlightRows = flightRows;
-        if (originAirportCb.getValue() != null && originAirportCb.getValue() != "")
+        if (originAirportCb.getValue() != null && !Objects.equals(originAirportCb.getValue(), ""))
             filteredFlightRows = filterByOriginAirport(filteredFlightRows);
 
-        if (destinationAirportCb.getValue() != null && destinationAirportCb.getValue() != "")
+        if (destinationAirportCb.getValue() != null && !Objects.equals(destinationAirportCb.getValue(), ""))
             filteredFlightRows = filterByDestinationAirport(filteredFlightRows);
 
-        if (departureDp.getValue() != null && departureDp.getValue().toString() != "")
+        if (departureDp.getValue() != null && !departureDp.getValue().toString().equals(""))
             filteredFlightRows = filterByDepartureDate(filteredFlightRows);
 
-        if (arrivalDp.getValue() != null && arrivalDp.getValue().toString() != "")
+        if (arrivalDp.getValue() != null && !arrivalDp.getValue().toString().equals(""))
             filteredFlightRows = filterByArrivalDate(filteredFlightRows);
 
         return filteredFlightRows;
@@ -161,7 +170,42 @@ public class FlightsListPageController implements Initializable {
     }
 
     private void openBookingPage() {
-        GUIUtils.openPage(this, "../BookingPage.fxml");
+        Main.selectedFlight = getSelectedFlightFromTable();
+        if (Main.loggedInCustomer == null) {
+            showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.WARNING);
+            return;
+        }
+
+        if (Main.selectedFlight == null){
+            showMessageBox("Attention", "No flight is selected", "Please select a flight from the list", Alert.AlertType.WARNING);
+            return;
+        }
+
+        openPage(this, "../BookingPage.fxml");
+    }
+
+    private Flight getSelectedFlightFromTable() {
+        FlightTableRow selectedFlightRow = getFlightTableRow();
+        if (selectedFlightRow == null)
+            return null;
+
+        String id = selectedFlightRow.getFlightIdCol();
+        Airport originAirport = new Airport(valueOf(selectedFlightRow.getOriginAirportCol().substring(0, 3)));
+        Airport destinationAirport = new Airport(valueOf(selectedFlightRow.getDestinationAirportCol().substring(0, 3)));
+        LocalDateTime departureTime = LocalDateTime.of(selectedFlightRow.getDateCol(), selectedFlightRow.getTimeCol());
+
+        Flight selectedFlight = new Flight();
+        selectedFlight.setId(id);
+        selectedFlight.setOriginAirport(originAirport);
+        selectedFlight.setDestinationAirport(destinationAirport);
+        selectedFlight.setDepartureTime(departureTime);
+        return selectedFlight;
+    }
+
+    private FlightTableRow getFlightTableRow() {
+        TableView.TableViewSelectionModel<FlightTableRow> selectedRow = flightListTable.getSelectionModel();
+        FlightTableRow selectedFlightRow = selectedRow.getSelectedItem();
+        return selectedFlightRow;
     }
 
     private void clearFilters() {
