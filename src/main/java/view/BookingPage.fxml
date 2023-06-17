@@ -191,22 +191,27 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Separator>
-            <HBox alignment="CENTER" fillHeight="false" layoutX="12.0" layoutY="281.0" prefHeight="74.0" prefWidth="796.0">
+            <HBox alignment="CENTER" fillHeight="false" layoutX="12.0" layoutY="281.0" prefHeight="74.0" prefWidth="796.0" spacing="60.0">
                <children>
                   <Button fx:id="backBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="145.0" style="-fx-background-radius: 8; -fx-background-color: #293556;" text="Back" textFill="#e84575">
                      <font>
                         <Font name="Times New Roman Bold" size="12.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="25.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
-                  <ComboBox fx:id="currencyCombo" prefHeight="60.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-text-fill: #e84575; -fx-background-color: #ffffff; -fx-font-size: 20;">
+                  <ComboBox fx:id="currencyCombo" prefHeight="60.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-text-fill: #e84575; -fx-background-color: #ffffff; -fx-font-size: 17;">
                      <HBox.margin>
-                        <Insets left="100.0" right="100.0" />
+                        <Insets />
                      </HBox.margin>
                   </ComboBox>
                   <Button fx:id="orderRegisterBtn" layoutX="188.0" layoutY="17.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="145.0" style="-fx-background-radius: 8; -fx-background-color: #293556;" text="Register The Order" textFill="#e84575">
+                     <font>
+                        <Font name="Times New Roman Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="cancelBtn" layoutX="593.0" layoutY="17.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="145.0" style="-fx-background-radius: 8; -fx-background-color: #293556;" text="Cancel" textFill="#e84575">
                      <font>
                         <Font name="Times New Roman Bold" size="12.0" />
                      </font>

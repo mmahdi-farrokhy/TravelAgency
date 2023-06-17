@@ -67,6 +67,9 @@ public class BookingPageController implements Initializable {
     @FXML
     private Button orderRegisterBtn;
 
+    @FXML
+    private Button cancelBtn;
+
     private Order currentOrder;
 
     @Override
@@ -79,23 +82,19 @@ public class BookingPageController implements Initializable {
         initCurrentOrder();
 
         numberOfTicketsCombo.setOnAction(e -> calculatePrice());
+        currencyCombo.setOnAction(e -> calculatePrice());
+
+        backBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
+        backBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
+        backBtn.setOnAction(e -> openFlightListPage());
 
         orderRegisterBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
         orderRegisterBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
         orderRegisterBtn.setOnAction(e -> registerOrder());
 
-        backBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
-        backBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
-    }
-
-    private void initCurrentOrder() {
-        currentOrder = new Order();
-        currentOrder.setQuantity(numberOfTicketsCombo.getValue());
-        currentOrder.setFlight(Main.selectedFlight);
-        currentOrder.setCustomerInfo(Main.loggedInCustomer);
-        currentOrder.setQuantity(numberOfTicketsCombo.getValue());
-        currentOrder.setRegistrationTime(LocalDateTime.now());
-        currentOrder.setPrice(new Price(parseDouble(priceField.getText()), CurrencyType.BHD));
+        cancelBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
+        cancelBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
+        cancelBtn.setOnAction(e -> closeBookingOrderPage());
     }
 
     private void initNumberOfTicketsCombo() {
@@ -132,12 +131,27 @@ public class BookingPageController implements Initializable {
         flightDistanceField.setText(Double.toString(Main.selectedFlight.estimateFlightDistance()));
     }
 
+    private void initCurrentOrder() {
+        currentOrder = new Order();
+        currentOrder.setQuantity(numberOfTicketsCombo.getValue());
+        currentOrder.setFlight(Main.selectedFlight);
+        currentOrder.setCustomerInfo(Main.loggedInCustomer);
+        currentOrder.setQuantity(numberOfTicketsCombo.getValue());
+        currentOrder.setRegistrationTime(LocalDateTime.now());
+        currentOrder.setPrice(new Price(parseDouble(priceField.getText()), CurrencyType.BHD));
+    }
+
     private void calculatePrice() {
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.calculateOrderPriceAmountByUSD();
         CurrencyType selectedCurrency = valueOf(currencyCombo.getValue().substring(0, 3));
         double convertedPrice = convertCurrency(CurrencyType.USD, selectedCurrency, currentOrder.getPrice().getAmount());
         priceField.setText(String.valueOf(convertedPrice * currentOrder.getQuantity()));
+    }
+
+    private void openFlightListPage() {
+        currentOrder = null;
+        GUIUtils.openPage(this, "../FlightsListPage.fxml");
     }
 
     private void registerOrder() {
@@ -148,5 +162,11 @@ public class BookingPageController implements Initializable {
 
         new OrderTable().insertNewRecord(currentOrder);
         showMessageBox("Done!", "Order Registered successfully", "For further information see order history on the main window", Alert.AlertType.INFORMATION);
+    }
+
+    private void closeBookingOrderPage() {
+        currentOrder = null;
+        Main.selectedFlight = null;
+        backBtn.getScene().getWindow().hide();
     }
 }

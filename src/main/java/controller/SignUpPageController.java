@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
+import static utilities.GUIUtils.fieldValueNotNullOrEmpty;
+
 public class SignUpPageController implements Initializable {
     @FXML
     private TextField nationalCodeField;
@@ -64,7 +66,11 @@ public class SignUpPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCityComboBox();
         errorText.setVisible(false);
+
+        signUpBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
+        signUpBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
         signUpBtn.setOnAction(e -> signUpUser());
+
         accountCheckText.setOnMouseClicked(e -> GUIUtils.openPage(this, "..//LoginPage.fxml"));
     }
 
@@ -122,10 +128,6 @@ public class SignUpPageController implements Initializable {
     private boolean passwordConfirmed() {
         return fieldValueNotNullOrEmpty(passwordField.getText()) &&
                 passwordField.getText().equals(passwordConfirmationField.getText());
-    }
-
-    private boolean fieldValueNotNullOrEmpty(String fieldValue) {
-        return fieldValue != null && fieldValue.trim() != "";
     }
 
     private Customer getSignedUpCustomer() {

@@ -34,9 +34,11 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
-        loginBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
-        loginBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
+
+        loginBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
+        loginBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
         loginBtn.setOnAction(e -> loginUser());
+
         accountCheckText.setOnMouseClicked(e -> GUIUtils.openPage(this, "..//SignUpPage.fxml"));
     }
 

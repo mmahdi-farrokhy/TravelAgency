@@ -38,7 +38,7 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setButtonAction(loginSignupBtn, "../LoginPage.fxml");
-        setButtonAction(editCustomerBtn, "../CustomerPage.fxml");
+        setButtonAction(editCustomerBtn, "../EditCustomerPage.fxml");
         setButtonAction(flightsListBtn, "../FlightsListPage.fxml");
         setButtonAction(orderHistoryBtn, "../OrderHistoryPage.fxml");
     }

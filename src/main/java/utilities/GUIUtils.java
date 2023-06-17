@@ -53,6 +53,7 @@ public class GUIUtils {
         try {
             if (MainWindowController.loginStage != null)
                 closePage();
+
             Class<?> aClass = controllerClass.getClass();
             URL resource = aClass.getResource(pageName);
             URL url = Objects.requireNonNull(resource);
@@ -77,5 +78,9 @@ public class GUIUtils {
         ((Stage) registryButton.getScene().getWindow()).close();
         MainWindowController.loginStage.close();
         MainWindowController.loginStage = null;
+    }
+
+    public static boolean fieldValueNotNullOrEmpty(String fieldValue) {
+        return fieldValue != null && fieldValue.trim() != "";
     }
 }

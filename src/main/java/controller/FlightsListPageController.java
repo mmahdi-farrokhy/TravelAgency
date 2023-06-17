@@ -69,6 +69,8 @@ public class FlightsListPageController implements Initializable {
     @FXML
     private Button bookBtn;
 
+    @FXML
+    private Button cancelBtn;
 
     private List<Airport> airportsList;
     private List<Flight> flightsList;
@@ -92,6 +94,10 @@ public class FlightsListPageController implements Initializable {
         bookBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
         bookBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
         bookBtn.setOnAction(e -> openBookingPage());
+
+        cancelBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
+        cancelBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
+        cancelBtn.setOnAction(e -> closeFlightsListPage());
     }
 
     private void initOriginAirportComboBox() {
@@ -108,6 +114,15 @@ public class FlightsListPageController implements Initializable {
         for (var airport : airportsList)
             if (airport.getCode() != AirportCode.NONE)
                 destinationAirportCb.getItems().add(airport.getCode() + ": " + airport.getName());
+    }
+
+    private void clearFilters() {
+        originAirportCb.setValue("");
+        destinationAirportCb.setValue("");
+        departureDp.setValue(null);
+        departureDp.getEditor().clear();
+        arrivalDp.setValue(null);
+        arrivalDp.getEditor().clear();
     }
 
     private void fillFlightsTable() {
@@ -176,7 +191,7 @@ public class FlightsListPageController implements Initializable {
             return;
         }
 
-        if (Main.selectedFlight == null){
+        if (Main.selectedFlight == null) {
             showMessageBox("Attention", "No flight is selected", "Please select a flight from the list", Alert.AlertType.WARNING);
             return;
         }
@@ -203,17 +218,11 @@ public class FlightsListPageController implements Initializable {
     }
 
     private FlightTableRow getFlightTableRow() {
-        TableView.TableViewSelectionModel<FlightTableRow> selectedRow = flightListTable.getSelectionModel();
-        FlightTableRow selectedFlightRow = selectedRow.getSelectedItem();
-        return selectedFlightRow;
+        return flightListTable.getSelectionModel().getSelectedItem();
     }
 
-    private void clearFilters() {
-        originAirportCb.setValue("");
-        destinationAirportCb.setValue("");
-        departureDp.setValue(null);
-        departureDp.getEditor().clear();
-        arrivalDp.setValue(null);
-        arrivalDp.getEditor().clear();
+    private void closeFlightsListPage() {
+        Main.selectedFlight = null;
+        bookBtn.getScene().getWindow().hide();
     }
 }
