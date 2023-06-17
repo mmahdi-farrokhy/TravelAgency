@@ -1,15 +1,17 @@
 package controller;
 
-import buisnessLayer.CurrencyConverter;
 import commonStructures.CurrencyType;
+import dataLayer.OrderTable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import main.Main;
 import model.Order;
 import model.submodel.Price;
+import utilities.GUIUtils;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -20,6 +22,7 @@ import java.util.ResourceBundle;
 import static buisnessLayer.CurrencyConverter.convertCurrency;
 import static commonStructures.CurrencyType.valueOf;
 import static java.lang.Double.parseDouble;
+import static utilities.GUIUtils.showMessageBox;
 
 public class BookingPageController implements Initializable {
     @FXML
@@ -64,26 +67,35 @@ public class BookingPageController implements Initializable {
     @FXML
     private Button orderRegisterBtn;
 
-    private Order currentOrder = new Order();
+    private Order currentOrder;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        priceField.setText("0");
         initNumberOfTicketsCombo();
         initCurrencyCombo();
         fillPersonalInformation();
         fillFlightInformation();
+        initCurrentOrder();
 
         numberOfTicketsCombo.setOnAction(e -> calculatePrice());
+
+        orderRegisterBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
+        orderRegisterBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
         orderRegisterBtn.setOnAction(e -> registerOrder());
+
+        backBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
+        backBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
     }
 
     private void initCurrentOrder() {
         currentOrder = new Order();
+        currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.setFlight(Main.selectedFlight);
         currentOrder.setCustomerInfo(Main.loggedInCustomer);
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.setRegistrationTime(LocalDateTime.now());
-        currentOrder.setPrice(new Price(parseDouble(priceField.getText()) , CurrencyType.BHD));
+        currentOrder.setPrice(new Price(parseDouble(priceField.getText()), CurrencyType.BHD));
     }
 
     private void initNumberOfTicketsCombo() {
@@ -122,14 +134,19 @@ public class BookingPageController implements Initializable {
 
     private void calculatePrice() {
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
-        currentOrder.setFlight(Main.selectedFlight);
         currentOrder.calculateOrderPriceAmountByUSD();
         CurrencyType selectedCurrency = valueOf(currencyCombo.getValue().substring(0, 3));
         double convertedPrice = convertCurrency(CurrencyType.USD, selectedCurrency, currentOrder.getPrice().getAmount());
-        priceField.setText(String.valueOf(convertedPrice));
+        priceField.setText(String.valueOf(convertedPrice * currentOrder.getQuantity()));
     }
 
     private void registerOrder() {
-        initCurrentOrder();
+        if (Double.parseDouble(numberOfTicketsCombo.getValue().toString()) == 0) {
+            showMessageBox("Wrong Number Of Tickets", "The number of tickets is 0", "You must select at least 1", Alert.AlertType.WARNING);
+            return;
+        }
+
+        new OrderTable().insertNewRecord(currentOrder);
+        showMessageBox("Done!", "Order Registered successfully", "For further information see order history on the main window", Alert.AlertType.INFORMATION);
     }
 }
