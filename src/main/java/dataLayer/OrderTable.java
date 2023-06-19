@@ -23,7 +23,7 @@ import java.util.Properties;
 import static java.lang.Integer.parseInt;
 import static java.sql.DriverManager.getConnection;
 
-public class OrderTable implements DBUpdate<Order> {
+public class OrderTable implements DBChange<Order> {
 
     public OrderTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {

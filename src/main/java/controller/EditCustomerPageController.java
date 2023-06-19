@@ -8,6 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
+import model.Customer;
+import model.submodel.Address;
+import model.submodel.FullName;
 import utilities.GUIUtils;
 
 import java.net.URL;
@@ -62,7 +65,7 @@ public class EditCustomerPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Main.loggedInCustomer == null) {
             showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.WARNING);
-            ((Stage) saveBtn.getScene().getWindow()).close();
+            closeEditCustomerPage();
         }
 
         errorText.setVisible(false);
@@ -98,18 +101,36 @@ public class EditCustomerPageController implements Initializable {
             if (city != City.NONE)
                 cityCombo.getItems().add(city.toString());
     }
+
     private void initContactInformation() {
         phoneNumberField.setText(Main.loggedInCustomer.getPhoneNumber());
         emailField.setText(Main.loggedInCustomer.getEmail());
     }
 
     private void saveCustomerChanges() {
-        if(passwordConfirmed())
-            new CustomerTable().
+        if (passwordConfirmed()) {
+            Customer newCustomer = new Customer();
+            newCustomer.setNationalCode(nationalCodeField.getText());
+            newCustomer.setFullName(new FullName(firstNameField.getText(), lastNameField.getText()));
+            newCustomer.setBirthDate(birthDatePicker.getValue());
+            newCustomer.setAddress(new Address(City.getValue(cityCombo.getValue()), streetField.getText(), postalCodeField.getText()));
+            newCustomer.setPhoneNumber(phoneNumberField.getText());
+            newCustomer.setEmail(emailField.getText());
+            newCustomer.setPassword(passwordField.getText());
+            new CustomerTable().updateRecord(newCustomer);
+            closeEditCustomerPage();
+            showMessageBox("Done", "User information updated!", "You information is updated successfully.", Alert.AlertType.INFORMATION);
+        }
+        else
+            showMessageBox("Attention", "Password is not confirmed!", "Please confirm your password correctly", Alert.AlertType.WARNING);
     }
 
     private boolean passwordConfirmed() {
         return GUIUtils.fieldValueNotNullOrEmpty(passwordField.getText()) &&
                 passwordField.getText().equals(passwordConfirmationField.getText());
+    }
+
+    private void closeEditCustomerPage() {
+        ((Stage) saveBtn.getScene().getWindow()).close();
     }
 }

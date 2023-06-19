@@ -2,10 +2,8 @@ package dataLayer;
 
 import commonStructures.DBTable;
 
-public interface DBUpdate<DBEntity extends DBTable> extends DBAccess<DBEntity>{
-    String DBQ_INSERT = " INSERT INTO ";
-    String DBQ_DELETE = " DELETE FROM ";
+public interface DBUpdate<DBEntity extends DBTable> extends DBChange<DBEntity> {
+    String DBQ_UPDATE = "UPDATE table SET columnValuePairs";
 
-    boolean insertNewRecord(DBEntity newRecord);
-    void deleteRecordById(String id);
+    boolean updateRecord(DBEntity newRecord);
 }

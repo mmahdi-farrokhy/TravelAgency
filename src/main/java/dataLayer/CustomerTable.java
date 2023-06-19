@@ -1,10 +1,10 @@
 package dataLayer;
 
-import model.submodel.Address;
-import model.Customer;
-import model.submodel.FullName;
 import commonStructures.City;
 import commonStructures.DBTable;
+import model.Customer;
+import model.submodel.Address;
+import model.submodel.FullName;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -145,5 +145,33 @@ public class CustomerTable implements DBUpdate<Customer> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean updateRecord(Customer newRecord) {
+        boolean recordUpdated = false;
+        DBTable.tableName = "customers";
+        String customersColumns = "FullName = ?, BirthDate = ?, Address = ?, PhoneNumber = ?, Email = ?, Password = ?";
+        DBTable.query = DBUpdate.DBQ_UPDATE.replace("table", DBTable.tableName).replace("columnValuePairs", customersColumns) + DBS_WHERE.replace("id", "NationalCode");
+
+        try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
+             PreparedStatement UPDATE = con.prepareStatement(DBTable.query)) {
+            List<Customer> customerList = getAllRecords();
+            if (customerList.contains(newRecord)) {
+                UPDATE.setString(1, newRecord.getFullName().toJson());
+                UPDATE.setString(2, newRecord.getBirthDate().toString());
+                UPDATE.setString(3, newRecord.getAddress().toJson());
+                UPDATE.setString(4, newRecord.getPhoneNumber());
+                UPDATE.setString(5, newRecord.getEmail());
+                UPDATE.setString(6, newRecord.getPassword());
+                UPDATE.setString(7, newRecord.getNationalCode());
+                UPDATE.executeUpdate();
+                recordUpdated = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return recordUpdated;
     }
 }

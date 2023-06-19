@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import static java.sql.DriverManager.getConnection;
 
-public class FlightTable implements DBUpdate<Flight> {
+public class FlightTable implements DBChange<Flight> {
 
     public FlightTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
