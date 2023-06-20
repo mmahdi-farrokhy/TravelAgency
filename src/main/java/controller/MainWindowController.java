@@ -40,7 +40,7 @@ public class MainWindowController implements Initializable {
         setButtonAction(loginSignupBtn, "../LoginPage.fxml");
         setButtonAction(editCustomerBtn, "../EditCustomerPage.fxml");
         setButtonAction(flightsListBtn, "../FlightsListPage.fxml");
-        setButtonAction(orderHistoryBtn, "../OrderHistoryPage.fxml");
+        setButtonAction(orderHistoryBtn, "../OrdersHistoryPage.fxml");
     }
 
     private void setButtonAction(Button loginSignupBtn, String pageName) {

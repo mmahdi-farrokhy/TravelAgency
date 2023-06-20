@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import main.Main;
 import model.Customer;
 import model.submodel.Address;
@@ -18,6 +17,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
+import static utilities.GUIUtils.closePage;
 import static utilities.GUIUtils.showMessageBox;
 
 public class EditCustomerPageController implements Initializable {
@@ -65,7 +65,7 @@ public class EditCustomerPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Main.loggedInCustomer == null) {
             showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.WARNING);
-            closeEditCustomerPage();
+            closePage(saveBtn);
         }
 
         errorText.setVisible(false);
@@ -118,8 +118,8 @@ public class EditCustomerPageController implements Initializable {
             newCustomer.setEmail(emailField.getText());
             newCustomer.setPassword(passwordField.getText());
             new CustomerTable().updateRecord(newCustomer);
-            closeEditCustomerPage();
-            showMessageBox("Done", "User information updated!", "You information is updated successfully.", Alert.AlertType.INFORMATION);
+            closePage(saveBtn);
+            showMessageBox("Done", "User information updated!", "Your information is updated successfully.", Alert.AlertType.INFORMATION);
         }
         else
             showMessageBox("Attention", "Password is not confirmed!", "Please confirm your password correctly", Alert.AlertType.WARNING);
@@ -128,9 +128,5 @@ public class EditCustomerPageController implements Initializable {
     private boolean passwordConfirmed() {
         return GUIUtils.fieldValueNotNullOrEmpty(passwordField.getText()) &&
                 passwordField.getText().equals(passwordConfirmationField.getText());
-    }
-
-    private void closeEditCustomerPage() {
-        ((Stage) saveBtn.getScene().getWindow()).close();
     }
 }

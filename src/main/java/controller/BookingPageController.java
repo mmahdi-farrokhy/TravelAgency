@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 import static buisnessLayer.CurrencyConverter.convertCurrency;
 import static commonStructures.CurrencyType.valueOf;
 import static java.lang.Double.parseDouble;
+import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
 import static utilities.GUIUtils.showMessageBox;
 
 public class BookingPageController implements Initializable {
@@ -146,7 +147,7 @@ public class BookingPageController implements Initializable {
         currentOrder.calculateOrderPriceAmountByUSD();
         CurrencyType selectedCurrency = valueOf(currencyCombo.getValue().substring(0, 3));
         double convertedPrice = convertCurrency(CurrencyType.USD, selectedCurrency, currentOrder.getPrice().getAmount());
-        priceField.setText(String.valueOf(convertedPrice * currentOrder.getQuantity()));
+        priceField.setText(String.valueOf(limitNumberOfDecimalPlaces(convertedPrice * currentOrder.getQuantity(), 2)));
     }
 
     private void openFlightListPage() {

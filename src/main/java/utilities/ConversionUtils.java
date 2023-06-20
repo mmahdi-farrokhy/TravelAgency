@@ -3,17 +3,14 @@ package utilities;
 import com.google.gson.Gson;
 import commonStructures.Properties;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DecimalFormat;
 
 import static java.lang.Double.parseDouble;
 
-public class ConvertUtils {
+public class ConversionUtils {
 
-    private ConvertUtils() {
+    private ConversionUtils() {
     }
 
     public static double limitNumberOfDecimalPlaces(double value, int limit) {

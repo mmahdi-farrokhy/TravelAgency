@@ -2,6 +2,7 @@ package utilities;
 
 import controller.MainWindowController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -82,5 +83,9 @@ public class GUIUtils {
 
     public static boolean fieldValueNotNullOrEmpty(String fieldValue) {
         return fieldValue != null && fieldValue.trim() != "";
+    }
+
+    public static void closePage(Node pageNode) {
+        ((Stage) pageNode.getScene().getWindow()).close();
     }
 }

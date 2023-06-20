@@ -88,7 +88,7 @@
       </HBox>
       <TableView fx:id="flightListTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
         <columns>
-            <TableColumn fx:id="flightIdCol" prefWidth="55.0" resizable="false" text="Flight Id" />
+            <TableColumn fx:id="flightIdCol" editable="false" prefWidth="55.0" resizable="false" text="Flight Id" />
           <TableColumn fx:id="originAirportCol" prefWidth="290.0" text="Origin Airport" />
           <TableColumn fx:id="destinationAirportCol" prefWidth="290.0" text="Destination Airport" />
             <TableColumn fx:id="flightDateCol" prefWidth="82.5" resizable="false" text="Flight Date" />

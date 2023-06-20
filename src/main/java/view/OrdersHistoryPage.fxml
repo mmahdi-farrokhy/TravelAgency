@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="255.0" prefWidth="1000.0" style="-fx-background-color: #028174;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrdersHistoryPageController">
+   <children>
+      <TextField alignment="CENTER" editable="false" focusTraversable="false" minWidth="60.0" prefHeight="25.0" prefWidth="136.0" style="-fx-text-fill: #e84575; -fx-background-color: #293556; -fx-background-radius: 8;" text="Orders History Page">
+         <font>
+            <Font name="Times New Roman Bold" size="12.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="30.0" />
+         </VBox.margin>
+      </TextField>
+      <TableView fx:id="ordersHistoryTable" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;">
+         <columns>
+            <TableColumn fx:id="orderIdCol" editable="false" prefWidth="60.0" resizable="false" text="Order Id" />
+            <TableColumn fx:id="originAirportCol" prefWidth="280.0" text="Origin Airport" />
+            <TableColumn fx:id="destinationAirportCol" prefWidth="280.0" text="Destination Airport" />
+            <TableColumn fx:id="flightDateCol" prefWidth="90.0" resizable="false" text="Flight Date" />
+            <TableColumn fx:id="flightTimeCol" prefWidth="90.0" resizable="false" text="Flight Time" />
+            <TableColumn fx:id="quantityCol" prefWidth="120.0" resizable="false" text="Number Of Tickets" />
+            <TableColumn fx:id="priceCol" resizable="false" text="Price" />
+         </columns>
+      </TableView>
+   </children>
+</VBox>

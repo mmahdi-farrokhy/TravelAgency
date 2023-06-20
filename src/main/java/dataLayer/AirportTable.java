@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
-import static utilities.ConvertUtils.*;
+import static utilities.ConversionUtils.*;
 
 public class AirportTable implements DBAccess<Airport> {
     public AirportTable() {

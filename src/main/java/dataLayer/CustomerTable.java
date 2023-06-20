@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static java.sql.DriverManager.getConnection;
-import static utilities.ConvertUtils.jsonToProperty;
+import static utilities.ConversionUtils.jsonToProperty;
 
 public class CustomerTable implements DBUpdate<Customer> {
 
