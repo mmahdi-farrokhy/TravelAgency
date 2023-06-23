@@ -20,9 +20,11 @@ import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import static buisnessLayer.CurrencyConverter.convertCurrency;
+import static commonStructures.CurrencyType.getCurrencySymbol;
 import static commonStructures.CurrencyType.valueOf;
 import static java.lang.Double.parseDouble;
 import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
+import static utilities.GUIUtils.openPage;
 import static utilities.GUIUtils.showMessageBox;
 
 public class BookingPageController implements Initializable {
@@ -112,7 +114,7 @@ public class BookingPageController implements Initializable {
         currencyCombo.getItems().add("");
         for (CurrencyType currency : sortedCurrencies)
             if (currency != CurrencyType.NONE)
-                currencyCombo.getItems().add(currency.toString() + " " + currency.getCurrencySymbol(currency));
+                currencyCombo.getItems().add(currency.toString() + " " + getCurrencySymbol(currency));
 
         currencyCombo.setValue(CurrencyType.USD + " $");
     }
@@ -139,7 +141,7 @@ public class BookingPageController implements Initializable {
         currentOrder.setCustomerInfo(Main.loggedInCustomer);
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.setRegistrationTime(LocalDateTime.now());
-        currentOrder.setPrice(new Price(parseDouble(priceField.getText()), CurrencyType.BHD));
+        currentOrder.setPrice(new Price(parseDouble(priceField.getText()), valueOf(currencyCombo.getValue().substring(0, 3))));
     }
 
     private void calculatePrice() {
@@ -152,7 +154,7 @@ public class BookingPageController implements Initializable {
 
     private void openFlightListPage() {
         currentOrder = null;
-        GUIUtils.openPage(this, "../FlightsListPage.fxml");
+        openPage(this, "../FlightsListPage.fxml");
     }
 
     private void registerOrder() {

@@ -1,4 +1,4 @@
-package applicationLayer;
+package model.submodel;
 
 import model.submodel.Location;
 import org.junit.jupiter.api.Test;

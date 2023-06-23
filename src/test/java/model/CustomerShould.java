@@ -1,4 +1,4 @@
-package buisnessLayer;
+package model;
 
 import commonStructures.City;
 import model.submodel.Address;

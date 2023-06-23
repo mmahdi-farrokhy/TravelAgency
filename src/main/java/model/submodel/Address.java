@@ -1,11 +1,10 @@
 package model.submodel;
 
 import commonStructures.City;
-import commonStructures.Properties;
 
 import java.util.Objects;
 
-public class Address extends Properties {
+public class Address {
     private City cityName;
     private String streetName;
     private String postalCode;

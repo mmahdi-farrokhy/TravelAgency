@@ -3,6 +3,8 @@ package controller;
 import commonStructures.AirportCode;
 import dataLayer.AirportTable;
 import dataLayer.FlightTable;
+import exceptions.NoFlightSelectedException;
+import exceptions.NoUserLoggedInException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -185,18 +187,14 @@ public class FlightsListPageController implements Initializable {
     }
 
     private void openBookingPage() {
-        Main.selectedFlight = getSelectedFlightFromTable();
-        if (Main.loggedInCustomer == null) {
-            showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.WARNING);
-            return;
-        }
-
-        if (Main.selectedFlight == null) {
+        try {
+            Main.selectedFlight = getSelectedFlightFromTable();
+            openPage(this, "../BookingPage.fxml");
+        } catch (NoUserLoggedInException e) {
+            showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.ERROR);
+        } catch (NoFlightSelectedException e) {
             showMessageBox("Attention", "No flight is selected", "Please select a flight from the list", Alert.AlertType.WARNING);
-            return;
         }
-
-        openPage(this, "../BookingPage.fxml");
     }
 
     private Flight getSelectedFlightFromTable() {

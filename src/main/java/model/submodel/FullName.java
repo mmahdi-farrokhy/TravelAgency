@@ -1,10 +1,8 @@
 package model.submodel;
 
-import commonStructures.Properties;
-
 import java.util.Objects;
 
-public class FullName extends Properties {
+public class FullName {
     private String firstName;
     private String lastName;
 

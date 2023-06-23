@@ -2,19 +2,15 @@ package controller;
 
 import dataLayer.FlightTable;
 import dataLayer.OrderTable;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.Main;
 import model.Flight;
 import model.Order;
 import model.submodel.OrderHistoryTableRow;
-import utilities.GUIUtils;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -24,9 +20,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.util.stream.Collectors.toList;
+import static javafx.collections.FXCollections.observableArrayList;
 import static main.Main.loggedInCustomer;
-import static utilities.GUIUtils.closePage;
-import static utilities.GUIUtils.showMessageBox;
 
 public class OrdersHistoryPageController implements Initializable {
     @FXML
@@ -55,11 +50,6 @@ public class OrdersHistoryPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (Main.loggedInCustomer == null) {
-            showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.WARNING);
-            closePage(ordersHistoryTable);
-        }
-
         fillOrdersHistoryTable();
     }
 
@@ -98,6 +88,6 @@ public class OrdersHistoryPageController implements Initializable {
                 }
             }
 
-        return FXCollections.observableArrayList(orderHistoryRows);
+        return observableArrayList(orderHistoryRows);
     }
 }

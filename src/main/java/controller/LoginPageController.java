@@ -15,6 +15,8 @@ import utilities.GUIUtils;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static utilities.GUIUtils.openPage;
+
 public class LoginPageController implements Initializable {
     @FXML
     private TextField accountCheckText;
@@ -39,7 +41,7 @@ public class LoginPageController implements Initializable {
         loginBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
         loginBtn.setOnAction(e -> loginUser());
 
-        accountCheckText.setOnMouseClicked(e -> GUIUtils.openPage(this, "..//SignUpPage.fxml"));
+        accountCheckText.setOnMouseClicked(e -> openPage(this, "..//SignUpPage.fxml"));
     }
 
     private void loginUser() {

@@ -1,4 +1,4 @@
-package applicationLayer;
+package model;
 
 import commonStructures.AirportCode;
 import model.Airport;

@@ -1,7 +1,7 @@
 package dataLayer;
 
 import commonStructures.City;
-import commonStructures.DBTable;
+import model.DBTable;
 import model.Customer;
 import model.submodel.Address;
 import model.submodel.FullName;

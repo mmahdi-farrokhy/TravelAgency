@@ -42,7 +42,7 @@ public enum CurrencyType {
     BGN,
     ARS;
 
-    public String getCurrencySymbol(CurrencyType currencyType) {
+    public static String getCurrencySymbol(CurrencyType currencyType) {
         switch (currencyType) {
             case NONE -> {
                 return "";

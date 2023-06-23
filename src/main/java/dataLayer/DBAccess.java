@@ -1,6 +1,6 @@
 package dataLayer;
 
-import commonStructures.DBTable;
+import model.DBTable;
 
 import java.sql.ResultSet;
 import java.util.List;

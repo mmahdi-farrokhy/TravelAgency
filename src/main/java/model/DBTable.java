@@ -1,4 +1,4 @@
-package commonStructures;
+package model;
 
 public class DBTable {
     public static String tableName;

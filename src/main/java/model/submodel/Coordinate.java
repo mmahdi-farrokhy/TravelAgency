@@ -1,10 +1,8 @@
 package model.submodel;
 
-import commonStructures.Properties;
-
 import java.util.Objects;
 
-public class Coordinate extends Properties {
+public class Coordinate {
     private final double Latitude;
     private final double Longitude;
 

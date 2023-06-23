@@ -1,7 +1,6 @@
 package model;
 
 import commonStructures.CurrencyType;
-import commonStructures.DBTable;
 import model.submodel.Price;
 
 import java.time.LocalDateTime;

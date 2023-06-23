@@ -1,7 +1,6 @@
 package model;
 
 import commonStructures.AirportCode;
-import commonStructures.DBTable;
 import dataLayer.AirportTable;
 import model.submodel.Coordinate;
 import model.submodel.Location;

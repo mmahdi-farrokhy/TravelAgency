@@ -1,4 +1,4 @@
-package buisnessLayer;
+package model.submodel;
 
 import model.submodel.FullName;
 import org.junit.jupiter.api.BeforeEach;

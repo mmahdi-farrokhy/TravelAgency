@@ -1,6 +1,5 @@
 package model;
 
-import commonStructures.DBTable;
 import dataLayer.CustomerTable;
 import model.submodel.Address;
 import model.submodel.FullName;

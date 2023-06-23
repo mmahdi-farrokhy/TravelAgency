@@ -1,9 +1,8 @@
 package model.submodel;
-import commonStructures.Properties;
 
 import java.util.Objects;
 
-public class Location extends Properties {
+public class Location {
     private final String City;
     private final String Country;
 

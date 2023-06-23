@@ -17,6 +17,10 @@ public class Price {
         return amount;
     }
 
+    public CurrencyType getCurrency() {
+        return currency;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

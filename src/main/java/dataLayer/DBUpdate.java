@@ -1,6 +1,6 @@
 package dataLayer;
 
-import commonStructures.DBTable;
+import model.DBTable;
 
 public interface DBUpdate<DBEntity extends DBTable> extends DBChange<DBEntity> {
     String DBQ_UPDATE = "UPDATE table SET columnValuePairs";

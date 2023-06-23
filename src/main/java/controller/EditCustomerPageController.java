@@ -17,8 +17,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
-import static utilities.GUIUtils.closePage;
-import static utilities.GUIUtils.showMessageBox;
+import static utilities.GUIUtils.*;
 
 public class EditCustomerPageController implements Initializable {
 
@@ -63,11 +62,6 @@ public class EditCustomerPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (Main.loggedInCustomer == null) {
-            showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.WARNING);
-            closePage(saveBtn);
-        }
-
         errorText.setVisible(false);
         initPersonalInformation();
         initAddress();
@@ -118,7 +112,7 @@ public class EditCustomerPageController implements Initializable {
             newCustomer.setEmail(emailField.getText());
             newCustomer.setPassword(passwordField.getText());
             new CustomerTable().updateRecord(newCustomer);
-            closePage(saveBtn);
+            closePageAfterOperation(saveBtn);
             showMessageBox("Done", "User information updated!", "Your information is updated successfully.", Alert.AlertType.INFORMATION);
         }
         else

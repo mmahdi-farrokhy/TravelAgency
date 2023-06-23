@@ -5,7 +5,7 @@ import model.Customer;
 import model.Order;
 import model.submodel.Price;
 import commonStructures.CurrencyType;
-import commonStructures.DBTable;
+import model.DBTable;
 
 import java.io.IOException;
 import java.io.InputStream;

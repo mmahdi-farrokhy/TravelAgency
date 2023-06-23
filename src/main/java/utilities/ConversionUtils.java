@@ -1,7 +1,6 @@
 package utilities;
 
 import com.google.gson.Gson;
-import commonStructures.Properties;
 
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
@@ -21,7 +20,7 @@ public class ConversionUtils {
         return "0." + "0".repeat(Math.max(0, numberOfDecimalPlaces));
     }
 
-    public static <T extends Properties> T jsonToProperty(String jsonProperty, T type) {
+    public static <T> T jsonToProperty(String jsonProperty, T type) {
         return new Gson().fromJson(jsonProperty, (Type) type.getClass());
     }
 }

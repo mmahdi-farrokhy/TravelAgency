@@ -3,7 +3,7 @@ package dataLayer;
 import model.Airport;
 import model.Flight;
 import commonStructures.AirportCode;
-import commonStructures.DBTable;
+import model.DBTable;
 
 import java.io.IOException;
 import java.io.InputStream;

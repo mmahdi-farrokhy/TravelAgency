@@ -1,6 +1,6 @@
 package dataLayer;
 
-import commonStructures.DBTable;
+import model.DBTable;
 
 public interface DBChange<DBEntity extends DBTable> extends DBAccess<DBEntity>{
     String DBQ_INSERT = "INSERT INTO ";

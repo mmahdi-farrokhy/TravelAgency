@@ -1,4 +1,4 @@
-package buisnessLayer;
+package model;
 
 import model.Airport;
 import model.Flight;
@@ -57,12 +57,6 @@ public class OrderShould {
         order.setFlight(orderFlight);
         order.calculateOrderPriceAmountByUSD();
         assertThat(order.getPrice().getAmount()).isEqualTo(794.98);
-
-//        orderFlight.setOriginAirport(new Airport(AirportCode.CUN));
-//        orderFlight.setDestinationAirport(new Airport(AirportCode.ZRH));
-//        order.setFlight(orderFlight);
-//        order.calculateOrderPriceAmountByUSD();
-//        System.out.println(order.getPrice().getAmount());
     }
 
     @Test
