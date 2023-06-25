@@ -2,6 +2,7 @@ package controller;
 
 import commonStructures.City;
 import dataLayer.CustomerTable;
+import exceptions.PasswordNotConfirmedException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -10,7 +11,7 @@ import main.Main;
 import model.Customer;
 import model.submodel.Address;
 import model.submodel.FullName;
-import utilities.GUIUtils;
+import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -68,9 +69,14 @@ public class EditCustomerPageController implements Initializable {
         initCityCombo();
         initContactInformation();
 
-        saveBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        saveBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        saveBtn.setOnAction(e -> saveCustomerChanges());
+        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
+        buttonActionInitializer.setOnActionMethods(saveBtn, 8, () -> {
+            try {
+                saveCustomerChanges();
+            } catch (PasswordNotConfirmedException ex) {
+                showMessageBox("Attention", "Password is not confirmed!", "Please confirm your password correctly", Alert.AlertType.WARNING);
+            }
+        });
     }
 
     private void initPersonalInformation() {
@@ -101,8 +107,8 @@ public class EditCustomerPageController implements Initializable {
         emailField.setText(Main.loggedInCustomer.getEmail());
     }
 
-    private void saveCustomerChanges() {
-        if (passwordConfirmed()) {
+    private void saveCustomerChanges() throws PasswordNotConfirmedException {
+        if (passwordConfirmed(passwordField, passwordConfirmationField)) {
             Customer newCustomer = new Customer();
             newCustomer.setNationalCode(nationalCodeField.getText());
             newCustomer.setFullName(new FullName(firstNameField.getText(), lastNameField.getText()));
@@ -114,13 +120,7 @@ public class EditCustomerPageController implements Initializable {
             new CustomerTable().updateRecord(newCustomer);
             closePageAfterOperation(saveBtn);
             showMessageBox("Done", "User information updated!", "Your information is updated successfully.", Alert.AlertType.INFORMATION);
-        }
-        else
-            showMessageBox("Attention", "Password is not confirmed!", "Please confirm your password correctly", Alert.AlertType.WARNING);
-    }
-
-    private boolean passwordConfirmed() {
-        return GUIUtils.fieldValueNotNullOrEmpty(passwordField.getText()) &&
-                passwordField.getText().equals(passwordConfirmationField.getText());
+        } else
+            throw new PasswordNotConfirmedException("Password is not confirmed!");
     }
 }

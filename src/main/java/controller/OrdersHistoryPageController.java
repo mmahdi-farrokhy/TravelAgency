@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static java.util.stream.Collectors.toList;
@@ -70,7 +71,9 @@ public class OrdersHistoryPageController implements Initializable {
 
     private ObservableList<OrderHistoryTableRow> getOrdersHistoryRows() {
         List<OrderHistoryTableRow> orderHistoryRows = new LinkedList<>();
-        List<Order> allOrdersOfLoggedInCustomer = new OrderTable().getAllRecords().stream().filter(order -> order.getCustomerInfo().getNationalCode().equals(loggedInCustomer.getNationalCode())).collect(toList());;
+        List<Order> allOrdersOfLoggedInCustomer =
+                new OrderTable().getAllRecords().stream()
+                        .filter(order -> Objects.equals(order.getCustomerInfo().getNationalCode(), loggedInCustomer.getNationalCode())).toList();
         List<Flight> allFlights = new FlightTable().getAllRecords();
 
         for (Order order : allOrdersOfLoggedInCustomer)

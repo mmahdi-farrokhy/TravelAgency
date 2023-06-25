@@ -15,7 +15,7 @@ import main.Main;
 import model.Airport;
 import model.Flight;
 import model.submodel.FlightTableRow;
-import utilities.GUIUtils;
+import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -28,8 +28,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static commonStructures.AirportCode.valueOf;
-import static utilities.GUIUtils.openPage;
-import static utilities.GUIUtils.showMessageBox;
+import static utilities.GUIUtils.*;
 
 public class FlightsListPageController implements Initializable {
     @FXML
@@ -81,41 +80,21 @@ public class FlightsListPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         airportsList = new AirportTable().getAllRecords();
         flightsList = new FlightTable().getAllRecords();
-
-        initOriginAirportComboBox();
-        initDestinationAirportComboBox();
-
-        clearFiltersBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        clearFiltersBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        clearFiltersBtn.setOnAction(e -> clearFilters());
-
-        searchBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        searchBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        searchBtn.setOnAction(e -> fillFlightsTable());
-
-        bookBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        bookBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        bookBtn.setOnAction(e -> openBookingPage());
-
-        cancelBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        cancelBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        cancelBtn.setOnAction(e -> closeFlightsListPage());
+        initAirportCombo(originAirportCb);
+        initAirportCombo(destinationAirportCb);
+        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
+        buttonActionInitializer.setOnActionMethods(clearFiltersBtn, 8, this::clearFilters);
+        buttonActionInitializer.setOnActionMethods(searchBtn, 8, this::fillFlightsTable);
+        buttonActionInitializer.setOnActionMethods(bookBtn, 8, this::openBookingPage);
+        buttonActionInitializer.setOnActionMethods(cancelBtn, 8, this::closeFlightsListPage);
     }
 
-    private void initOriginAirportComboBox() {
-        originAirportCb.getItems().clear();
-        originAirportCb.getItems().add("");
+    private void initAirportCombo(ComboBox<String> airportCombo){
+        airportCombo.getItems().clear();
+        airportCombo.getItems().add("");
         for (var airport : airportsList)
             if (airport.getCode() != AirportCode.NONE)
-                originAirportCb.getItems().add(airport.getCode() + ": " + airport.getName());
-    }
-
-    private void initDestinationAirportComboBox() {
-        destinationAirportCb.getItems().clear();
-        destinationAirportCb.getItems().add("");
-        for (var airport : airportsList)
-            if (airport.getCode() != AirportCode.NONE)
-                destinationAirportCb.getItems().add(airport.getCode() + ": " + airport.getName());
+                airportCombo.getItems().add(airport.getCode() + ": " + airport.getName());
     }
 
     private void clearFilters() {
@@ -189,6 +168,7 @@ public class FlightsListPageController implements Initializable {
     private void openBookingPage() {
         try {
             Main.selectedFlight = getSelectedFlightFromTable();
+            closePageAfterOperation(bookBtn);
             openPage(this, "../BookingPage.fxml");
         } catch (NoUserLoggedInException e) {
             showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.ERROR);
@@ -198,7 +178,7 @@ public class FlightsListPageController implements Initializable {
     }
 
     private Flight getSelectedFlightFromTable() {
-        FlightTableRow selectedFlightRow = getFlightTableRow();
+        FlightTableRow selectedFlightRow = flightListTable.getSelectionModel().getSelectedItem();
         if (selectedFlightRow == null)
             return null;
 
@@ -213,10 +193,6 @@ public class FlightsListPageController implements Initializable {
         selectedFlight.setDestinationAirport(destinationAirport);
         selectedFlight.setDepartureTime(departureTime);
         return selectedFlight;
-    }
-
-    private FlightTableRow getFlightTableRow() {
-        return flightListTable.getSelectionModel().getSelectedItem();
     }
 
     private void closeFlightsListPage() {

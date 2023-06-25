@@ -9,13 +9,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import main.Main;
-import model.Customer;
-import utilities.GUIUtils;
+import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static utilities.GUIUtils.openPage;
+import static utilities.GUIUtils.*;
 
 public class LoginPageController implements Initializable {
     @FXML
@@ -36,36 +35,30 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
-
-        loginBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        loginBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        loginBtn.setOnAction(e -> loginUser());
-
+        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
+        buttonActionInitializer.setOnActionMethods(loginBtn, 8, this::loginUser);
         accountCheckText.setOnMouseClicked(e -> openPage(this, "..//SignUpPage.fxml"));
     }
 
     private void loginUser() {
         if (userExisting() && correctPassword()) {
             errorText.setVisible(false);
-            GUIUtils.UserRegistryPage(loginBtn);
+            closePageAfterOperation(loginBtn);
             getUserInfo();
-            GUIUtils.showMessageBox("Login","Done!","Logged in successfully", Alert.AlertType.INFORMATION);
+            showMessageBox("Login", "Done!", "Logged in successfully", Alert.AlertType.INFORMATION);
         } else {
             errorText.setVisible(true);
         }
     }
 
     private void getUserInfo() {
-        Customer customer = new CustomerTable().getRecordById(nationalCodeField.getText());
-        Main.loggedInCustomer = customer;
-        GUIUtils.fillUserInformation(customer);
+        Main.loggedInCustomer = new CustomerTable().getRecordById(nationalCodeField.getText());
+        fillUserInformation(Main.loggedInCustomer);
     }
 
     private boolean userExisting() {
         try {
-            CustomerTable customerTable = new CustomerTable();
-            Customer recordById = customerTable.getRecordById(nationalCodeField.getText());
-            return recordById != null;
+            return new CustomerTable().getRecordById(nationalCodeField.getText()) != null;
         } catch (RuntimeException ex) {
             return false;
         }
@@ -73,9 +66,10 @@ public class LoginPageController implements Initializable {
 
     private boolean correctPassword() {
         try {
-            CustomerTable customerTable = new CustomerTable();
-            String password = customerTable.getRecordById(nationalCodeField.getText()).getPassword();
-            return password.equals(passwordField.getText());
+            return new CustomerTable()
+                    .getRecordById(nationalCodeField.getText())
+                    .getPassword()
+                    .equals(passwordField.getText());
         } catch (RuntimeException e) {
             return false;
         }

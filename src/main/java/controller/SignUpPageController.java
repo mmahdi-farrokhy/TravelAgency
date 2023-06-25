@@ -10,14 +10,14 @@ import main.Main;
 import model.Customer;
 import model.submodel.Address;
 import model.submodel.FullName;
-import utilities.GUIUtils;
+import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
-import static utilities.GUIUtils.fieldValueNotNullOrEmpty;
+import static utilities.GUIUtils.*;
 
 public class SignUpPageController implements Initializable {
     @FXML
@@ -66,12 +66,9 @@ public class SignUpPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCityComboBox();
         errorText.setVisible(false);
-
-        signUpBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        signUpBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        signUpBtn.setOnAction(e -> signUpUser());
-
-        accountCheckText.setOnMouseClicked(e -> GUIUtils.openPage(this, "..//LoginPage.fxml"));
+        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
+        buttonActionInitializer.setOnActionMethods(signUpBtn, 8, this::signUpUser);
+        accountCheckText.setOnMouseClicked(e -> openPage(this, "..//LoginPage.fxml"));
     }
 
     private void initCityComboBox() {
@@ -86,14 +83,15 @@ public class SignUpPageController implements Initializable {
 
     private void signUpUser() {
         if (necessaryFieldsAreFilled()) {
-            if (passwordConfirmed()) {
+            if (passwordConfirmed(passwordField, passwordConfirmationField)) {
                 errorText.setVisible(false);
                 Customer signedUpCustomer = getSignedUpCustomer();
                 Main.loggedInCustomer = signedUpCustomer;
-                if (!saveUserInDatabase(signedUpCustomer)) return;
-                GUIUtils.UserRegistryPage(signUpBtn);
-                GUIUtils.showMessageBox("Sign Up", "Done!", "User created successfully", Alert.AlertType.INFORMATION);
-                GUIUtils.fillUserInformation(signedUpCustomer);
+                if (saveUserInDatabase(signedUpCustomer)) {
+                    closePageAfterOperation(signUpBtn);
+                    showMessageBox("Sign Up", "Done!", "User created successfully", Alert.AlertType.INFORMATION);
+                    fillUserInformation(signedUpCustomer);
+                }
             } else {
                 errorText.setText("Please confirm the password!");
                 errorText.setVisible(true);
@@ -110,7 +108,7 @@ public class SignUpPageController implements Initializable {
             customerTable.insertNewRecord(signedUpCustomer);
             return true;
         } catch (RuntimeException ex) {
-            GUIUtils.showMessageBox("Error", "Creating new user failed!", "An account is already registered with this national code!", Alert.AlertType.WARNING);
+            showMessageBox("Error", "Creating new user failed!", "An account is already registered with this national code!", Alert.AlertType.WARNING);
             return false;
         }
     }
@@ -123,11 +121,6 @@ public class SignUpPageController implements Initializable {
                 fieldValueNotNullOrEmpty(phoneNumberField.getText()) &&
                 fieldValueNotNullOrEmpty(passwordField.getText()) &&
                 fieldValueNotNullOrEmpty(passwordConfirmationField.getText());
-    }
-
-    private boolean passwordConfirmed() {
-        return fieldValueNotNullOrEmpty(passwordField.getText()) &&
-                passwordField.getText().equals(passwordConfirmationField.getText());
     }
 
     private Customer getSignedUpCustomer() {

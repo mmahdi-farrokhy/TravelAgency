@@ -9,8 +9,8 @@ import java.net.HttpURLConnection;
 import java.util.stream.Collectors;
 
 import static java.lang.Double.parseDouble;
-import static utilities.WebUtils.connectToAPI;
 import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
+import static utilities.WebUtils.connectToAPI;
 
 public class CurrencyConverter {
 
@@ -30,12 +30,12 @@ public class CurrencyConverter {
 
     private static String getResponseFromAPI() {
         try {
-            HttpURLConnection connection = connectToAPI(API_ENDPOINT + "?app_id=" + API_KEY);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String response = reader.lines().collect(Collectors.joining());
+            HttpURLConnection connectionToAPI = connectToAPI(API_ENDPOINT + "?app_id=" + API_KEY);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connectionToAPI.getInputStream()));
+            String jsonResponse = reader.lines().collect(Collectors.joining());
             reader.close();
-            connection.disconnect();
-            return response;
+            connectionToAPI.disconnect();
+            return jsonResponse;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -43,12 +43,12 @@ public class CurrencyConverter {
 
     private static double getExchangeRateFromResponse(String jsonResponse, CurrencyType currency) {
         int currencyIndex = getCurrencyIndexInResponse(jsonResponse, currency);
-        int amountStartIndex = currencyIndex + 6;
-        int amountEndIndex = jsonResponse.indexOf(",", amountStartIndex) != -1
-                ? jsonResponse.indexOf(",", amountStartIndex)
-                : jsonResponse.indexOf("}", amountStartIndex);
+        int currencyAmountStartIndex = currencyIndex + 6;
+        int currencyAmountEndIndex = jsonResponse.indexOf(",", currencyAmountStartIndex) != -1
+                ? jsonResponse.indexOf(",", currencyAmountStartIndex)
+                : jsonResponse.indexOf("}", currencyAmountStartIndex);
 
-        return parseDouble(jsonResponse.substring(amountStartIndex, amountEndIndex));
+        return parseDouble(jsonResponse.substring(currencyAmountStartIndex, currencyAmountEndIndex));
     }
 
     private static int getCurrencyIndexInResponse(String jsonResponse, CurrencyType currency) {

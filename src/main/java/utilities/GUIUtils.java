@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -75,14 +76,10 @@ public class GUIUtils {
     }
 
     private static void closePageByMouseClick() {
-        MainWindowController.loginStage.close();
-        MainWindowController.loginStage = null;
-    }
-
-    public static void UserRegistryPage(Button registryButton) {
-        ((Stage) registryButton.getScene().getWindow()).close();
-        MainWindowController.loginStage.close();
-        MainWindowController.loginStage = null;
+        if (MainWindowController.loginStage != null) {
+            MainWindowController.loginStage.close();
+            MainWindowController.loginStage = null;
+        }
     }
 
     public static boolean fieldValueNotNullOrEmpty(String fieldValue) {
@@ -93,5 +90,10 @@ public class GUIUtils {
         ((Stage) pageNode.getScene().getWindow()).close();
         MainWindowController.loginStage.close();
         MainWindowController.loginStage = null;
+    }
+
+    public static boolean passwordConfirmed(TextField password, TextField passwordConfirmation) {
+        return fieldValueNotNullOrEmpty(password.getText()) &&
+                password.getText().equals(passwordConfirmation.getText());
     }
 }

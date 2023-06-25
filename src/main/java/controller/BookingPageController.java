@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import main.Main;
 import model.Order;
 import model.submodel.Price;
+import utilities.ButtonActionInitializer;
 import utilities.GUIUtils;
 
 import java.net.URL;
@@ -24,8 +25,7 @@ import static commonStructures.CurrencyType.getCurrencySymbol;
 import static commonStructures.CurrencyType.valueOf;
 import static java.lang.Double.parseDouble;
 import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
-import static utilities.GUIUtils.openPage;
-import static utilities.GUIUtils.showMessageBox;
+import static utilities.GUIUtils.*;
 
 public class BookingPageController implements Initializable {
     @FXML
@@ -82,22 +82,14 @@ public class BookingPageController implements Initializable {
         initCurrencyCombo();
         fillPersonalInformation();
         fillFlightInformation();
-        initCurrentOrder();
 
         numberOfTicketsCombo.setOnAction(e -> calculatePrice());
         currencyCombo.setOnAction(e -> calculatePrice());
 
-        backBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
-        backBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
-        backBtn.setOnAction(e -> openFlightListPage());
-
-        orderRegisterBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 15));
-        orderRegisterBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 15));
-        orderRegisterBtn.setOnAction(e -> registerOrder());
-
-        cancelBtn.setOnMouseEntered(e -> GUIUtils.setButtonStyle((Button) e.getSource(), 8));
-        cancelBtn.setOnMouseExited(e -> GUIUtils.resetButtonStyle((Button) e.getSource(), 8));
-        cancelBtn.setOnAction(e -> closeBookingOrderPage());
+        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
+        buttonActionInitializer.setOnActionMethods(backBtn, 15, this::openFlightListPage);
+        buttonActionInitializer.setOnActionMethods(orderRegisterBtn, 15, this::registerOrder);
+        buttonActionInitializer.setOnActionMethods(cancelBtn, 15, this::closeBookingOrderPage);
     }
 
     private void initNumberOfTicketsCombo() {
@@ -139,16 +131,17 @@ public class BookingPageController implements Initializable {
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.setFlight(Main.selectedFlight);
         currentOrder.setCustomerInfo(Main.loggedInCustomer);
-        currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.setRegistrationTime(LocalDateTime.now());
         currentOrder.setPrice(new Price(parseDouble(priceField.getText()), valueOf(currencyCombo.getValue().substring(0, 3))));
     }
 
     private void calculatePrice() {
+        initCurrentOrder();
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.calculateOrderPriceAmountByUSD();
         CurrencyType selectedCurrency = valueOf(currencyCombo.getValue().substring(0, 3));
-        double convertedPrice = convertCurrency(CurrencyType.USD, selectedCurrency, currentOrder.getPrice().getAmount());
+        double convertedPrice = convertCurrency(currentOrder.getPrice().getCurrency(), selectedCurrency, currentOrder.getPrice().getAmount());
+        currentOrder.getPrice().setAmount(convertedPrice);
         priceField.setText(String.valueOf(limitNumberOfDecimalPlaces(convertedPrice * currentOrder.getQuantity(), 2)));
     }
 
@@ -159,17 +152,18 @@ public class BookingPageController implements Initializable {
 
     private void registerOrder() {
         if (Double.parseDouble(numberOfTicketsCombo.getValue().toString()) == 0) {
-            showMessageBox("Wrong Number Of Tickets", "The number of tickets is 0", "You must select at least 1", Alert.AlertType.WARNING);
+            showMessageBox("Invalid Number Of Tickets", "The number of tickets is 0", "You must select at least 1", Alert.AlertType.WARNING);
             return;
         }
 
         new OrderTable().insertNewRecord(currentOrder);
         showMessageBox("Done!", "Order Registered successfully", "For further information see order history on the main window", Alert.AlertType.INFORMATION);
+        closePageAfterOperation(orderRegisterBtn);
     }
 
     private void closeBookingOrderPage() {
         currentOrder = null;
         Main.selectedFlight = null;
-        backBtn.getScene().getWindow().hide();
+        GUIUtils.closePageAfterOperation(backBtn);
     }
 }

@@ -44,9 +44,6 @@ public enum CurrencyType {
 
     public static String getCurrencySymbol(CurrencyType currencyType) {
         switch (currencyType) {
-            case NONE -> {
-                return "";
-            }
             case USD, ARS, COP, CLP, MXN, NZD, SGD, HKD, CAD, AUD -> {
                 return "$";
             }
