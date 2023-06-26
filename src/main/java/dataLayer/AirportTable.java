@@ -1,8 +1,8 @@
 package dataLayer;
 
 import commonStructures.AirportCode;
-import model.DBTable;
 import model.Airport;
+import model.DBTable;
 import model.submodel.Coordinate;
 import model.submodel.Location;
 
@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
-import static utilities.ConversionUtils.*;
+import static utilities.ConversionUtils.jsonToProperty;
 
 public class AirportTable implements DBAccess<Airport> {
     public AirportTable() {
