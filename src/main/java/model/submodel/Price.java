@@ -20,11 +20,7 @@ public class Price {
     public double getAmount() {
         return amount;
     }
-
-    public void setCurrency(CurrencyType currency) {
-        this.currency = currency;
-    }
-
+    
     public CurrencyType getCurrency() {
         return currency;
     }
