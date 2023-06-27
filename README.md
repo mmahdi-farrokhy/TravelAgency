@@ -27,7 +27,7 @@ If the user has logged in, they will be able to edit their information by clicki
 
 ### Flights List
 
-Clicking the "Flights List" button will display a page that contains a list of available flights. Users can filter flights by origin airport, destination airport, departure date, and arrival date. Once a flight is selected, users can click the "Book" button to proceed to the booking page.
+Clicking the "Flights List" button will display a page that contains a list of available flights. Users can filter flights by origin airport, destination airport, departure date and arrival date. Once a flight is selected, users can click the "Book" button to proceed to the booking page.
 
 ### Booking Page
 
