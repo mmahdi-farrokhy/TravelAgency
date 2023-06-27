@@ -2,9 +2,9 @@
 
 This program is designed to allow users to book flights through a user-friendly interface.
 The program is built using:
-Back-End: Java 17
-GUI: JavaFX
-Database: MySQL
+- Back-End: Java 17
+- GUI: JavaFX
+- Database: MySQL
 
 ## Main Window
 
