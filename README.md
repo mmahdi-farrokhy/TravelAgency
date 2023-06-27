@@ -29,7 +29,7 @@ If the user has logged in, they will be able to edit their information by clicki
 
 Clicking the "Flights List" button will display a page that contains a list of available flights. Users can filter flights by origin airport, destination airport, departure date and arrival date. Once a flight is selected, users can click the "Book" button to proceed to the booking page.
 
-####### Booking Page
+### Booking Page
 
 The booking page displays the details of the flight, including the user's information, flight information, number of tickets, distance, and price of the order. Clicking the "Register The Order" button will save the order to the database.
 
