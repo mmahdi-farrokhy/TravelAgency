@@ -1,9 +1,11 @@
 package dataLayer;
 
-import model.submodel.Address;
-import model.Customer;
-import model.submodel.FullName;
 import commonStructures.City;
+import dataLayer.dao.CustomerDAO;
+import dataLayer.factory.CustomerDAOFactory;
+import model.Customer;
+import model.submodel.Address;
+import model.submodel.FullName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,18 +17,18 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class CustomerTableShould {
 
-    private CustomerTable dbAccess;
-    private Customer bradPitt;
+    private CustomerDAO dbAccess;
+    private Customer jamesBond;
 
     @BeforeEach
     void setUp() {
-        dbAccess = new CustomerTable();
-        bradPitt = new Customer();
-        bradPitt.setNationalCode("123");
-        bradPitt.setFullName(new FullName("Brad", "Pitt"));
-        bradPitt.setBirthDate(LocalDate.of(1963, 12, 18));
-        bradPitt.setAddress(new Address(City.LOS_ANGELES, "Wilshire Blvd.", "CA 90212"));
-        bradPitt.setPhoneNumber("(310) 275-6135");
+        dbAccess = CustomerDAOFactory.createCustomerDAO();
+        jamesBond = new Customer();
+        jamesBond.setNationalCode("007");
+        jamesBond.setFullName(new FullName("James", "Bond"));
+        jamesBond.setBirthDate(LocalDate.of(1921, 11, 11));
+        jamesBond.setAddress(new Address(City.LONDON, "Queen st.", "007700"));
+        jamesBond.setPhoneNumber("+447975777666");
 
     }
 
@@ -34,13 +36,13 @@ public class CustomerTableShould {
     void get_all_customers_from_the_customer_table() {
         List<Customer> allCustomers = dbAccess.getAllRecords();
         assertThat(allCustomers.isEmpty()).isFalse();
-        assertThat(allCustomers.get(0)).isEqualTo(bradPitt);
+        assertThat(allCustomers.get(0)).isEqualTo(jamesBond);
     }
 
     @Test
     void get_a_specific_customer_from_customer_table() {
-        Customer customerByNationalCode = dbAccess.getRecordById("123");
-        assertThat(customerByNationalCode).isEqualTo(bradPitt);
+        Customer customerByNationalCode = dbAccess.getRecordById("007");
+        assertThat(customerByNationalCode).isEqualTo(jamesBond);
     }
 
     @Test

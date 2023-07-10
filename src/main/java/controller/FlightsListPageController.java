@@ -3,6 +3,9 @@ package controller;
 import commonStructures.AirportCode;
 import dataLayer.AirportTable;
 import dataLayer.FlightTable;
+import dataLayer.dao.AirportDAO;
+import dataLayer.factory.AirportDAOFactory;
+import dataLayer.factory.FlightDAOFactory;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoUserLoggedInException;
 import javafx.collections.FXCollections;
@@ -78,8 +81,8 @@ public class FlightsListPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        airportsList = new AirportTable().getAllRecords();
-        flightsList = new FlightTable().getAllRecords();
+        airportsList = AirportDAOFactory.createAirportDAO().getAllRecords();
+        flightsList = FlightDAOFactory.createCustomerDAO().getAllRecords();
         initAirportCombo(originAirportCb);
         initAirportCombo(destinationAirportCb);
         ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();

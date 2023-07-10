@@ -1,6 +1,7 @@
 package dataLayer;
 
 import commonStructures.AirportCode;
+import dataLayer.dao.AirportDAO;
 import model.Airport;
 import model.DBTable;
 import model.submodel.Coordinate;
@@ -22,7 +23,7 @@ import static commonStructures.AirportCode.valueOf;
 import static java.sql.DriverManager.getConnection;
 import static utilities.ConversionUtils.jsonToProperty;
 
-public class AirportTable implements DBAccess<Airport> {
+public class AirportTable implements AirportDAO {
     public AirportTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
             final Properties properties = new Properties();
@@ -98,14 +99,17 @@ public class AirportTable implements DBAccess<Airport> {
         return airportByCode;
     }
 
+    @Override
     public Location getAirportLocationByCode(AirportCode airportCode) {
         return getRecordById(airportCode.toString()).getLocation();
     }
 
+    @Override
     public Coordinate getAirportCoordinateByCode(AirportCode airportCode) {
         return getRecordById(airportCode.toString()).getCoordinate();
     }
 
+    @Override
     public String getAirportNameByCode(AirportCode airportCode) {
         return getRecordById(airportCode.toString()).getName();
     }

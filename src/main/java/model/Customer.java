@@ -1,6 +1,8 @@
 package model;
 
 import dataLayer.CustomerTable;
+import dataLayer.dao.CustomerDAO;
+import dataLayer.factory.CustomerDAOFactory;
 import model.submodel.Address;
 import model.submodel.FullName;
 
@@ -25,7 +27,7 @@ public class Customer extends DBTable {
     }
 
     public Customer(String nationalCode) {
-        CustomerTable orderTable = new CustomerTable();
+        CustomerDAO orderTable = CustomerDAOFactory.createCustomerDAO();
         this.nationalCode = nationalCode;
         Customer recordById = orderTable.getRecordById(nationalCode);
         this.fullName = recordById.fullName;

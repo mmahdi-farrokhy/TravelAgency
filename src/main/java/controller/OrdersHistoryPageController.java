@@ -1,7 +1,7 @@
 package controller;
 
-import dataLayer.FlightTable;
-import dataLayer.OrderTable;
+import dataLayer.factory.FlightDAOFactory;
+import dataLayer.factory.OrderDAOFactory;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static java.util.stream.Collectors.toList;
 import static javafx.collections.FXCollections.observableArrayList;
 import static main.Main.loggedInCustomer;
 
@@ -72,9 +71,9 @@ public class OrdersHistoryPageController implements Initializable {
     private ObservableList<OrderHistoryTableRow> getOrdersHistoryRows() {
         List<OrderHistoryTableRow> orderHistoryRows = new LinkedList<>();
         List<Order> allOrdersOfLoggedInCustomer =
-                new OrderTable().getAllRecords().stream()
+                OrderDAOFactory.createCustomerDAO().getAllRecords().stream()
                         .filter(order -> Objects.equals(order.getCustomerInfo().getNationalCode(), loggedInCustomer.getNationalCode())).toList();
-        List<Flight> allFlights = new FlightTable().getAllRecords();
+        List<Flight> allFlights = FlightDAOFactory.createCustomerDAO().getAllRecords();
 
         for (Order order : allOrdersOfLoggedInCustomer)
             for (Flight flight : allFlights) {

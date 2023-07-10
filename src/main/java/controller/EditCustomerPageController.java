@@ -2,6 +2,7 @@ package controller;
 
 import commonStructures.City;
 import dataLayer.CustomerTable;
+import dataLayer.factory.CustomerDAOFactory;
 import exceptions.PasswordNotConfirmedException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -117,7 +118,7 @@ public class EditCustomerPageController implements Initializable {
             newCustomer.setPhoneNumber(phoneNumberField.getText());
             newCustomer.setEmail(emailField.getText());
             newCustomer.setPassword(passwordField.getText());
-            new CustomerTable().updateRecord(newCustomer);
+            CustomerDAOFactory.createCustomerDAO().updateRecord(newCustomer);
             closePageAfterOperation(saveBtn);
             showMessageBox("Done", "User information updated!", "Your information is updated successfully.", Alert.AlertType.INFORMATION);
         } else

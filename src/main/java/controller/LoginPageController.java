@@ -1,6 +1,7 @@
 package controller;
 
 import dataLayer.CustomerTable;
+import dataLayer.factory.CustomerDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -52,13 +53,13 @@ public class LoginPageController implements Initializable {
     }
 
     private void getUserInfo() {
-        Main.loggedInCustomer = new CustomerTable().getRecordById(nationalCodeField.getText());
+        Main.loggedInCustomer = CustomerDAOFactory.createCustomerDAO().getRecordById(nationalCodeField.getText());
         fillUserInformation(Main.loggedInCustomer);
     }
 
     private boolean userExisting() {
         try {
-            return new CustomerTable().getRecordById(nationalCodeField.getText()) != null;
+            return CustomerDAOFactory.createCustomerDAO().getRecordById(nationalCodeField.getText()) != null;
         } catch (RuntimeException ex) {
             return false;
         }
@@ -66,7 +67,7 @@ public class LoginPageController implements Initializable {
 
     private boolean correctPassword() {
         try {
-            return new CustomerTable()
+            return CustomerDAOFactory.createCustomerDAO()
                     .getRecordById(nationalCodeField.getText())
                     .getPassword()
                     .equals(passwordField.getText());

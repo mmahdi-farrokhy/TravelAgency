@@ -1,5 +1,7 @@
 package dataLayer;
 
+import dataLayer.dao.FlightDAO;
+import dataLayer.factory.FlightDAOFactory;
 import model.Airport;
 import model.Flight;
 import commonStructures.AirportCode;
@@ -13,11 +15,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class FlightTableShould {
-    private FlightTable dbAccess;
+    private FlightDAO dbAccess;
 
     @BeforeEach
     void setUp() {
-        dbAccess = new FlightTable();
+        dbAccess = FlightDAOFactory.createCustomerDAO();
     }
 
     @Test

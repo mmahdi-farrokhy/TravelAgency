@@ -1,5 +1,6 @@
 package dataLayer;
 
+import dataLayer.dao.FlightDAO;
 import model.Airport;
 import model.Flight;
 import commonStructures.AirportCode;
@@ -20,7 +21,7 @@ import java.util.Properties;
 
 import static java.sql.DriverManager.getConnection;
 
-public class FlightTable implements DBChange<Flight> {
+public class FlightTable implements FlightDAO {
 
     public FlightTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {

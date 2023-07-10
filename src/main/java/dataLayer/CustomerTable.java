@@ -1,6 +1,7 @@
 package dataLayer;
 
 import commonStructures.City;
+import dataLayer.dao.CustomerDAO;
 import model.DBTable;
 import model.Customer;
 import model.submodel.Address;
@@ -22,7 +23,7 @@ import java.util.Properties;
 import static java.sql.DriverManager.getConnection;
 import static utilities.ConversionUtils.jsonToProperty;
 
-public class CustomerTable implements DBUpdate<Customer> {
+public class CustomerTable implements CustomerDAO {
 
     public CustomerTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
@@ -136,12 +137,13 @@ public class CustomerTable implements DBUpdate<Customer> {
     @Override
     public void deleteRecordById(String id) {
         DBTable.tableName = "customers";
-        DBTable.query = DBQ_DELETE + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode");
+        DBTable.query = DBQ_DELETE + DBTable.tableName + DBS_WHERE.replace("id", "NationalCode") + " LIMIT 1";
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(DBTable.query)) {
             DELETE_BY_ID.setInt(1, Integer.parseInt(id));
             DELETE_BY_ID.execute();
+            var t=0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

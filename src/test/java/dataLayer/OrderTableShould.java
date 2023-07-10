@@ -1,13 +1,17 @@
 package dataLayer;
 
-import model.Airport;
-import model.Customer;
-import model.Flight;
 import commonStructures.AirportCode;
 import commonStructures.City;
 import commonStructures.CurrencyType;
+import dataLayer.dao.OrderDAO;
+import dataLayer.factory.OrderDAOFactory;
+import model.Airport;
+import model.Customer;
+import model.Flight;
 import model.Order;
-import model.submodel.*;
+import model.submodel.Address;
+import model.submodel.FullName;
+import model.submodel.Price;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,14 +24,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class OrderTableShould {
-    private OrderTable dbAccess;
+    private OrderDAO dbAccess;
     private Order order;
     private Customer bradPitt;
     private Flight flight;
 
     @BeforeEach
     void setUp() {
-        dbAccess = new OrderTable();
+        dbAccess = OrderDAOFactory.createCustomerDAO();
         order = new Order();
         bradPitt = new Customer();
         flight = new Flight();

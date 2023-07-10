@@ -1,7 +1,7 @@
 package controller;
 
 import commonStructures.CurrencyType;
-import dataLayer.OrderTable;
+import dataLayer.factory.OrderDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -156,7 +156,7 @@ public class BookingPageController implements Initializable {
             return;
         }
 
-        new OrderTable().insertNewRecord(currentOrder);
+        OrderDAOFactory.createCustomerDAO().insertNewRecord(currentOrder);
         showMessageBox("Done!", "Order Registered successfully", "For further information see order history on the main window", Alert.AlertType.INFORMATION);
         closePageAfterOperation(orderRegisterBtn);
     }

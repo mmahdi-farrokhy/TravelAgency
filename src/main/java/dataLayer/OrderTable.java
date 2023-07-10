@@ -1,5 +1,6 @@
 package dataLayer;
 
+import dataLayer.dao.OrderDAO;
 import model.Flight;
 import model.Customer;
 import model.Order;
@@ -23,7 +24,7 @@ import java.util.Properties;
 import static java.lang.Integer.parseInt;
 import static java.sql.DriverManager.getConnection;
 
-public class OrderTable implements DBChange<Order> {
+public class OrderTable implements OrderDAO {
 
     public OrderTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {

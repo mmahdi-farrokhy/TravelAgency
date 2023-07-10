@@ -2,6 +2,8 @@ package controller;
 
 import commonStructures.City;
 import dataLayer.CustomerTable;
+import dataLayer.dao.CustomerDAO;
+import dataLayer.factory.CustomerDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -104,7 +106,7 @@ public class SignUpPageController implements Initializable {
 
     private static boolean saveUserInDatabase(Customer signedUpCustomer) {
         try {
-            CustomerTable customerTable = new CustomerTable();
+            CustomerDAO customerTable = CustomerDAOFactory.createCustomerDAO();
             customerTable.insertNewRecord(signedUpCustomer);
             return true;
         } catch (RuntimeException ex) {

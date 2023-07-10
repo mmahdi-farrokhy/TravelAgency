@@ -2,6 +2,8 @@ package model;
 
 import commonStructures.AirportCode;
 import dataLayer.AirportTable;
+import dataLayer.dao.AirportDAO;
+import dataLayer.factory.AirportDAOFactory;
 import model.submodel.Coordinate;
 import model.submodel.Location;
 
@@ -14,7 +16,7 @@ public class Airport extends DBTable {
     private String name;
 
     public Airport(AirportCode airportCode) {
-        AirportTable airportTable = new AirportTable();
+        AirportDAO airportTable = AirportDAOFactory.createAirportDAO();
         this.code = airportCode;
         this.coordinate = airportTable.getAirportCoordinateByCode(code);
         this.location = airportTable.getAirportLocationByCode(code);

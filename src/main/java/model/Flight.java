@@ -1,6 +1,8 @@
 package model;
 
 import dataLayer.FlightTable;
+import dataLayer.dao.FlightDAO;
+import dataLayer.factory.FlightDAOFactory;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -23,7 +25,7 @@ public class Flight extends DBTable {
     }
 
     public Flight(String id) {
-        FlightTable flightTable = new FlightTable();
+        FlightDAO flightTable = FlightDAOFactory.createCustomerDAO();
         Flight flightById = flightTable.getRecordById(id);
         this.id = id;
         this.departureTime = flightById.departureTime;

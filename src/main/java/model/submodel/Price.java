@@ -20,7 +20,7 @@ public class Price {
     public double getAmount() {
         return amount;
     }
-    
+
     public CurrencyType getCurrency() {
         return currency;
     }

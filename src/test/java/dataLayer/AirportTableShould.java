@@ -1,6 +1,8 @@
 package dataLayer;
 
 import commonStructures.AirportCode;
+import dataLayer.dao.AirportDAO;
+import dataLayer.factory.AirportDAOFactory;
 import model.Airport;
 import model.submodel.Coordinate;
 import model.submodel.Location;
@@ -12,11 +14,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AirportTableShould {
-    private AirportTable dbAccess;
+    private AirportDAO dbAccess;
 
     @BeforeEach
     void setUp() {
-        dbAccess = new AirportTable();
+        dbAccess = AirportDAOFactory.createAirportDAO();
     }
 
     @Test
