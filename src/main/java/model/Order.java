@@ -1,6 +1,6 @@
 package model;
 
-import commonstructures.CurrencyType;
+import common.structures.CurrencyType;
 import model.submodel.Price;
 
 import java.time.LocalDateTime;

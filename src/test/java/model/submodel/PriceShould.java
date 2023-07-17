@@ -1,6 +1,6 @@
 package model.submodel;
 
-import commonstructures.CurrencyType;
+import common.structures.CurrencyType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

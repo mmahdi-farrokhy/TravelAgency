@@ -1,7 +1,7 @@
 package controller;
 
-import commonstructures.CurrencyType;
-import datalayer.factories.OrderDAOFactory;
+import common.structures.CurrencyType;
+import data.layer.factories.OrderDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -20,9 +20,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
-import static buisnesslayer.CurrencyConverter.convertCurrency;
-import static commonstructures.CurrencyType.getCurrencySymbol;
-import static commonstructures.CurrencyType.valueOf;
+import static buisness.layer.CurrencyConverter.convertCurrency;
+import static common.structures.CurrencyType.getCurrencySymbol;
+import static common.structures.CurrencyType.valueOf;
 import static java.lang.Double.parseDouble;
 import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
 import static utilities.GUIUtils.*;

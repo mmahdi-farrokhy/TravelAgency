@@ -1,6 +1,6 @@
 package model.submodel;
 
-import commonstructures.City;
+import common.structures.City;
 
 import java.util.Objects;
 

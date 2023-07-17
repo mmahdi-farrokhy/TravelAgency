@@ -1,8 +1,8 @@
 package model;
 
-import commonstructures.AirportCode;
-import commonstructures.City;
-import datalayer.AirportTable;
+import common.structures.AirportCode;
+import common.structures.City;
+import data.layer.dao.implementers.AirportTable;
 import model.submodel.Address;
 import model.submodel.FullName;
 import org.junit.jupiter.api.BeforeEach;

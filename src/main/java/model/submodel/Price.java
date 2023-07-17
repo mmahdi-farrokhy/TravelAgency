@@ -1,6 +1,6 @@
 package model.submodel;
 
-import commonstructures.CurrencyType;
+import common.structures.CurrencyType;
 
 import java.util.Objects;
 

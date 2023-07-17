@@ -1,8 +1,8 @@
 package controller;
 
-import commonstructures.City;
-import datalayer.daos.CustomerDAO;
-import datalayer.factories.CustomerDAOFactory;
+import common.structures.City;
+import data.layer.daos.CustomerDAO;
+import data.layer.factories.CustomerDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
