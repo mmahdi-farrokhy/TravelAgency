@@ -1,7 +1,6 @@
 package model.submodel;
 
-import commonStructures.CurrencyType;
-import org.assertj.core.api.Assertions;
+import commonstructures.CurrencyType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

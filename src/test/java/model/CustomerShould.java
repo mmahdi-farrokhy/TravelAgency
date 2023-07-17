@@ -1,8 +1,7 @@
 package model;
 
-import commonStructures.City;
+import commonstructures.City;
 import model.submodel.Address;
-import model.Customer;
 import model.submodel.FullName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

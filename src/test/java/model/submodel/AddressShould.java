@@ -1,7 +1,6 @@
 package model.submodel;
 
-import commonStructures.City;
-import model.submodel.Address;
+import commonstructures.City;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

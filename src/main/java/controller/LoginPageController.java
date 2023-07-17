@@ -1,7 +1,6 @@
 package controller;
 
-import dataLayer.CustomerTable;
-import dataLayer.factory.CustomerDAOFactory;
+import datalayer.factories.CustomerDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;

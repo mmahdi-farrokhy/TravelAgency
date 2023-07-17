@@ -1,14 +1,10 @@
 package model;
 
-import model.Airport;
-import model.Flight;
-import commonStructures.AirportCode;
-import commonStructures.City;
-import dataLayer.AirportTable;
+import commonstructures.AirportCode;
+import commonstructures.City;
+import datalayer.AirportTable;
 import model.submodel.Address;
-import model.Customer;
 import model.submodel.FullName;
-import model.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

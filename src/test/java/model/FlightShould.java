@@ -1,8 +1,6 @@
 package model;
 
-import commonStructures.AirportCode;
-import model.Airport;
-import model.Flight;
+import commonstructures.AirportCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

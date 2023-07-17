@@ -1,6 +1,6 @@
 package model.submodel;
 
-import commonStructures.AirportCode;
+import commonstructures.AirportCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

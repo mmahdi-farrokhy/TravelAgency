@@ -1,7 +1,6 @@
 package model.submodel;
 
-import commonStructures.AirportCode;
-import org.assertj.core.api.Assertions;
+import commonstructures.AirportCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

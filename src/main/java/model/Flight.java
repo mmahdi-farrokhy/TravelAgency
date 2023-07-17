@@ -1,8 +1,7 @@
 package model;
 
-import dataLayer.FlightTable;
-import dataLayer.dao.FlightDAO;
-import dataLayer.factory.FlightDAOFactory;
+import datalayer.daos.FlightDAO;
+import datalayer.factories.FlightDAOFactory;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

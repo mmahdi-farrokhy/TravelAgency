@@ -1,7 +1,7 @@
 package controller;
 
-import dataLayer.factory.FlightDAOFactory;
-import dataLayer.factory.OrderDAOFactory;
+import datalayer.factories.FlightDAOFactory;
+import datalayer.factories.OrderDAOFactory;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

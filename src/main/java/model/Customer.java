@@ -1,8 +1,7 @@
 package model;
 
-import dataLayer.CustomerTable;
-import dataLayer.dao.CustomerDAO;
-import dataLayer.factory.CustomerDAOFactory;
+import datalayer.daos.CustomerDAO;
+import datalayer.factories.CustomerDAOFactory;
 import model.submodel.Address;
 import model.submodel.FullName;
 

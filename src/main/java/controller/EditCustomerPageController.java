@@ -1,8 +1,7 @@
 package controller;
 
-import commonStructures.City;
-import dataLayer.CustomerTable;
-import dataLayer.factory.CustomerDAOFactory;
+import commonstructures.City;
+import datalayer.factories.CustomerDAOFactory;
 import exceptions.PasswordNotConfirmedException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

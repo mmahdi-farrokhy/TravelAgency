@@ -1,11 +1,8 @@
 package controller;
 
-import commonStructures.AirportCode;
-import dataLayer.AirportTable;
-import dataLayer.FlightTable;
-import dataLayer.dao.AirportDAO;
-import dataLayer.factory.AirportDAOFactory;
-import dataLayer.factory.FlightDAOFactory;
+import commonstructures.AirportCode;
+import datalayer.factories.AirportDAOFactory;
+import datalayer.factories.FlightDAOFactory;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoUserLoggedInException;
 import javafx.collections.FXCollections;
@@ -30,7 +27,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import static commonStructures.AirportCode.valueOf;
+import static commonstructures.AirportCode.valueOf;
 import static utilities.GUIUtils.*;
 
 public class FlightsListPageController implements Initializable {
