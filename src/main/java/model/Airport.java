@@ -1,8 +1,8 @@
 package model;
 
-import common.structures.AirportCode;
-import data.layer.daos.AirportDAO;
-import data.layer.factories.AirportDAOFactory;
+import commonStructures.AirportCode;
+import data.dao.AirportDAO;
+import data.factory.AirportDAOFactory;
 import model.submodel.Coordinate;
 import model.submodel.Location;
 

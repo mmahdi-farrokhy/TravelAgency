@@ -19,6 +19,8 @@ import model.Customer;
 import java.io.IOException;
 import java.util.Objects;
 
+import static main.Main.mainWindowController;
+
 public class GUIUtils {
     private GUIUtils() {
     }
@@ -45,9 +47,9 @@ public class GUIUtils {
 
     public static void fillUserInformation(Customer customer) {
         try {
-            Main.mainWindowController.setFieldText("usernameField", "Username: " + customer.getNationalCode());
-            Main.mainWindowController.setFieldText("fullNameField", "Full Name: " + customer.getFullName().getRawFullName());
-            Main.mainWindowController.setFieldText("phoneNumberField", "Phone Number: " + customer.getPhoneNumber());
+            mainWindowController.setFieldText("usernameField", "Username: " + customer.getNationalCode());
+            mainWindowController.setFieldText("fullNameField", "Full Name: " + customer.getFullName().getRawFullName());
+            mainWindowController.setFieldText("phoneNumberField", "Phone Number: " + customer.getPhoneNumber());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -92,7 +94,7 @@ public class GUIUtils {
         MainWindowController.loginStage = null;
     }
 
-    public static boolean passwordConfirmed(TextField password, TextField passwordConfirmation) {
+    public static boolean isPasswordConfirmed(TextField password, TextField passwordConfirmation) {
         return fieldValueNotNullOrEmpty(password.getText()) &&
                 password.getText().equals(passwordConfirmation.getText());
     }

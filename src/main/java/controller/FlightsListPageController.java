@@ -1,8 +1,8 @@
 package controller;
 
-import common.structures.AirportCode;
-import data.layer.factories.AirportDAOFactory;
-import data.layer.factories.FlightDAOFactory;
+import commonStructures.AirportCode;
+import data.factory.AirportDAOFactory;
+import data.factory.FlightDAOFactory;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoUserLoggedInException;
 import javafx.collections.FXCollections;
@@ -15,7 +15,6 @@ import main.Main;
 import model.Airport;
 import model.Flight;
 import model.submodel.FlightTableRow;
-import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -23,25 +22,24 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
-import static common.structures.AirportCode.valueOf;
+import static commonStructures.AirportCode.valueOf;
+import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;
 
 public class FlightsListPageController implements Initializable {
     @FXML
-    private ComboBox<String> originAirportCb;
+    public ComboBox<String> originAirportCb;
 
     @FXML
-    private ComboBox<String> destinationAirportCb;
+    public ComboBox<String> destinationAirportCb;
 
     @FXML
-    private DatePicker departureDp;
+    public DatePicker departureDp;
 
     @FXML
-    private DatePicker arrivalDp;
+    public DatePicker arrivalDp;
 
     @FXML
     private TableView<FlightTableRow> flightListTable;
@@ -82,11 +80,10 @@ public class FlightsListPageController implements Initializable {
         flightsList = FlightDAOFactory.createCustomerDAO().getAllRecords();
         initAirportCombo(originAirportCb);
         initAirportCombo(destinationAirportCb);
-        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
-        buttonActionInitializer.setOnActionMethods(clearFiltersBtn, 8, this::clearFilters);
-        buttonActionInitializer.setOnActionMethods(searchBtn, 8, this::fillFlightsTable);
-        buttonActionInitializer.setOnActionMethods(bookBtn, 8, this::openBookingPage);
-        buttonActionInitializer.setOnActionMethods(cancelBtn, 8, this::closeFlightsListPage);
+        setOnActionMethods(clearFiltersBtn, 8, this::clearFilters);
+        setOnActionMethods(searchBtn, 8, this::fillFlightsTable);
+        setOnActionMethods(bookBtn, 8, this::openBookingPage);
+        setOnActionMethods(cancelBtn, 8, this::closeFlightsListPage);
     }
 
     private void initAirportCombo(ComboBox<String> airportCombo){
@@ -128,41 +125,8 @@ public class FlightsListPageController implements Initializable {
                     flight.getDepartureTime().toLocalDate(),
                     flight.getDepartureTime().toLocalTime()));
 
-        List<FlightTableRow> filteredFlightRows = filterFlightRows(flightRows);
+        List<FlightTableRow> filteredFlightRows = FlightTableRow.filterFlightRows(this, flightRows);
         return FXCollections.observableArrayList(filteredFlightRows);
-    }
-
-    private List<FlightTableRow> filterFlightRows(List<FlightTableRow> flightRows) {
-        List<FlightTableRow> filteredFlightRows = flightRows;
-        if (originAirportCb.getValue() != null && !Objects.equals(originAirportCb.getValue(), ""))
-            filteredFlightRows = filterByOriginAirport(filteredFlightRows);
-
-        if (destinationAirportCb.getValue() != null && !Objects.equals(destinationAirportCb.getValue(), ""))
-            filteredFlightRows = filterByDestinationAirport(filteredFlightRows);
-
-        if (departureDp.getValue() != null && !departureDp.getValue().toString().equals(""))
-            filteredFlightRows = filterByDepartureDate(filteredFlightRows);
-
-        if (arrivalDp.getValue() != null && !arrivalDp.getValue().toString().equals(""))
-            filteredFlightRows = filterByArrivalDate(filteredFlightRows);
-
-        return filteredFlightRows;
-    }
-
-    private List<FlightTableRow> filterByOriginAirport(List<FlightTableRow> flightRows) {
-        return flightRows.stream().filter(row -> row.getOriginAirportCol().trim().equals(originAirportCb.getValue().trim())).collect(Collectors.toList());
-    }
-
-    private List<FlightTableRow> filterByDestinationAirport(List<FlightTableRow> flightRows) {
-        return flightRows.stream().filter(row -> row.getDestinationAirportCol().equals(destinationAirportCb.getValue().trim())).collect(Collectors.toList());
-    }
-
-    private List<FlightTableRow> filterByDepartureDate(List<FlightTableRow> flightRows) {
-        return flightRows.stream().filter(row -> row.getDateCol().isAfter(departureDp.getValue())).collect(Collectors.toList());
-    }
-
-    private List<FlightTableRow> filterByArrivalDate(List<FlightTableRow> flightRows) {
-        return flightRows.stream().filter(row -> row.getDateCol().isBefore(arrivalDp.getValue())).collect(Collectors.toList());
     }
 
     private void openBookingPage() {

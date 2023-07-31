@@ -1,6 +1,6 @@
 package controller;
 
-import data.layer.factories.CustomerDAOFactory;
+import data.factory.CustomerDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -9,11 +9,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import main.Main;
-import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;
 
 public class LoginPageController implements Initializable {
@@ -35,13 +35,12 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
-        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
-        buttonActionInitializer.setOnActionMethods(loginBtn, 8, this::loginUser);
+        setOnActionMethods(loginBtn, 8, this::loginUser);
         accountCheckText.setOnMouseClicked(e -> openPage(this, "..//SignUpPage.fxml"));
     }
 
     private void loginUser() {
-        if (userExisting() && correctPassword()) {
+        if (isUserRegistered() && isPasswordCorrect()) {
             errorText.setVisible(false);
             closePageAfterOperation(loginBtn);
             getUserInfo();
@@ -56,7 +55,7 @@ public class LoginPageController implements Initializable {
         fillUserInformation(Main.loggedInCustomer);
     }
 
-    private boolean userExisting() {
+    private boolean isUserRegistered() {
         try {
             return CustomerDAOFactory.createCustomerDAO().getRecordById(nationalCodeField.getText()) != null;
         } catch (RuntimeException ex) {
@@ -64,7 +63,7 @@ public class LoginPageController implements Initializable {
         }
     }
 
-    private boolean correctPassword() {
+    private boolean isPasswordCorrect() {
         try {
             return CustomerDAOFactory.createCustomerDAO()
                     .getRecordById(nationalCodeField.getText())

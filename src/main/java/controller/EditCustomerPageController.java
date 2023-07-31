@@ -1,7 +1,7 @@
 package controller;
 
-import common.structures.City;
-import data.layer.factories.CustomerDAOFactory;
+import commonStructures.City;
+import data.factory.CustomerDAOFactory;
 import exceptions.PasswordNotConfirmedException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,13 +11,14 @@ import main.Main;
 import model.Customer;
 import model.submodel.Address;
 import model.submodel.FullName;
-import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
+import static main.Main.loggedInCustomer;
+import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;
 
 public class EditCustomerPageController implements Initializable {
@@ -68,28 +69,20 @@ public class EditCustomerPageController implements Initializable {
         initAddress();
         initCityCombo();
         initContactInformation();
-
-        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
-        buttonActionInitializer.setOnActionMethods(saveBtn, 8, () -> {
-            try {
-                saveCustomerChanges();
-            } catch (PasswordNotConfirmedException ex) {
-                showMessageBox("Attention", "Password is not confirmed!", "Please confirm your password correctly", Alert.AlertType.WARNING);
-            }
-        });
+        setOnActionMethods(saveBtn, 8, () -> tryToSaveCustomerChanges());
     }
 
     private void initPersonalInformation() {
-        nationalCodeField.setText(Main.loggedInCustomer.getNationalCode());
-        firstNameField.setText(Main.loggedInCustomer.getFullName().getFirstName());
-        lastNameField.setText(Main.loggedInCustomer.getFullName().getLastName());
-        birthDatePicker.setValue(Main.loggedInCustomer.getBirthDate());
+        nationalCodeField.setText(loggedInCustomer.getNationalCode());
+        firstNameField.setText(loggedInCustomer.getFullName().getFirstName());
+        lastNameField.setText(loggedInCustomer.getFullName().getLastName());
+        birthDatePicker.setValue(loggedInCustomer.getBirthDate());
     }
 
     private void initAddress() {
-        cityCombo.setValue(Main.loggedInCustomer.getAddress().getCityName().toString());
-        postalCodeField.setText(Main.loggedInCustomer.getAddress().getPostalCode());
-        streetField.setText(Main.loggedInCustomer.getAddress().getStreetName());
+        cityCombo.setValue(loggedInCustomer.getAddress().getCityName().toString());
+        postalCodeField.setText(loggedInCustomer.getAddress().getPostalCode());
+        streetField.setText(loggedInCustomer.getAddress().getStreetName());
     }
 
     private void initCityCombo() {
@@ -103,12 +96,20 @@ public class EditCustomerPageController implements Initializable {
     }
 
     private void initContactInformation() {
-        phoneNumberField.setText(Main.loggedInCustomer.getPhoneNumber());
-        emailField.setText(Main.loggedInCustomer.getEmail());
+        phoneNumberField.setText(loggedInCustomer.getPhoneNumber());
+        emailField.setText(loggedInCustomer.getEmail());
+    }
+
+    private void tryToSaveCustomerChanges() {
+        try {
+            saveCustomerChanges();
+        } catch (PasswordNotConfirmedException ex) {
+            showMessageBox("Attention", "Password is not confirmed!", "Please confirm your password correctly", Alert.AlertType.WARNING);
+        }
     }
 
     private void saveCustomerChanges() throws PasswordNotConfirmedException {
-        if (passwordConfirmed(passwordField, passwordConfirmationField)) {
+        if (isPasswordConfirmed(passwordField, passwordConfirmationField)) {
             Customer newCustomer = new Customer();
             newCustomer.setNationalCode(nationalCodeField.getText());
             newCustomer.setFullName(new FullName(firstNameField.getText(), lastNameField.getText()));

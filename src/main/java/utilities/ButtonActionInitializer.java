@@ -11,7 +11,7 @@ public class ButtonActionInitializer {
         void listener();
     }
 
-    public void setOnActionMethods(Button button, int buttonRadius, ActionListener actionListener) {
+    public static void setOnActionMethods(Button button, int buttonRadius, ActionListener actionListener) {
         button.setOnMouseEntered(e -> setButtonStyle((Button) e.getSource(), buttonRadius));
         button.setOnMouseExited(e -> resetButtonStyle((Button) e.getSource(), buttonRadius));
         button.setOnAction(e -> actionListener.listener());

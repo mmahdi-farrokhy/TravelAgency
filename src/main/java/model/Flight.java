@@ -1,7 +1,7 @@
 package model;
 
-import data.layer.daos.FlightDAO;
-import data.layer.factories.FlightDAOFactory;
+import data.dao.FlightDAO;
+import data.factory.FlightDAOFactory;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -64,14 +64,6 @@ public class Flight extends DBTable {
 
     public Airport getDestinationAirport() {
         return destinationAirport;
-    }
-
-    public boolean isInTimeRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return departureTime.isAfter(startDate) && departureTime.isBefore(endDate);
-    }
-
-    public boolean validDestination() {
-        return !(originAirport.equals(destinationAirport));
     }
 
     public double estimateFlightDistance() {

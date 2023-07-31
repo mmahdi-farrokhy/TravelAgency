@@ -1,23 +1,22 @@
 package controller;
 
-import common.structures.City;
-import data.layer.daos.CustomerDAO;
-import data.layer.factories.CustomerDAOFactory;
+import commonStructures.City;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import main.Main;
 import model.Customer;
 import model.submodel.Address;
 import model.submodel.FullName;
-import utilities.ButtonActionInitializer;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
+import static data.factory.CustomerDAOFactory.createCustomerDAO;
+import static main.Main.loggedInCustomer;
+import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;
 
 public class SignUpPageController implements Initializable {
@@ -67,8 +66,7 @@ public class SignUpPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCityComboBox();
         errorText.setVisible(false);
-        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
-        buttonActionInitializer.setOnActionMethods(signUpBtn, 8, this::signUpUser);
+        setOnActionMethods(signUpBtn, 8, this::signUpUser);
         accountCheckText.setOnMouseClicked(e -> openPage(this, "..//LoginPage.fxml"));
     }
 
@@ -83,38 +81,36 @@ public class SignUpPageController implements Initializable {
     }
 
     private void signUpUser() {
-        if (necessaryFieldsAreFilled()) {
-            if (passwordConfirmed(passwordField, passwordConfirmationField)) {
+        if (areNecessaryFieldsFilled()) {
+            if (isPasswordConfirmed(passwordField, passwordConfirmationField)) {
                 errorText.setVisible(false);
-                Customer signedUpCustomer = getSignedUpCustomer();
-                Main.loggedInCustomer = signedUpCustomer;
-                if (saveUserInDatabase(signedUpCustomer)) {
-                    closePageAfterOperation(signUpBtn);
-                    showMessageBox("Sign Up", "Done!", "User created successfully", Alert.AlertType.INFORMATION);
-                    fillUserInformation(signedUpCustomer);
-                }
+                loggedInCustomer = getSignedUpCustomer();
+                saveUserInDatabase(loggedInCustomer);
+                closePageAfterOperation(signUpBtn);
+                showMessageBox("Sign Up", "Done!", "User created successfully", Alert.AlertType.INFORMATION);
+                fillUserInformation(getSignedUpCustomer());
             } else {
-                errorText.setText("Please confirm the password!");
-                errorText.setVisible(true);
+                showError("Please confirm the password!");
             }
         } else {
-            errorText.setText("Please fill in all necessary fields!");
-            errorText.setVisible(true);
+            showError("Please fill in all necessary fields!");
         }
     }
 
-    private static boolean saveUserInDatabase(Customer signedUpCustomer) {
+    private void showError(String errorText) {
+        this.errorText.setText(errorText);
+        this.errorText.setVisible(true);
+    }
+
+    private static void saveUserInDatabase(Customer signedUpCustomer) {
         try {
-            CustomerDAO customerTable = CustomerDAOFactory.createCustomerDAO();
-            customerTable.insertNewRecord(signedUpCustomer);
-            return true;
-        } catch (RuntimeException ex) {
+            createCustomerDAO().insertNewRecord(signedUpCustomer);
+        } catch (RuntimeException exception){
             showMessageBox("Error", "Creating new user failed!", "An account is already registered with this national code!", Alert.AlertType.WARNING);
-            return false;
         }
     }
 
-    private boolean necessaryFieldsAreFilled() {
+    private boolean areNecessaryFieldsFilled() {
         return fieldValueNotNullOrEmpty(nationalCodeField.getText()) &&
                 fieldValueNotNullOrEmpty(firstNameField.getText()) &&
                 fieldValueNotNullOrEmpty(lastNameField.getText()) &&

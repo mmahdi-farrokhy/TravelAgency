@@ -1,7 +1,7 @@
 package controller;
 
-import common.structures.CurrencyType;
-import data.layer.factories.OrderDAOFactory;
+import commonStructures.CurrencyType;
+import data.factory.OrderDAOFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import main.Main;
 import model.Order;
 import model.submodel.Price;
-import utilities.ButtonActionInitializer;
 import utilities.GUIUtils;
 
 import java.net.URL;
@@ -19,11 +18,13 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
+import java.util.stream.IntStream;
 
-import static buisness.layer.CurrencyConverter.convertCurrency;
-import static common.structures.CurrencyType.getCurrencySymbol;
-import static common.structures.CurrencyType.valueOf;
+import static commonStructures.CurrencyType.convertCurrency;
+import static commonStructures.CurrencyType.*;
 import static java.lang.Double.parseDouble;
+import static main.Main.loggedInCustomer;
+import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
 import static utilities.GUIUtils.*;
 
@@ -86,16 +87,13 @@ public class BookingPageController implements Initializable {
         numberOfTicketsCombo.setOnAction(e -> calculatePrice());
         currencyCombo.setOnAction(e -> calculatePrice());
 
-        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
-        buttonActionInitializer.setOnActionMethods(backBtn, 15, this::openFlightListPage);
-        buttonActionInitializer.setOnActionMethods(orderRegisterBtn, 15, this::registerOrder);
-        buttonActionInitializer.setOnActionMethods(cancelBtn, 15, this::closeBookingOrderPage);
+        setOnActionMethods(backBtn, 15, this::openFlightListPage);
+        setOnActionMethods(orderRegisterBtn, 15, this::registerOrder);
+        setOnActionMethods(cancelBtn, 15, this::closeBookingOrderPage);
     }
 
     private void initNumberOfTicketsCombo() {
-        for (int numberOfTickets = 1; numberOfTickets <= 10; numberOfTickets++)
-            numberOfTicketsCombo.getItems().add(numberOfTickets);
-
+        IntStream.rangeClosed(1, 10).forEach(numberOfTicketsCombo.getItems()::add);
         numberOfTicketsCombo.setValue(0);
     }
 
@@ -108,14 +106,14 @@ public class BookingPageController implements Initializable {
             if (currency != CurrencyType.NONE)
                 currencyCombo.getItems().add(currency.toString() + " " + getCurrencySymbol(currency));
 
-        currencyCombo.setValue(CurrencyType.USD + " $");
+        currencyCombo.setValue(CurrencyType.USD + " " + dollarSign);
     }
 
     private void fillPersonalInformation() {
-        fullNameField.setText(Main.loggedInCustomer.getFullName().getRawFullName());
-        nationalCodeField.setText(Main.loggedInCustomer.getNationalCode());
-        addressField.setText(Main.loggedInCustomer.getAddress().getRawAddress());
-        phoneNumberField.setText(Main.loggedInCustomer.getPhoneNumber());
+        nationalCodeField.setText(loggedInCustomer.getNationalCode());
+        fullNameField.setText(loggedInCustomer.getFullName().getRawFullName());
+        addressField.setText(loggedInCustomer.getAddress().getRawAddress());
+        phoneNumberField.setText(loggedInCustomer.getPhoneNumber());
     }
 
     private void fillFlightInformation() {
@@ -130,7 +128,7 @@ public class BookingPageController implements Initializable {
         currentOrder = new Order();
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.setFlight(Main.selectedFlight);
-        currentOrder.setCustomerInfo(Main.loggedInCustomer);
+        currentOrder.setCustomerInfo(loggedInCustomer);
         currentOrder.setRegistrationTime(LocalDateTime.now());
         currentOrder.setPrice(new Price(parseDouble(priceField.getText()), valueOf(currencyCombo.getValue().substring(0, 3))));
     }

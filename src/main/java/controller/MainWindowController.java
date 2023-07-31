@@ -9,13 +9,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import utilities.ButtonActionInitializer;
 import utilities.GUIUtils;
 
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.showMessageBox;
 
 public class MainWindowController implements Initializable {
@@ -44,11 +44,10 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ButtonActionInitializer buttonActionInitializer = new ButtonActionInitializer();
-        buttonActionInitializer.setOnActionMethods(loginSignupBtn, 15, () -> openPageByButtonPush("../LoginPage.fxml"));
-        buttonActionInitializer.setOnActionMethods(editCustomerBtn, 15, () -> openPageByButtonPush("../EditCustomerPage.fxml"));
-        buttonActionInitializer.setOnActionMethods(flightsListBtn, 15, () -> openPageByButtonPush("../FlightsListPage.fxml"));
-        buttonActionInitializer.setOnActionMethods(orderHistoryBtn, 15, () -> openPageByButtonPush("../OrdersHistoryPage.fxml"));
+        setOnActionMethods(loginSignupBtn, 15, () -> openPageByButtonPush("../LoginPage.fxml"));
+        setOnActionMethods(editCustomerBtn, 15, () -> openPageByButtonPush("../EditCustomerPage.fxml"));
+        setOnActionMethods(flightsListBtn, 15, () -> openPageByButtonPush("../FlightsListPage.fxml"));
+        setOnActionMethods(orderHistoryBtn, 15, () -> openPageByButtonPush("../OrdersHistoryPage.fxml"));
     }
 
     private void openPageByButtonPush(String pageName) {
