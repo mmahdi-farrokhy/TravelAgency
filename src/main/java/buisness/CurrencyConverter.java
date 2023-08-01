@@ -25,5 +25,4 @@ public class CurrencyConverter {
             throw new RuntimeException(e);
         }
     }
-
 }

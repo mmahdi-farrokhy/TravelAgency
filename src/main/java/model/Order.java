@@ -118,4 +118,12 @@ public class Order extends DBTable {
                 ", flight=" + flight +
                 '}';
     }
+
+    public CurrencyType getCurrency() {
+        return price.getCurrency();
+    }
+
+    public double getAmount() {
+        return price.getAmount();
+    }
 }

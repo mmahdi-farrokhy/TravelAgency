@@ -93,16 +93,16 @@ public enum City {
 
     @Override
     public String toString() {
-        return capitalizeEachWord(this.name().replace('_', ' '));
+        return capitalizeEachWord(name().replace('_', ' '));
     }
 
     private String capitalizeEachWord(String cityValue) {
-        String capitalizedCity = "";
+        StringBuilder capitalizedCity = new StringBuilder();
         String[] cityWords = cityValue.toLowerCase().split(" ");
         for (String word : cityWords)
-            capitalizedCity += word.substring(0, 1).toUpperCase() + word.substring(1) + " ";
+            capitalizedCity.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(" ");
 
-        return capitalizedCity.trim();
+        return capitalizedCity.toString().trim();
     }
 
     public static City getValue(String cityName) {

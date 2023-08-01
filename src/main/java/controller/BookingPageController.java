@@ -87,9 +87,9 @@ public class BookingPageController implements Initializable {
         numberOfTicketsCombo.setOnAction(e -> calculatePrice());
         currencyCombo.setOnAction(e -> calculatePrice());
 
-        setOnActionMethods(backBtn, 15, this::openFlightListPage);
+        setOnActionMethods(backBtn, 15, this::getBackToFlightListPage);
         setOnActionMethods(orderRegisterBtn, 15, this::registerOrder);
-        setOnActionMethods(cancelBtn, 15, this::closeBookingOrderPage);
+        setOnActionMethods(cancelBtn, 15, this::getBackToMainPage);
     }
 
     private void initNumberOfTicketsCombo() {
@@ -138,13 +138,14 @@ public class BookingPageController implements Initializable {
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.calculateOrderPriceAmountByUSD();
         CurrencyType selectedCurrency = valueOf(currencyCombo.getValue().substring(0, 3));
-        double convertedPrice = convertCurrency(currentOrder.getPrice().getCurrency(), selectedCurrency, currentOrder.getPrice().getAmount());
+        double convertedPrice = convertCurrency(currentOrder.getCurrency(), selectedCurrency, currentOrder.getAmount());
         currentOrder.getPrice().setAmount(convertedPrice);
         priceField.setText(String.valueOf(limitNumberOfDecimalPlaces(convertedPrice * currentOrder.getQuantity(), 2)));
     }
 
-    private void openFlightListPage() {
+    private void getBackToFlightListPage() {
         currentOrder = null;
+        closePageAfterOperation(backBtn);
         openPage(this, "../FlightsListPage.fxml");
     }
 
@@ -159,9 +160,9 @@ public class BookingPageController implements Initializable {
         closePageAfterOperation(orderRegisterBtn);
     }
 
-    private void closeBookingOrderPage() {
+    private void getBackToMainPage() {
         currentOrder = null;
         Main.selectedFlight = null;
-        GUIUtils.closePageAfterOperation(backBtn);
+        closePageAfterOperation(backBtn);
     }
 }

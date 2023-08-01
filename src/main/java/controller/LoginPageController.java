@@ -8,11 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import main.Main;
+import utilities.GUIUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static main.Main.loggedInCustomer;
 import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;
 
@@ -36,7 +37,11 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
         setOnActionMethods(loginBtn, 8, this::loginUser);
-        accountCheckText.setOnMouseClicked(e -> openPage(this, "..//SignUpPage.fxml"));
+        closePageAfterOperation(loginBtn);
+        accountCheckText.setOnMouseClicked(e -> {
+//            closePageAfterOperation(loginBtn);
+            openPage(this, "..//SignUpPage.fxml");
+        });
     }
 
     private void loginUser() {
@@ -51,8 +56,8 @@ public class LoginPageController implements Initializable {
     }
 
     private void getUserInfo() {
-        Main.loggedInCustomer = CustomerDAOFactory.createCustomerDAO().getRecordById(nationalCodeField.getText());
-        fillUserInformation(Main.loggedInCustomer);
+        loggedInCustomer = CustomerDAOFactory.createCustomerDAO().getRecordById(nationalCodeField.getText());
+        fillUserInformation(loggedInCustomer);
     }
 
     private boolean isUserRegistered() {

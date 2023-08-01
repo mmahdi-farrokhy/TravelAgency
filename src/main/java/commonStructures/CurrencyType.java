@@ -140,7 +140,7 @@ public enum CurrencyType {
         return limitNumberOfDecimalPlaces(amount * getCurrenciesRate(sourceCurrency, targetCurrency), 5);
     }
 
-    public static int getCurrencyIndexInResponse(CurrencyType currency, String jsonResponse) {
+    private static int getCurrencyIndexInResponse(CurrencyType currency, String jsonResponse) {
         int currencyIndex = jsonResponse.indexOf("\"" + currency + "\":");
         if (currencyIndex == -1) {
             throw new IllegalArgumentException("Currency not found in response: " + currency);
@@ -148,7 +148,7 @@ public enum CurrencyType {
         return currencyIndex;
     }
 
-    public static double getExchangeRateFromResponse(CurrencyType currency, String jsonResponse) {
+    private static double getExchangeRateFromResponse(CurrencyType currency, String jsonResponse) {
         int currencyIndex = getCurrencyIndexInResponse(currency, jsonResponse);
         int currencyAmountStartIndex = currencyIndex + 6;
         int currencyAmountEndIndex = jsonResponse.indexOf(",", currencyAmountStartIndex) != -1
@@ -158,7 +158,7 @@ public enum CurrencyType {
         return parseDouble(jsonResponse.substring(currencyAmountStartIndex, currencyAmountEndIndex));
     }
 
-    public static double getCurrenciesRate(CurrencyType sourceCurrency, CurrencyType targetCurrency) {
+    private static double getCurrenciesRate(CurrencyType sourceCurrency, CurrencyType targetCurrency) {
         String currenciesRatesAsJSON = CurrencyConverter.getCurrenciesRatesAsJSONFromAPI();
         double sourceRate = getExchangeRateFromResponse(sourceCurrency, currenciesRatesAsJSON);
         double targetRate = getExchangeRateFromResponse(targetCurrency, currenciesRatesAsJSON);

@@ -11,7 +11,7 @@ public class CurrencyTypeShould {
 
     @Test
     void get_a_currency_symbol_by_its_type() {
-        Assertions.assertThat(CurrencyType.getCurrencySymbol(CurrencyType.USD)).isEqualTo(dollarSign);
+        assertThat(CurrencyType.getCurrencySymbol(CurrencyType.USD)).isEqualTo(dollarSign);
         assertThat(CurrencyType.getCurrencySymbol(CurrencyType.EUR)).isEqualTo("€");
         assertThat(CurrencyType.getCurrencySymbol(CurrencyType.RON)).isEqualTo("lei");
     }

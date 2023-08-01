@@ -1,9 +1,11 @@
 package utilities;
 
+import controller.LoginPageController;
 import controller.MainWindowController;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoSuchFXMLFileExistingException;
 import exceptions.NoUserLoggedInException;
+import exceptions.UnexpectedException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,8 +19,10 @@ import main.Main;
 import model.Customer;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
+import static controller.MainWindowController.loginStage;
 import static main.Main.mainWindowController;
 
 public class GUIUtils {
@@ -57,18 +61,24 @@ public class GUIUtils {
 
     public static void openPage(Object controllerClass, String pageName) throws NoUserLoggedInException, NoFlightSelectedException, NoSuchFXMLFileExistingException {
         try {
-            VBox root = FXMLLoader.load(Objects.requireNonNull(controllerClass.getClass().getResource(pageName)));
-            MainWindowController.loginStage = new Stage();
-            MainWindowController.loginStage.setScene(new Scene(root));
-            MainWindowController.loginStage.initModality(Modality.APPLICATION_MODAL);
-            MainWindowController.loginStage.setResizable(false);
-            MainWindowController.loginStage.show();
-            MainWindowController.loginStage.setOnCloseRequest(e -> closePageByMouseClick());
+            Class<?> aClass = controllerClass.getClass();
+            URL resource = aClass.getResource(pageName);
+            URL url = Objects.requireNonNull(resource);
+            VBox root = FXMLLoader.load(url);
+            loginStage = new Stage();
+            loginStage.setScene(new Scene(root));
+            loginStage.initModality(Modality.APPLICATION_MODAL);
+            loginStage.setResizable(false);
+            loginStage.show();
+            loginStage.setOnCloseRequest(e -> closePageByMouseClick());
         } catch (IOException e) {
             if (e.getCause().toString().contains("Main.loggedInCustomer"))
                 throw new NoUserLoggedInException("No user is logged in");
             else if (e.getCause().toString().contains("Main.selectedFlight"))
                 throw new NoFlightSelectedException("No flight is selected from the list");
+            else
+                e.printStackTrace();
+//                throw new UnexpectedException("Something went wrong while opening the page");
         } catch (NullPointerException e) {
             if (Main.loggedInCustomer == null)
                 throw new NoUserLoggedInException("No user is logged in");
@@ -78,20 +88,20 @@ public class GUIUtils {
     }
 
     private static void closePageByMouseClick() {
-        if (MainWindowController.loginStage != null) {
-            MainWindowController.loginStage.close();
-            MainWindowController.loginStage = null;
+        if (loginStage != null) {
+            loginStage.close();
+            loginStage = null;
         }
     }
 
     public static boolean fieldValueNotNullOrEmpty(String fieldValue) {
-        return fieldValue != null && fieldValue.trim() != "";
+        return fieldValue != null && !fieldValue.trim().equals("");
     }
 
     public static void closePageAfterOperation(Node pageNode) {
         ((Stage) pageNode.getScene().getWindow()).close();
-        MainWindowController.loginStage.close();
-        MainWindowController.loginStage = null;
+        loginStage.close();
+        loginStage = null;
     }
 
     public static boolean isPasswordConfirmed(TextField password, TextField passwordConfirmation) {

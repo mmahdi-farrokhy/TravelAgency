@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static utilities.ButtonActionInitializer.setOnActionMethods;
+import static utilities.GUIUtils.openPage;
 import static utilities.GUIUtils.showMessageBox;
 
 public class MainWindowController implements Initializable {
@@ -52,7 +53,7 @@ public class MainWindowController implements Initializable {
 
     private void openPageByButtonPush(String pageName) {
         try {
-            GUIUtils.openPage(this, pageName);
+            openPage(this, pageName);
         } catch (NoUserLoggedInException ex) {
             showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.ERROR);
         } catch (NoFlightSelectedException ex) {

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static commonStructures.AirportCode.valueOf;
+import static main.Main.selectedFlight;
 import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;
 
@@ -131,7 +132,7 @@ public class FlightsListPageController implements Initializable {
 
     private void openBookingPage() {
         try {
-            Main.selectedFlight = getSelectedFlightFromTable();
+            selectedFlight = getSelectedFlightFromTable();
             closePageAfterOperation(bookBtn);
             openPage(this, "../BookingPage.fxml");
         } catch (NoUserLoggedInException e) {
@@ -160,7 +161,7 @@ public class FlightsListPageController implements Initializable {
     }
 
     private void closeFlightsListPage() {
-        Main.selectedFlight = null;
+        selectedFlight = null;
         bookBtn.getScene().getWindow().hide();
     }
 }
