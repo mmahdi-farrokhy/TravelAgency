@@ -1,7 +1,5 @@
 package utilities;
 
-import controller.LoginPageController;
-import controller.MainWindowController;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoSuchFXMLFileExistingException;
 import exceptions.NoUserLoggedInException;
@@ -19,7 +17,6 @@ import main.Main;
 import model.Customer;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
 
 import static controller.MainWindowController.loginStage;
@@ -59,12 +56,9 @@ public class GUIUtils {
         }
     }
 
-    public static void openPage(Object controllerClass, String pageName) throws NoUserLoggedInException, NoFlightSelectedException, NoSuchFXMLFileExistingException {
+    public static void openPage(Object controllerClass, String pageName) throws NoUserLoggedInException, NoFlightSelectedException, NoSuchFXMLFileExistingException, UnexpectedException {
         try {
-            Class<?> aClass = controllerClass.getClass();
-            URL resource = aClass.getResource(pageName);
-            URL url = Objects.requireNonNull(resource);
-            VBox root = FXMLLoader.load(url);
+            VBox root = FXMLLoader.load(Objects.requireNonNull(controllerClass.getClass().getResource(pageName)));
             loginStage = new Stage();
             loginStage.setScene(new Scene(root));
             loginStage.initModality(Modality.APPLICATION_MODAL);
@@ -77,8 +71,7 @@ public class GUIUtils {
             else if (e.getCause().toString().contains("Main.selectedFlight"))
                 throw new NoFlightSelectedException("No flight is selected from the list");
             else
-                e.printStackTrace();
-//                throw new UnexpectedException("Something went wrong while opening the page");
+                throw new UnexpectedException("Something went wrong while opening the page");
         } catch (NullPointerException e) {
             if (Main.loggedInCustomer == null)
                 throw new NoUserLoggedInException("No user is logged in");
@@ -98,7 +91,7 @@ public class GUIUtils {
         return fieldValue != null && !fieldValue.trim().equals("");
     }
 
-    public static void closePageAfterOperation(Node pageNode) {
+    public static void closeCurrentPage(Node pageNode) {
         ((Stage) pageNode.getScene().getWindow()).close();
         loginStage.close();
         loginStage = null;

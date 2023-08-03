@@ -4,14 +4,16 @@ import commonStructures.AirportCode;
 import data.factory.AirportDAOFactory;
 import data.factory.FlightDAOFactory;
 import exceptions.NoFlightSelectedException;
+import exceptions.NoSuchFXMLFileExistingException;
 import exceptions.NoUserLoggedInException;
+import exceptions.UnexpectedException;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.Main;
 import model.Airport;
 import model.Flight;
 import model.submodel.FlightTableRow;
@@ -81,13 +83,21 @@ public class FlightsListPageController implements Initializable {
         flightsList = FlightDAOFactory.createCustomerDAO().getAllRecords();
         initAirportCombo(originAirportCb);
         initAirportCombo(destinationAirportCb);
+        flightListTable.getSelectionModel().selectedItemProperty().addListener(getSelectedRow());
         setOnActionMethods(clearFiltersBtn, 8, this::clearFilters);
         setOnActionMethods(searchBtn, 8, this::fillFlightsTable);
         setOnActionMethods(bookBtn, 8, this::openBookingPage);
         setOnActionMethods(cancelBtn, 8, this::closeFlightsListPage);
     }
 
-    private void initAirportCombo(ComboBox<String> airportCombo){
+    private ChangeListener<FlightTableRow> getSelectedRow() {
+        return (obs, oldSelection, newSelection) -> {
+            if (newSelection != null)
+                selectedFlight = getSelectedFlightFromTable(newSelection);
+        };
+    }
+
+    private void initAirportCombo(ComboBox<String> airportCombo) {
         airportCombo.getItems().clear();
         airportCombo.getItems().add("");
         for (var airport : airportsList)
@@ -132,25 +142,24 @@ public class FlightsListPageController implements Initializable {
 
     private void openBookingPage() {
         try {
-            selectedFlight = getSelectedFlightFromTable();
-            closePageAfterOperation(bookBtn);
+            closeCurrentPage(bookBtn);
             openPage(this, "../BookingPage.fxml");
-        } catch (NoUserLoggedInException e) {
-            showMessageBox("Attention", "User not registered", "Please login or sign up first", Alert.AlertType.ERROR);
-        } catch (NoFlightSelectedException e) {
-            showMessageBox("Attention", "No flight is selected", "Please select a flight from the list", Alert.AlertType.WARNING);
+        } catch (NoUserLoggedInException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please login or sign up first", Alert.AlertType.ERROR);
+        } catch (NoFlightSelectedException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please select a flight from the list", Alert.AlertType.ERROR);
+        } catch (NoSuchFXMLFileExistingException ex) {
+            showMessageBox("Error", ex.getMessage(), "Could not load fxml file! \nPlease make sure the file name is correct.", Alert.AlertType.ERROR);
+        } catch (UnexpectedException ex) {
+            showMessageBox("Error", ex.getMessage(), "Something unexpected happened while trying to open the fxml file.", Alert.AlertType.ERROR);
         }
     }
 
-    private Flight getSelectedFlightFromTable() {
-        FlightTableRow selectedFlightRow = flightListTable.getSelectionModel().getSelectedItem();
-        if (selectedFlightRow == null)
-            return null;
-
-        String id = selectedFlightRow.getFlightIdCol();
-        Airport originAirport = new Airport(valueOf(selectedFlightRow.getOriginAirportCol().substring(0, 3)));
-        Airport destinationAirport = new Airport(valueOf(selectedFlightRow.getDestinationAirportCol().substring(0, 3)));
-        LocalDateTime departureTime = LocalDateTime.of(selectedFlightRow.getDateCol(), selectedFlightRow.getTimeCol());
+    private Flight getSelectedFlightFromTable(FlightTableRow selectedRow) {
+        String id = selectedRow.getFlightIdCol();
+        Airport originAirport = new Airport(valueOf(selectedRow.getOriginAirportCol().substring(0, 3)));
+        Airport destinationAirport = new Airport(valueOf(selectedRow.getDestinationAirportCol().substring(0, 3)));
+        LocalDateTime departureTime = LocalDateTime.of(selectedRow.getDateCol(), selectedRow.getTimeCol());
 
         Flight selectedFlight = new Flight();
         selectedFlight.setId(id);

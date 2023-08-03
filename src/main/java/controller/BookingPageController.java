@@ -2,6 +2,10 @@ package controller;
 
 import commonStructures.CurrencyType;
 import data.factory.OrderDAOFactory;
+import exceptions.NoFlightSelectedException;
+import exceptions.NoSuchFXMLFileExistingException;
+import exceptions.NoUserLoggedInException;
+import exceptions.UnexpectedException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -11,7 +15,6 @@ import javafx.scene.control.TextField;
 import main.Main;
 import model.Order;
 import model.submodel.Price;
-import utilities.GUIUtils;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -20,7 +23,6 @@ import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 
-import static commonStructures.CurrencyType.convertCurrency;
 import static commonStructures.CurrencyType.*;
 import static java.lang.Double.parseDouble;
 import static main.Main.loggedInCustomer;
@@ -145,24 +147,36 @@ public class BookingPageController implements Initializable {
 
     private void getBackToFlightListPage() {
         currentOrder = null;
-        closePageAfterOperation(backBtn);
-        openPage(this, "../FlightsListPage.fxml");
+        openFlightsListPage();
+    }
+
+    private void openFlightsListPage() {
+        try {
+            closeCurrentPage(backBtn);
+            openPage(this, "../FlightsListPage.fxml");
+        } catch (NoUserLoggedInException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please login or sign up first", Alert.AlertType.ERROR);
+        } catch (NoFlightSelectedException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please select a flight from the list", Alert.AlertType.ERROR);
+        } catch (NoSuchFXMLFileExistingException ex) {
+            showMessageBox("Error", ex.getMessage(), "Could not load fxml file! \nPlease make sure the file name is correct.", Alert.AlertType.ERROR);
+        } catch (UnexpectedException ex) {
+            showMessageBox("Error", ex.getMessage(), "Something unexpected happened while trying to open the fxml file.", Alert.AlertType.ERROR);
+        }
     }
 
     private void registerOrder() {
-        if (Double.parseDouble(numberOfTicketsCombo.getValue().toString()) == 0) {
+        if (Double.parseDouble(numberOfTicketsCombo.getValue().toString()) != 0) {
+            OrderDAOFactory.createCustomerDAO().insertNewRecord(currentOrder);
+            showMessageBox("Done!", "Order Registered successfully", "For further information see order history on the main window", Alert.AlertType.INFORMATION);
+            closeCurrentPage(orderRegisterBtn);
+        } else
             showMessageBox("Invalid Number Of Tickets", "The number of tickets is 0", "You must select at least 1", Alert.AlertType.WARNING);
-            return;
-        }
-
-        OrderDAOFactory.createCustomerDAO().insertNewRecord(currentOrder);
-        showMessageBox("Done!", "Order Registered successfully", "For further information see order history on the main window", Alert.AlertType.INFORMATION);
-        closePageAfterOperation(orderRegisterBtn);
     }
 
     private void getBackToMainPage() {
         currentOrder = null;
         Main.selectedFlight = null;
-        closePageAfterOperation(backBtn);
+        closeCurrentPage(backBtn);
     }
 }

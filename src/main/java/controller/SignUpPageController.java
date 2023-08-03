@@ -1,6 +1,10 @@
 package controller;
 
 import commonStructures.City;
+import exceptions.NoFlightSelectedException;
+import exceptions.NoSuchFXMLFileExistingException;
+import exceptions.NoUserLoggedInException;
+import exceptions.UnexpectedException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -67,7 +71,22 @@ public class SignUpPageController implements Initializable {
         initCityComboBox();
         errorText.setVisible(false);
         setOnActionMethods(signUpBtn, 8, this::signUpUser);
-        accountCheckText.setOnMouseClicked(e -> openPage(this, "..//LoginPage.fxml"));
+        accountCheckText.setOnMouseClicked(e -> openLoginPage());
+    }
+
+    private void openLoginPage() {
+        try {
+            closeCurrentPage(signUpBtn);
+            openPage(this, "..//LoginPage.fxml");
+        } catch (NoUserLoggedInException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please login or sign up first", Alert.AlertType.ERROR);
+        } catch (NoFlightSelectedException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please select a flight from the list", Alert.AlertType.ERROR);
+        } catch (NoSuchFXMLFileExistingException ex) {
+            showMessageBox("Error", ex.getMessage(), "Could not load fxml file! \nPlease make sure the file name is correct.", Alert.AlertType.ERROR);
+        } catch (UnexpectedException ex) {
+            showMessageBox("Error", ex.getMessage(), "Something unexpected happened while trying to open the fxml file.", Alert.AlertType.ERROR);
+        }
     }
 
     private void initCityComboBox() {
@@ -86,7 +105,7 @@ public class SignUpPageController implements Initializable {
                 errorText.setVisible(false);
                 loggedInCustomer = getSignedUpCustomer();
                 saveUserInDatabase(loggedInCustomer);
-                closePageAfterOperation(signUpBtn);
+                closeCurrentPage(signUpBtn);
                 showMessageBox("Sign Up", "Done!", "User created successfully", Alert.AlertType.INFORMATION);
                 fillUserInformation(getSignedUpCustomer());
             } else {

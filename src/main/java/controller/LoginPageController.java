@@ -1,6 +1,10 @@
 package controller;
 
 import data.factory.CustomerDAOFactory;
+import exceptions.NoFlightSelectedException;
+import exceptions.NoSuchFXMLFileExistingException;
+import exceptions.NoUserLoggedInException;
+import exceptions.UnexpectedException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -8,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import utilities.GUIUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,17 +40,28 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
         setOnActionMethods(loginBtn, 8, this::loginUser);
-        closePageAfterOperation(loginBtn);
-        accountCheckText.setOnMouseClicked(e -> {
-//            closePageAfterOperation(loginBtn);
+        accountCheckText.setOnMouseClicked(e -> openSignUpPage());
+    }
+
+    private void openSignUpPage() {
+        try {
+            closeCurrentPage(loginBtn);
             openPage(this, "..//SignUpPage.fxml");
-        });
+        } catch (NoUserLoggedInException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please login or sign up first", Alert.AlertType.ERROR);
+        } catch (NoFlightSelectedException ex) {
+            showMessageBox("Attention", ex.getMessage(), "Please select a flight from the list", Alert.AlertType.ERROR);
+        } catch (NoSuchFXMLFileExistingException ex) {
+            showMessageBox("Error", ex.getMessage(), "Could not load fxml file! \nPlease make sure the file name is correct.", Alert.AlertType.ERROR);
+        } catch (UnexpectedException ex) {
+            showMessageBox("Error", ex.getMessage(), "Something unexpected happened while trying to open the fxml file.", Alert.AlertType.ERROR);
+        }
     }
 
     private void loginUser() {
         if (isUserRegistered() && isPasswordCorrect()) {
             errorText.setVisible(false);
-            closePageAfterOperation(loginBtn);
+            closeCurrentPage(loginBtn);
             getUserInfo();
             showMessageBox("Login", "Done!", "Logged in successfully", Alert.AlertType.INFORMATION);
         } else {

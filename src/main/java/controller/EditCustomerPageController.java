@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import main.Main;
 import model.Customer;
 import model.submodel.Address;
 import model.submodel.FullName;
@@ -119,7 +118,7 @@ public class EditCustomerPageController implements Initializable {
             newCustomer.setEmail(emailField.getText());
             newCustomer.setPassword(passwordField.getText());
             CustomerDAOFactory.createCustomerDAO().updateRecord(newCustomer);
-            closePageAfterOperation(saveBtn);
+            closeCurrentPage(saveBtn);
             showMessageBox("Done", "User information updated!", "Your information is updated successfully.", Alert.AlertType.INFORMATION);
         } else
             throw new PasswordNotConfirmedException("Password is not confirmed!");
