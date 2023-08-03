@@ -5,8 +5,13 @@ import model.submodel.Price;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class Order extends DBTable {
+    public static final int[] FLIGHT_DISTANCES =
+            new int[]{10000, 7500, 6000, 4500, 3500, 2500, 2000, 1600, 1200, 800, 600, 400};
+    public static final double[] FLIGHT_PRICES =
+            new double[]{1215.65, 1061.07, 794.98, 703.33, 581.88, 478.09, 378.72, 325.72, 253.95, 244.01, 230.76, 216.41};
     private String id;
     private int quantity;
     private Price price;
@@ -30,9 +35,10 @@ public class Order extends DBTable {
         return quantity;
     }
 
-    public void setPrice(Price price){
+    public void setPrice(Price price) {
         this.price = price;
     }
+
     public Price getPrice() {
         return price;
     }
@@ -63,35 +69,16 @@ public class Order extends DBTable {
 
     public void calculateOrderPriceAmountByUSD() {
         double flightDistance = flight.estimateFlightDistance();
-        double priceAmount = 0;
         CurrencyType priceCurrency = CurrencyType.USD;
+        price = new Price(getPriceAmount(flightDistance), priceCurrency);
+    }
 
-        if (flightDistance >= 400 && flightDistance <= 600)
-            priceAmount = 216.41;
-        if (flightDistance >= 601 && flightDistance <= 800)
-            priceAmount = 230.76;
-        if (flightDistance >= 801 && flightDistance <= 1200)
-            priceAmount = 244.01;
-        if (flightDistance >= 1201 && flightDistance <= 1600)
-            priceAmount = 253.95;
-        if (flightDistance >= 1601 && flightDistance <= 2000)
-            priceAmount = 325.72;
-        if (flightDistance >= 2001 && flightDistance <= 2500)
-            priceAmount = 378.72;
-        if (flightDistance >= 2501 && flightDistance <= 3500)
-            priceAmount = 478.09;
-        if (flightDistance >= 3501 && flightDistance <= 4500)
-            priceAmount = 581.88;
-        if (flightDistance >= 4501 && flightDistance <= 6000)
-            priceAmount = 703.33;
-        if (flightDistance >= 6001 && flightDistance <= 7500)
-            priceAmount = 794.98;
-        if (flightDistance >= 7501 && flightDistance <= 10000)
-            priceAmount = 1061.07;
-        if (flightDistance >= 10001)
-            priceAmount = 1215.65;
-
-        price = new Price(priceAmount, priceCurrency);
+    private static double getPriceAmount(double flightDistance) {
+        double priceAmount = IntStream.range(0, FLIGHT_DISTANCES.length)
+                .filter(flightIndex -> flightDistance > FLIGHT_DISTANCES[flightIndex])
+                .mapToDouble(priceIndex -> FLIGHT_PRICES[priceIndex])
+                .findFirst().orElse(0);
+        return priceAmount;
     }
 
     @Override

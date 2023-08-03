@@ -12,6 +12,7 @@ import model.submodel.FullName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -57,6 +58,12 @@ public class OrderShould {
         order.setFlight(orderFlight);
         order.calculateOrderPriceAmountByUSD();
         assertThat(order.getPrice().getAmount()).isEqualTo(794.98);
+
+        orderFlight.setOriginAirport(new Airport(AirportCode.ZRH));
+        orderFlight.setDestinationAirport(new Airport(AirportCode.ARN));
+        order.setFlight(orderFlight);
+        order.calculateOrderPriceAmountByUSD();
+        assertThat(order.getPrice().getAmount()).isEqualTo(253.95);
     }
 
     @Test
