@@ -12,10 +12,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import main.Main;
 import model.Order;
 import model.submodel.Price;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -26,6 +26,7 @@ import java.util.stream.IntStream;
 import static commonStructures.CurrencyType.*;
 import static java.lang.Double.parseDouble;
 import static main.Main.loggedInCustomer;
+import static main.Main.selectedFlight;
 import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
 import static utilities.GUIUtils.*;
@@ -88,7 +89,6 @@ public class BookingPageController implements Initializable {
 
         numberOfTicketsCombo.setOnAction(e -> calculatePrice());
         currencyCombo.setOnAction(e -> calculatePrice());
-
         setOnActionMethods(backBtn, 15, this::getBackToFlightListPage);
         setOnActionMethods(orderRegisterBtn, 15, this::registerOrder);
         setOnActionMethods(cancelBtn, 15, this::getBackToMainPage);
@@ -113,23 +113,23 @@ public class BookingPageController implements Initializable {
 
     private void fillPersonalInformation() {
         nationalCodeField.setText(loggedInCustomer.getNationalCode());
-        fullNameField.setText(loggedInCustomer.getFullName().getRawFullName());
-        addressField.setText(loggedInCustomer.getAddress().getRawAddress());
+        fullNameField.setText(loggedInCustomer.getRawFullName());
+        addressField.setText(loggedInCustomer.getRawAddress());
         phoneNumberField.setText(loggedInCustomer.getPhoneNumber());
     }
 
     private void fillFlightInformation() {
-        originAirportField.setText(Main.selectedFlight.getOriginAirport().getCode() + ": " + Main.selectedFlight.getOriginAirport().getName());
-        destinationAirportField.setText(Main.selectedFlight.getDestinationAirport().getCode() + ": " + Main.selectedFlight.getDestinationAirport().getName());
-        flightDateTimeField.setText(Main.selectedFlight.getDepartureTime().toString().replaceAll("-", "/").replace("T", " "));
-        flightIdField.setText(Main.selectedFlight.getId());
-        flightDistanceField.setText(Double.toString(Main.selectedFlight.estimateFlightDistance()));
+        originAirportField.setText(selectedFlight.getFlightOriginAirportCode() + ": " + selectedFlight.getFlightOriginAirportName());
+        destinationAirportField.setText(selectedFlight.getFlightDestinationAirportCode() + ": " + selectedFlight.getFlightDestinationAirportName());
+        flightDateTimeField.setText(selectedFlight.getDepartureTime().toString().replaceAll("-", "/").replace("T", " "));
+        flightIdField.setText(selectedFlight.getId());
+        flightDistanceField.setText(Double.toString(selectedFlight.estimateFlightDistance()));
     }
 
     private void initCurrentOrder() {
         currentOrder = new Order();
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
-        currentOrder.setFlight(Main.selectedFlight);
+        currentOrder.setFlight(selectedFlight);
         currentOrder.setCustomerInfo(loggedInCustomer);
         currentOrder.setRegistrationTime(LocalDateTime.now());
         currentOrder.setPrice(new Price(parseDouble(priceField.getText()), valueOf(currencyCombo.getValue().substring(0, 3))));
@@ -140,9 +140,19 @@ public class BookingPageController implements Initializable {
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
         currentOrder.calculateOrderPriceAmountByUSD();
         CurrencyType selectedCurrency = valueOf(currencyCombo.getValue().substring(0, 3));
-        double convertedPrice = convertCurrency(currentOrder.getCurrency(), selectedCurrency, currentOrder.getAmount());
+        double convertedPrice = tryToConvertCurrencies(selectedCurrency);
         currentOrder.getPrice().setAmount(convertedPrice);
         priceField.setText(String.valueOf(limitNumberOfDecimalPlaces(convertedPrice * currentOrder.getQuantity(), 2)));
+    }
+
+    private double tryToConvertCurrencies(CurrencyType selectedCurrency) {
+        double convertedPrice = 0;
+        try {
+            convertedPrice = convertCurrency(currentOrder.getOrderPriceCurrency(), selectedCurrency, currentOrder.getOrderPriceAmount());
+        } catch (IOException e) {
+            showMessageBox("Error","Currency Conversion Failed","Make sure you are connected to the internet.", Alert.AlertType.ERROR);
+        }
+        return convertedPrice;
     }
 
     private void getBackToFlightListPage() {
@@ -167,7 +177,7 @@ public class BookingPageController implements Initializable {
 
     private void registerOrder() {
         if (Double.parseDouble(numberOfTicketsCombo.getValue().toString()) != 0) {
-            OrderDAOFactory.createCustomerDAO().insertNewRecord(currentOrder);
+            OrderDAOFactory.createOrderDAO().insertNewRecord(currentOrder);
             showMessageBox("Done!", "Order Registered successfully", "For further information see order history on the main window", Alert.AlertType.INFORMATION);
             closeCurrentPage(orderRegisterBtn);
         } else
@@ -176,7 +186,7 @@ public class BookingPageController implements Initializable {
 
     private void getBackToMainPage() {
         currentOrder = null;
-        Main.selectedFlight = null;
+        selectedFlight = null;
         closeCurrentPage(backBtn);
     }
 }

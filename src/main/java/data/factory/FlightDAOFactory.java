@@ -4,7 +4,7 @@ import data.daoImpl.FlightTable;
 import data.dao.FlightDAO;
 
 public class FlightDAOFactory {
-    public static FlightDAO createCustomerDAO() {
+    public static FlightDAO createFlightDAO() {
         return new FlightTable();
     }
 }

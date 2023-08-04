@@ -31,7 +31,7 @@ public class OrderTableShould {
 
     @BeforeEach
     void setUp() {
-        dbAccess = OrderDAOFactory.createCustomerDAO();
+        dbAccess = OrderDAOFactory.createOrderDAO();
         order = new Order();
         bradPitt = new Customer();
         flight = new Flight();

@@ -68,20 +68,20 @@ public class EditCustomerPageController implements Initializable {
         initAddress();
         initCityCombo();
         initContactInformation();
-        setOnActionMethods(saveBtn, 8, () -> tryToSaveCustomerChanges());
+        setOnActionMethods(saveBtn, 8, this::tryToSaveCustomerChanges);
     }
 
     private void initPersonalInformation() {
         nationalCodeField.setText(loggedInCustomer.getNationalCode());
-        firstNameField.setText(loggedInCustomer.getFullName().getFirstName());
-        lastNameField.setText(loggedInCustomer.getFullName().getLastName());
+        firstNameField.setText(loggedInCustomer.getCustomerFirstName());
+        lastNameField.setText(loggedInCustomer.getCustomerLastName());
         birthDatePicker.setValue(loggedInCustomer.getBirthDate());
     }
 
     private void initAddress() {
-        cityCombo.setValue(loggedInCustomer.getAddress().getCityName().toString());
-        postalCodeField.setText(loggedInCustomer.getAddress().getPostalCode());
-        streetField.setText(loggedInCustomer.getAddress().getStreetName());
+        cityCombo.setValue(loggedInCustomer.getCustomerCityName().toString());
+        postalCodeField.setText(loggedInCustomer.getCustomerPostalCode());
+        streetField.setText(loggedInCustomer.getCustomerStreetName());
     }
 
     private void initCityCombo() {
@@ -102,6 +102,7 @@ public class EditCustomerPageController implements Initializable {
     private void tryToSaveCustomerChanges() {
         try {
             saveCustomerChanges();
+            showMessageBox("Done", "User information updated!", "Your information is updated successfully.", Alert.AlertType.INFORMATION);
         } catch (PasswordNotConfirmedException ex) {
             showMessageBox("Attention", "Password is not confirmed!", "Please confirm your password correctly", Alert.AlertType.WARNING);
         }
@@ -119,7 +120,6 @@ public class EditCustomerPageController implements Initializable {
             newCustomer.setPassword(passwordField.getText());
             CustomerDAOFactory.createCustomerDAO().updateRecord(newCustomer);
             closeCurrentPage(saveBtn);
-            showMessageBox("Done", "User information updated!", "Your information is updated successfully.", Alert.AlertType.INFORMATION);
         } else
             throw new PasswordNotConfirmedException("Password is not confirmed!");
     }

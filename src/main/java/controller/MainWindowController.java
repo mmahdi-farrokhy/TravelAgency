@@ -64,7 +64,6 @@ public class MainWindowController implements Initializable {
         }
     }
 
-
     public void setFieldText(String textFieldName, String newValue) throws NoSuchFieldException, IllegalAccessException {
         Field field = getClass().getDeclaredField(textFieldName);
         TextField textField = (TextField) field.get(this);

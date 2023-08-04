@@ -1,7 +1,5 @@
 package controller;
 
-import data.factory.FlightDAOFactory;
-import data.factory.OrderDAOFactory;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +18,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static data.factory.FlightDAOFactory.createFlightDAO;
+import static data.factory.OrderDAOFactory.createOrderDAO;
 import static javafx.collections.FXCollections.observableArrayList;
 import static main.Main.loggedInCustomer;
 
@@ -70,26 +70,29 @@ public class OrdersHistoryPageController implements Initializable {
 
     private ObservableList<OrderHistoryTableRow> getOrdersHistoryRows() {
         List<OrderHistoryTableRow> orderHistoryRows = new LinkedList<>();
-        List<Order> allOrdersOfLoggedInCustomer =
-                OrderDAOFactory.createCustomerDAO().getAllRecords().stream()
-                        .filter(order -> Objects.equals(order.getCustomerInfo().getNationalCode(), loggedInCustomer.getNationalCode())).toList();
-        List<Flight> allFlights = FlightDAOFactory.createCustomerDAO().getAllRecords();
 
-        for (Order order : allOrdersOfLoggedInCustomer)
-            for (Flight flight : allFlights) {
-                if (order.getFlight().getId().equals(flight.getId())) {
-                    orderHistoryRows.add(new OrderHistoryTableRow(
-                            order.getId(),
-                            flight.getOriginAirport().getCode() + ": " + flight.getOriginAirport().getName(),
-                            flight.getDestinationAirport().getCode() + ": " + flight.getDestinationAirport().getName(),
-                            flight.getDepartureTime().toLocalDate(),
-                            flight.getDepartureTime().toLocalTime(),
-                            String.valueOf(order.getQuantity()),
-                            String.valueOf(order.getPrice().getAmount())
-                    ));
-                }
-            }
+        for (Order order : getCustomerOrders())
+            for (Flight flight : createFlightDAO().getAllRecords())
+                if (order.getOrderFlightId().equals(flight.getId()))
+                    orderHistoryRows.add(createOrderHistoryTableRow(order, flight));
 
         return observableArrayList(orderHistoryRows);
+    }
+
+    private static OrderHistoryTableRow createOrderHistoryTableRow(Order order, Flight flight) {
+        return new OrderHistoryTableRow(
+                order.getId(),
+                flight.getFlightOriginAirportCode() + ": " + flight.getFlightOriginAirportName(),
+                flight.getFlightDestinationAirportCode() + ": " + flight.getFlightDestinationAirportName(),
+                flight.getDepartureTime().toLocalDate(),
+                flight.getDepartureTime().toLocalTime(),
+                String.valueOf(order.getQuantity()),
+                String.valueOf(order.getOrderPriceAmount())
+        );
+    }
+
+    private static List<Order> getCustomerOrders() {
+        return createOrderDAO().getAllRecords().stream()
+                .filter(order -> Objects.equals(order.getOrderCustomerNationalCode(), loggedInCustomer.getNationalCode())).toList();
     }
 }

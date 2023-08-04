@@ -68,17 +68,15 @@ public class Order extends DBTable {
     }
 
     public void calculateOrderPriceAmountByUSD() {
-        double flightDistance = flight.estimateFlightDistance();
-        CurrencyType priceCurrency = CurrencyType.USD;
-        price = new Price(getPriceAmount(flightDistance), priceCurrency);
+        double flightDistance = this.flight.estimateFlightDistance();
+        price = new Price(calculatePriceAmount(flightDistance), CurrencyType.USD);
     }
 
-    private static double getPriceAmount(double flightDistance) {
-        double priceAmount = IntStream.range(0, FLIGHT_DISTANCES.length)
+    private static double calculatePriceAmount(double flightDistance) {
+        return IntStream.range(0, FLIGHT_DISTANCES.length)
                 .filter(flightIndex -> flightDistance > FLIGHT_DISTANCES[flightIndex])
                 .mapToDouble(priceIndex -> FLIGHT_PRICES[priceIndex])
                 .findFirst().orElse(0);
-        return priceAmount;
     }
 
     @Override
@@ -106,11 +104,19 @@ public class Order extends DBTable {
                 '}';
     }
 
-    public CurrencyType getCurrency() {
+    public CurrencyType getOrderPriceCurrency() {
         return price.getCurrency();
     }
 
-    public double getAmount() {
+    public double getOrderPriceAmount() {
         return price.getAmount();
+    }
+
+    public String getOrderCustomerNationalCode() {
+        return customerInfo.getNationalCode();
+    }
+
+    public String getOrderFlightId() {
+        return flight.getId();
     }
 }

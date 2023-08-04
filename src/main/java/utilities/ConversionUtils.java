@@ -25,12 +25,4 @@ public class ConversionUtils {
     public static <T> T jsonToProperty(String jsonProperty, T type) {
         return new Gson().fromJson(jsonProperty, (Type) type.getClass());
     }
-
-    public static String capitalizeEachWord(String wordsCombination) {
-        String capitalizedWordsCombination = Arrays.stream(wordsCombination.split(" "))
-                .map(String::toUpperCase)
-                .collect(Collectors.joining(" "));
-
-        return capitalizedWordsCombination.trim();
-    }
 }

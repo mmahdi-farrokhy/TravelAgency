@@ -39,6 +39,7 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
+
         setOnActionMethods(loginBtn, 8, this::loginUser);
         accountCheckText.setOnMouseClicked(e -> openSignUpPage());
     }
@@ -59,14 +60,23 @@ public class LoginPageController implements Initializable {
     }
 
     private void loginUser() {
-        if (isUserRegistered() && isPasswordCorrect()) {
-            errorText.setVisible(false);
-            closeCurrentPage(loginBtn);
-            getUserInfo();
-            showMessageBox("Login", "Done!", "Logged in successfully", Alert.AlertType.INFORMATION);
+        if (isUserRegistered()) {
+            if (isPasswordCorrect()) {
+                errorText.setVisible(false);
+                closeCurrentPage(loginBtn);
+                getUserInfo();
+                showMessageBox("Login", "Done!", "Logged in successfully", Alert.AlertType.INFORMATION);
+            } else {
+                showError("Wrong Password!");
+            }
         } else {
-            errorText.setVisible(true);
+            showError("User Is Not Registered");
         }
+    }
+
+    private void showError(String errorMessage) {
+        errorText.setText(errorMessage);
+        errorText.setVisible(true);
     }
 
     private void getUserInfo() {

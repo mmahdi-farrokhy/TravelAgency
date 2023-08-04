@@ -1,5 +1,6 @@
 package model;
 
+import commonStructures.AirportCode;
 import data.dao.FlightDAO;
 import data.factory.FlightDAOFactory;
 
@@ -24,7 +25,7 @@ public class Flight extends DBTable {
     }
 
     public Flight(String id) {
-        FlightDAO flightTable = FlightDAOFactory.createCustomerDAO();
+        FlightDAO flightTable = FlightDAOFactory.createFlightDAO();
         Flight flightById = flightTable.getRecordById(id);
         this.id = id;
         this.departureTime = flightById.departureTime;
@@ -104,5 +105,21 @@ public class Flight extends DBTable {
     @Override
     public int hashCode() {
         return Objects.hash(id, departureTime, originAirport, destinationAirport);
+    }
+
+    public AirportCode getFlightOriginAirportCode() {
+        return originAirport.getCode();
+    }
+
+    public AirportCode getFlightDestinationAirportCode() {
+        return destinationAirport.getCode();
+    }
+
+    public String getFlightOriginAirportName() {
+        return originAirport.getName();
+    }
+
+    public String getFlightDestinationAirportName() {
+        return destinationAirport.getName();
     }
 }

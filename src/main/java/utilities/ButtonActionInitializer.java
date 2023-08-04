@@ -16,5 +16,4 @@ public class ButtonActionInitializer {
         button.setOnMouseExited(e -> resetButtonStyle((Button) e.getSource(), buttonRadius));
         button.setOnAction(e -> actionListener.listener());
     }
-
 }

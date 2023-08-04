@@ -1,5 +1,7 @@
 package commonStructures;
 
+import utilities.ConversionUtils;
+
 public enum City {
     NONE,
     ATLANTA,

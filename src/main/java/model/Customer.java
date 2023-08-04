@@ -1,5 +1,6 @@
 package model;
 
+import commonStructures.City;
 import data.dao.CustomerDAO;
 import data.factory.CustomerDAOFactory;
 import model.submodel.Address;
@@ -115,5 +116,33 @@ public class Customer extends DBTable {
                 ", address=" + address +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
+    }
+
+    public String getRawFullName(){
+        return fullName.getFirstName() + " " + fullName.getLastName();
+    }
+
+    public String getRawAddress(){
+        return address.getCityName().toString() + ", " + address.getStreetName() + ", " + address.getPostalCode();
+    }
+
+    public String getCustomerFirstName() {
+        return fullName.getFirstName();
+    }
+
+    public String getCustomerLastName() {
+        return fullName.getLastName();
+    }
+
+    public City getCustomerCityName() {
+        return address.getCityName();
+    }
+
+    public String getCustomerPostalCode() {
+        return address.getPostalCode();
+    }
+
+    public String getCustomerStreetName() {
+        return address.getStreetName();
     }
 }

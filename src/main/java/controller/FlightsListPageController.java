@@ -8,7 +8,6 @@ import exceptions.NoSuchFXMLFileExistingException;
 import exceptions.NoUserLoggedInException;
 import exceptions.UnexpectedException;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,7 +26,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static commonStructures.AirportCode.valueOf;
+import static javafx.collections.FXCollections.observableArrayList;
 import static main.Main.selectedFlight;
+import static model.submodel.FlightTableRow.filterFlightRows;
 import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;
 
@@ -80,9 +81,10 @@ public class FlightsListPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         airportsList = AirportDAOFactory.createAirportDAO().getAllRecords();
-        flightsList = FlightDAOFactory.createCustomerDAO().getAllRecords();
+        flightsList = FlightDAOFactory.createFlightDAO().getAllRecords();
         initAirportCombo(originAirportCb);
         initAirportCombo(destinationAirportCb);
+
         flightListTable.getSelectionModel().selectedItemProperty().addListener(getSelectedRow());
         setOnActionMethods(clearFiltersBtn, 8, this::clearFilters);
         setOnActionMethods(searchBtn, 8, this::fillFlightsTable);
@@ -131,13 +133,13 @@ public class FlightsListPageController implements Initializable {
         List<FlightTableRow> flightRows = new LinkedList<>();
         for (Flight flight : flightsList)
             flightRows.add(new FlightTableRow(flight.getId(),
-                    flight.getOriginAirport().getCode() + ": " + flight.getOriginAirport().getName(),
-                    flight.getDestinationAirport().getCode() + ": " + flight.getDestinationAirport().getName(),
+                    flight.getFlightOriginAirportCode() + ": " + flight.getFlightOriginAirportName(),
+                    flight.getFlightDestinationAirportCode() + ": " + flight.getFlightDestinationAirportName(),
                     flight.getDepartureTime().toLocalDate(),
                     flight.getDepartureTime().toLocalTime()));
 
-        List<FlightTableRow> filteredFlightRows = FlightTableRow.filterFlightRows(this, flightRows);
-        return FXCollections.observableArrayList(filteredFlightRows);
+        List<FlightTableRow> filteredFlightRows = filterFlightRows(this, flightRows);
+        return observableArrayList(filteredFlightRows);
     }
 
     private void openBookingPage() {

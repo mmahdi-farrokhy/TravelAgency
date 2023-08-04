@@ -19,7 +19,7 @@ public class FlightTableShould {
 
     @BeforeEach
     void setUp() {
-        dbAccess = FlightDAOFactory.createCustomerDAO();
+        dbAccess = FlightDAOFactory.createFlightDAO();
     }
 
     @Test

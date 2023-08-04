@@ -1,7 +1,8 @@
 package commonStructures;
 
-import buisness.CurrencyConverter;
+import java.io.IOException;
 
+import static buisness.OnlineCurrencyConverter.getCurrenciesRatesAsJSONFromAPI;
 import static java.lang.Double.parseDouble;
 import static utilities.ConversionUtils.limitNumberOfDecimalPlaces;
 
@@ -136,7 +137,7 @@ public enum CurrencyType {
         return "";
     }
 
-    public static double convertCurrency(CurrencyType sourceCurrency, CurrencyType targetCurrency, double amount) {
+    public static double convertCurrency(CurrencyType sourceCurrency, CurrencyType targetCurrency, double amount) throws IOException {
         return limitNumberOfDecimalPlaces(amount * getCurrenciesRate(sourceCurrency, targetCurrency), 5);
     }
 
@@ -158,8 +159,8 @@ public enum CurrencyType {
         return parseDouble(jsonResponse.substring(currencyAmountStartIndex, currencyAmountEndIndex));
     }
 
-    private static double getCurrenciesRate(CurrencyType sourceCurrency, CurrencyType targetCurrency) {
-        String currenciesRatesAsJSON = CurrencyConverter.getCurrenciesRatesAsJSONFromAPI();
+    private static double getCurrenciesRate(CurrencyType sourceCurrency, CurrencyType targetCurrency) throws IOException {
+        String currenciesRatesAsJSON = getCurrenciesRatesAsJSONFromAPI();
         double sourceRate = getExchangeRateFromResponse(sourceCurrency, currenciesRatesAsJSON);
         double targetRate = getExchangeRateFromResponse(targetCurrency, currenciesRatesAsJSON);
         return limitNumberOfDecimalPlaces(targetRate / sourceRate, 10);

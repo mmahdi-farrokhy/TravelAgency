@@ -4,7 +4,7 @@ import data.dao.OrderDAO;
 import data.daoImpl.OrderTable;
 
 public class OrderDAOFactory {
-    public static OrderDAO createCustomerDAO() {
+    public static OrderDAO createOrderDAO() {
         return new OrderTable();
     }
 }
