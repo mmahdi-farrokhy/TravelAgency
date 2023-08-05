@@ -1,4 +1,4 @@
-package data.daoImpl;
+package data.dao.impl;
 
 import commonStructures.AirportCode;
 import data.crud.DBAccess;

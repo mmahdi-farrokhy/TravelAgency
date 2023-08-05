@@ -2,6 +2,7 @@ package acceptance.data;
 
 import data.dao.FlightDAO;
 import data.factory.FlightDAOFactory;
+import dto.FlightDTO;
 import model.Airport;
 import model.Flight;
 import commonStructures.AirportCode;
@@ -24,10 +25,10 @@ public class FlightTableShould {
 
     @Test
     void get_all_flights_from_the_flight_table() {
-        List<Flight> allFlights = dbAccess.getAllRecords();
+        List<FlightDTO> allFlights = dbAccess.getAllRecords();
         assertThat(allFlights.isEmpty()).isFalse();
 
-        Flight flight = new Flight();
+        FlightDTO flight = new FlightDTO();
         flight.setId("1");
         flight.setDepartureTime(LocalDateTime.of(2023, 4, 28, 12, 54, 30));
         flight.setOriginAirport(new Airport(AirportCode.ATL));
@@ -37,23 +38,23 @@ public class FlightTableShould {
 
     @Test
     void get_a_specific_airport_from_flight_table() {
-        Flight flightById1 = dbAccess.getRecordById("1");
+        FlightDTO flightById1 = dbAccess.getRecordById("1");
         assertThat(flightById1.getOriginAirport()).isEqualTo(new Airport(AirportCode.ATL));
         assertThat(flightById1.getDestinationAirport()).isEqualTo(new Airport(AirportCode.RUH));
 
-        Flight flightById2 = dbAccess.getRecordById("2");
+        FlightDTO flightById2 = dbAccess.getRecordById("2");
         assertThat(flightById2.getOriginAirport()).isEqualTo(new Airport(AirportCode.MAN));
         assertThat(flightById2.getDestinationAirport()).isEqualTo(new Airport(AirportCode.NKG));
     }
 
     @Test
     void insert_a_new_flight_to_flight_table() {
-        Flight newRecord = new Flight();
+        FlightDTO newRecord = new FlightDTO();
         newRecord.setDepartureTime(LocalDateTime.of(2029, 8, 1, 8, 0, 0));
         newRecord.setOriginAirport(new Airport(AirportCode.CUN));
         newRecord.setDestinationAirport(new Airport(AirportCode.ZRH));
         boolean recordInserted = dbAccess.insertNewRecord(newRecord);
-        assertThat(recordInserted).isFalse();
+        assertThat(recordInserted).isTrue();
 
         newRecord.setDepartureTime(LocalDateTime.of(2029, 8, 1, 8, 0, 0));
         newRecord.setOriginAirport(new Airport(AirportCode.SAW));

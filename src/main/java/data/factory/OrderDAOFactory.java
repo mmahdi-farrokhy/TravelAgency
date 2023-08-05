@@ -1,7 +1,7 @@
 package data.factory;
 
 import data.dao.OrderDAO;
-import data.daoImpl.OrderTable;
+import data.dao.impl.OrderTable;
 
 public class OrderDAOFactory {
     public static OrderDAO createOrderDAO() {

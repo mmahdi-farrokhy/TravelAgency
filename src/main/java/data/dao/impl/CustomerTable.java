@@ -1,4 +1,4 @@
-package data.daoImpl;
+package data.dao.impl;
 
 import commonStructures.City;
 import data.crud.DBUpdate;

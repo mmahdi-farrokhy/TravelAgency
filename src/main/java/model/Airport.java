@@ -14,6 +14,13 @@ public class Airport extends DBTable {
     private Location location;
     private String name;
 
+    public Airport(){
+        this.code = AirportCode.NONE;
+        this.coordinate = new Coordinate(0,0);
+        this.location = new Location("","");
+        this.name = "";
+    }
+
     public Airport(AirportCode airportCode) {
         AirportDAO airportTable = AirportDAOFactory.createAirportDAO();
         this.code = airportCode;

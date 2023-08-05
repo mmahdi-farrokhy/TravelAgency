@@ -7,7 +7,7 @@ import model.submodel.Price;
 
 import java.time.LocalDateTime;
 
-public class OrderRecord extends DBTable {
+public class OrderDTO extends DBTable {
     private String id;
     private int quantity;
     private Price price;
@@ -15,7 +15,7 @@ public class OrderRecord extends DBTable {
     private Customer customerInfo;
     private Flight flight;
 
-    public OrderRecord(String id, int quantity, Price price, LocalDateTime registrationTime, Customer customerInfo, Flight flight) {
+    public OrderDTO(String id, int quantity, Price price, LocalDateTime registrationTime, Customer customerInfo, Flight flight) {
         this.id = id;
         this.quantity = quantity;
         this.price = price;

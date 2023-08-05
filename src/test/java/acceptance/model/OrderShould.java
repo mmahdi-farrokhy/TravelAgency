@@ -2,7 +2,7 @@ package acceptance.model;
 
 import commonStructures.AirportCode;
 import commonStructures.City;
-import data.daoImpl.AirportTable;
+import data.dao.impl.AirportTable;
 import model.Airport;
 import model.Customer;
 import model.Flight;
@@ -12,7 +12,6 @@ import model.submodel.FullName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 

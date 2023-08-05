@@ -3,6 +3,7 @@ package controller;
 import commonStructures.AirportCode;
 import data.factory.AirportDAOFactory;
 import data.factory.FlightDAOFactory;
+import dto.FlightDTO;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoSuchFXMLFileExistingException;
 import exceptions.NoUserLoggedInException;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static commonStructures.AirportCode.valueOf;
+import static dto.FlightDTO.flightListFromFlightDTOList;
 import static javafx.collections.FXCollections.observableArrayList;
 import static main.Main.selectedFlight;
 import static model.submodel.FlightTableRow.filterFlightRows;
@@ -76,12 +78,12 @@ public class FlightsListPageController implements Initializable {
     private Button cancelBtn;
 
     private List<Airport> airportsList;
-    private List<Flight> flightsList;
+    private List<FlightDTO> flightsDTOList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         airportsList = AirportDAOFactory.createAirportDAO().getAllRecords();
-        flightsList = FlightDAOFactory.createFlightDAO().getAllRecords();
+        flightsDTOList = FlightDAOFactory.createFlightDAO().getAllRecords();
         initAirportCombo(originAirportCb);
         initAirportCombo(destinationAirportCb);
 
@@ -131,7 +133,7 @@ public class FlightsListPageController implements Initializable {
 
     private ObservableList<FlightTableRow> getFlightRows() {
         List<FlightTableRow> flightRows = new LinkedList<>();
-        for (Flight flight : flightsList)
+        for (Flight flight : flightListFromFlightDTOList(flightsDTOList))
             flightRows.add(new FlightTableRow(flight.getId(),
                     flight.getFlightOriginAirportCode() + ": " + flight.getFlightOriginAirportName(),
                     flight.getFlightDestinationAirportCode() + ": " + flight.getFlightDestinationAirportName(),

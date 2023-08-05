@@ -6,7 +6,7 @@ import model.submodel.FullName;
 
 import java.time.LocalDate;
 
-public class CustomerRecord extends DBTable {
+public class CustomerDTO extends DBTable {
     private String nationalCode;
     private FullName fullName;
     private LocalDate birthDate;
@@ -15,7 +15,7 @@ public class CustomerRecord extends DBTable {
     private String email;
     private String password;
 
-    public CustomerRecord(String nationalCode, FullName fullName, LocalDate birthDate, Address address, String phoneNumber, String email, String password) {
+    public CustomerDTO(String nationalCode, FullName fullName, LocalDate birthDate, Address address, String phoneNumber, String email, String password) {
         this.nationalCode = nationalCode;
         this.fullName = fullName;
         this.birthDate = birthDate;

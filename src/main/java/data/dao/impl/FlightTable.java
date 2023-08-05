@@ -1,12 +1,11 @@
-package data.daoImpl;
+package data.dao.impl;
 
-import data.dao.OrderDAO;
 import data.crud.DBAccess;
+import data.dao.FlightDAO;
+import dto.FlightDTO;
+import model.Airport;
 import model.Flight;
-import model.Customer;
-import model.Order;
-import model.submodel.Price;
-import commonStructures.CurrencyType;
+import commonStructures.AirportCode;
 import model.DBTable;
 
 import java.io.IOException;
@@ -22,12 +21,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import static java.lang.Integer.parseInt;
 import static java.sql.DriverManager.getConnection;
 
-public class OrderTable implements OrderDAO {
+public class FlightTable implements FlightDAO {
 
-    public OrderTable() {
+    public FlightTable() {
         try (InputStream configFile = Files.newInputStream(Paths.get("db-config.properties"))) {
             final Properties properties = new Properties();
             properties.load(configFile);
@@ -40,9 +38,9 @@ public class OrderTable implements OrderDAO {
     }
 
     @Override
-    public List<Order> getAllRecords() {
-        List<Order> allOrders = new LinkedList<>();
-        DBTable.tableName = "orders";
+    public List<FlightDTO> getAllRecords() {
+        List<FlightDTO> allFlights = new LinkedList<>();
+        DBTable.tableName = "flights";
         DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
@@ -50,7 +48,7 @@ public class OrderTable implements OrderDAO {
 
             final ResultSet resultSet = SELECT_ALL.executeQuery();
             while (resultSet.next()) {
-                allOrders.add(generateRecordFromResultSet(resultSet));
+                allFlights.add(generateRecordFromResultSet(resultSet));
             }
 
             resultSet.close();
@@ -59,94 +57,84 @@ public class OrderTable implements OrderDAO {
             throw new RuntimeException(e);
         }
 
-        return allOrders;
+        return allFlights;
     }
 
     @Override
-    public Order generateRecordFromResultSet(ResultSet resultSet) {
-        Order orderById = new Order();
+    public FlightDTO generateRecordFromResultSet(ResultSet resultSet) {
+        FlightDTO flightDataById = new FlightDTO();
 
         try {
             final String id = resultSet.getString("ID");
-            final int quantity = resultSet.getInt("Quantity");
-            final Price price = new Price(resultSet.getDouble("Price"), CurrencyType.USD);
-            final LocalDateTime registrationTime = resultSet.getObject("RegistrationTime", LocalDateTime.class);
-            final Customer customerInfo = new Customer(resultSet.getString("CustomerNationalCode"));
-            final Flight flight = new Flight(resultSet.getString("FlightID"));
+            final LocalDateTime departureTime = resultSet.getObject("DepartureTime", LocalDateTime.class);
+            final Airport originAirport = new Airport(AirportCode.valueOf(resultSet.getString("OriginAirportCode")));
+            final Airport destinationAirport = new Airport(AirportCode.valueOf(resultSet.getString("DestinationAirportCode")));
 
-            orderById.setId(id);
-            orderById.setQuantity(quantity);
-            orderById.setPrice(price);
-            orderById.setRegistrationTime(registrationTime);
-            orderById.setCustomerInfo(customerInfo);
-            orderById.setFlight(flight);
-
+            flightDataById.setId(id);
+            flightDataById.setDepartureTime(departureTime);
+            flightDataById.setOriginAirport(originAirport);
+            flightDataById.setDestinationAirport(destinationAirport);
         } catch (IllegalArgumentException | SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return orderById;
-
+        return flightDataById;
     }
 
     @Override
-    public Order getRecordById(String id) {
-        Order orderById;
-        DBTable.tableName = "orders";
+    public FlightDTO getRecordById(String id) {
+        FlightDTO flightById;
+        DBTable.tableName = "flights";
         DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName + DBS_WHERE.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement SELECT_BY_CODE = con.prepareStatement(DBTable.query)) {
-            SELECT_BY_CODE.setInt(1, parseInt(id));
+            SELECT_BY_CODE.setInt(1, Integer.parseInt(id));
             final ResultSet resultSet = SELECT_BY_CODE.executeQuery();
             resultSet.next();
-            orderById = generateRecordFromResultSet(resultSet);
+            flightById = generateRecordFromResultSet(resultSet);
             resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return orderById;
+        return flightById;
     }
 
     @Override
-    public boolean insertNewRecord(Order newRecord) {
-        DBTable.tableName = "orders";
-        DBTable.query = DBQ_INSERT + DBTable.tableName + " (Quantity, Price, RegistrationTime, CustomerNationalCode, FlightID) VALUES (?, ?, ?, ?, ?)";
+    public boolean insertNewRecord(FlightDTO newRecord) {
+        DBTable.tableName = "flights";
+        DBTable.query = DBQ_INSERT + DBTable.tableName + " (DepartureTime, OriginAirportCode, DestinationAirportCode) VALUES (?, ?, ?)";
         boolean recordInserted = false;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement INSERT = con.prepareStatement(DBTable.query)) {
-            List<Order> orderList = getAllRecords();
-            if (!orderList.contains(newRecord)) {
-                INSERT.setInt(1, newRecord.getQuantity());
-                INSERT.setDouble(2, newRecord.getPrice().getAmount());
-                INSERT.setString(3, newRecord.getRegistrationTime().toString());
-                INSERT.setString(4, newRecord.getCustomerInfo().getNationalCode());
-                INSERT.setInt(5, parseInt(newRecord.getFlight().getId()));
+            List<FlightDTO> flightList = getAllRecords();
+            if (!flightList.contains(newRecord)) {
+                INSERT.setString(1, newRecord.getDepartureTime().toString());
+                INSERT.setString(2, newRecord.getOriginAirport().getCode().toString());
+                INSERT.setString(3, newRecord.getDestinationAirport().getCode().toString());
                 INSERT.executeUpdate();
                 recordInserted = true;
             }
-            } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return recordInserted;
-
     }
 
     @Override
     public void deleteRecordById(String id) {
-        DBTable.tableName = "orders";
+        DBTable.tableName = "flights";
         DBTable.query = DBQ_DELETE + DBTable.tableName + DBS_WHERE.replace("id", "ID");
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement DELETE_BY_ID = con.prepareStatement(DBTable.query)) {
-            DELETE_BY_ID.setInt(1, parseInt(id));
+            DELETE_BY_ID.setInt(1, Integer.parseInt(id));
             DELETE_BY_ID.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

@@ -1,6 +1,6 @@
 package data.factory;
 
-import data.daoImpl.FlightTable;
+import data.dao.impl.FlightTable;
 import data.dao.FlightDAO;
 
 public class FlightDAOFactory {

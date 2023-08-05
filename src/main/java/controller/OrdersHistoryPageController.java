@@ -1,5 +1,6 @@
 package controller;
 
+import dto.FlightDTO;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import java.util.ResourceBundle;
 
 import static data.factory.FlightDAOFactory.createFlightDAO;
 import static data.factory.OrderDAOFactory.createOrderDAO;
+import static dto.FlightDTO.flightListFromFlightDTOList;
 import static javafx.collections.FXCollections.observableArrayList;
 import static main.Main.loggedInCustomer;
 
@@ -70,11 +72,12 @@ public class OrdersHistoryPageController implements Initializable {
 
     private ObservableList<OrderHistoryTableRow> getOrdersHistoryRows() {
         List<OrderHistoryTableRow> orderHistoryRows = new LinkedList<>();
-
-        for (Order order : getCustomerOrders())
-            for (Flight flight : createFlightDAO().getAllRecords())
+        List<FlightDTO> flightsDTOList = createFlightDAO().getAllRecords();
+        for (Order order : getCustomerOrders()) {
+            for (Flight flight : flightListFromFlightDTOList(flightsDTOList))
                 if (order.getOrderFlightId().equals(flight.getId()))
                     orderHistoryRows.add(createOrderHistoryTableRow(order, flight));
+        }
 
         return observableArrayList(orderHistoryRows);
     }

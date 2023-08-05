@@ -5,13 +5,13 @@ import model.DBTable;
 import model.submodel.Coordinate;
 import model.submodel.Location;
 
-public class AirportRecord extends DBTable {
+public class AirportDTO extends DBTable {
     private AirportCode code;
     private Coordinate coordinate;
     private Location location;
     private String name;
 
-    public AirportRecord(AirportCode code, Coordinate coordinate, Location location, String name) {
+    public AirportDTO(AirportCode code, Coordinate coordinate, Location location, String name) {
         this.code = code;
         this.coordinate = coordinate;
         this.location = location;

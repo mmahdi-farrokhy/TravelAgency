@@ -1,6 +1,6 @@
 package data.factory;
 
-import data.daoImpl.CustomerTable;
+import data.dao.impl.CustomerTable;
 import data.dao.CustomerDAO;
 
 public class CustomerDAOFactory {

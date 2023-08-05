@@ -3,6 +3,7 @@ package model;
 import commonStructures.AirportCode;
 import data.dao.FlightDAO;
 import data.factory.FlightDAOFactory;
+import dto.FlightDTO;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -26,11 +27,18 @@ public class Flight extends DBTable {
 
     public Flight(String id) {
         FlightDAO flightTable = FlightDAOFactory.createFlightDAO();
-        Flight flightById = flightTable.getRecordById(id);
+        FlightDTO flightById = flightTable.getRecordById(id);
         this.id = id;
-        this.departureTime = flightById.departureTime;
-        this.originAirport = flightById.originAirport;
-        this.destinationAirport = flightById.destinationAirport;
+        this.departureTime = flightById.getDepartureTime();
+        this.originAirport = flightById.getOriginAirport();
+        this.destinationAirport = flightById.getDestinationAirport();
+    }
+
+    public Flight(String id, LocalDateTime departureTime, Airport originAirport, Airport destinationAirport) {
+        this.id = id;
+        this.departureTime = departureTime;
+        this.originAirport = originAirport;
+        this.destinationAirport = destinationAirport;
     }
 
     public void setId(String id) {
