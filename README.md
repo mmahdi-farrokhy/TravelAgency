@@ -1,14 +1,15 @@
 # Travel Agency Flight Booking Program
 NOTE: To run this program make these steps.
- 1. Install [javafx-sdk-17.0.7](https://download2.gluonhq.com/openjfx/17.0.7/openjfx-17.0.7_windows-x64_bin-sdk.zip).
- 2. Open the project in Intellij Idea, then go to Settings -> Appearance & Bahavior -> Path Variables. Click the + button, set Name as PATH_TO_FX and Value as location of javafx-sdk-17.0.7 folder in your computer.
- 3. In the project open "Edit Configuration" window, under "Application" select "Main.java" file in the main package.
- 4. Click on "Modify Options", choose "Add VM Options" and write this command in the "VM Options" box without the quotes:
-    "--module-path ${PATH_TO_FX} --add-modules javafx.fxml,javafx.controls"
-5. Click OK and open "Project Structure".
-6. In "Libraries" tab click the + button and navigate to "Lib" folder in the javafx-sdk-17.0.7 directory.
-7. Choose "Lib" folder and click OK.
-8. Now the program will run properly.
+1. Install [javafx-sdk-17.0.7](https://download2.gluonhq.com/openjfx/17.0.7/openjfx-17.0.7_windows-x64_bin-sdk.zip).
+2. Open the project in Intellij Idea, then go to Settings -> Appearance & Bahavior -> Path Variables. Click the + button, set Name as PATH_TO_FX and Value as location of javafx-sdk-17.0.7 folder 
+   in your computer.
+3. In the project open "Edit Configuration" window, under "Application" select "Main.java" file in the main package.
+4. Click on "Modify Options", choose "Add VM Options" and write this command in the "VM Options" box without the quotes:
+   "--module-path ${PATH_TO_FX} --add-modules javafx.fxml,javafx.controls"
+6. Click OK and open "Project Structure".
+7. In "Libraries" tab click the + button and navigate to "Lib" folder in the javafx-sdk-17.0.7 directory.
+8. Choose "Lib" folder and click OK.
+9. Now the program will run properly.
 
 ___
 This program is designed to allow users to book flights through a user-friendly interface.
