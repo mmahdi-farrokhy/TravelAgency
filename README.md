@@ -1,6 +1,6 @@
 # Travel Agency Flight Booking Program
 NOTE: To run this program make these steps.
- - Install [javafx-sdk-17.0.7]([url](https://download2.gluonhq.com/openjfx/17.0.7/openjfx-17.0.7_windows-x64_bin-sdk.zip)) to run this program.
+ - Install [javafx-sdk-17.0.7](https://download2.gluonhq.com/openjfx/17.0.7/openjfx-17.0.7_windows-x64_bin-sdk.zip) to run this program.
 
 This program is designed to allow users to book flights through a user-friendly interface.
 The program is built using:
