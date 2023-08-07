@@ -7,8 +7,8 @@ NOTE: To run this program make these steps.
 4. Click on "Modify Options", choose "Add VM Options" and write this command in the "VM Options" box without the quotes:
    "--module-path ${PATH_TO_FX} --add-modules javafx.fxml,javafx.controls"
 6. Click OK and open "Project Structure".
-7. In "Libraries" tab click the + button and navigate to "Lib" folder in the javafx-sdk-17.0.7 directory.
-8. Choose "Lib" folder and click OK.
+7. In "Libraries" tab click the + button and navigate to "lib" folder in the javafx-sdk-17.0.7 directory.
+8. Choose "lib" folder and click OK. You should see the "lib" folder in the "Project" section on the left.
 9. Now the program will run properly.
 
 ___
