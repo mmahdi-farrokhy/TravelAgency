@@ -2,6 +2,7 @@ package data.dao.impl;
 
 import data.dao.OrderDAO;
 import data.crud.DBAccess;
+import dto.OrderDTO;
 import model.Flight;
 import model.Customer;
 import model.Order;
@@ -40,8 +41,8 @@ public class OrderTable implements OrderDAO {
     }
 
     @Override
-    public List<Order> getAllRecords() {
-        List<Order> allOrders = new LinkedList<>();
+    public List<OrderDTO> getAllRecords() {
+        List<OrderDTO> allOrders = new LinkedList<>();
         DBTable.tableName = "orders";
         DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName;
 
@@ -63,8 +64,8 @@ public class OrderTable implements OrderDAO {
     }
 
     @Override
-    public Order generateRecordFromResultSet(ResultSet resultSet) {
-        Order orderById = new Order();
+    public OrderDTO generateRecordFromResultSet(ResultSet resultSet) {
+        OrderDTO orderById = new OrderDTO();
 
         try {
             final String id = resultSet.getString("ID");
@@ -90,8 +91,8 @@ public class OrderTable implements OrderDAO {
     }
 
     @Override
-    public Order getRecordById(String id) {
-        Order orderById;
+    public OrderDTO getRecordById(String id) {
+        OrderDTO orderById;
         DBTable.tableName = "orders";
         DBTable.query = DBAccess.DBQ_SELECT + DBTable.tableName + DBS_WHERE.replace("id", "ID");
 
@@ -110,14 +111,14 @@ public class OrderTable implements OrderDAO {
     }
 
     @Override
-    public boolean insertNewRecord(Order newRecord) {
+    public boolean insertNewRecord(OrderDTO newRecord) {
         DBTable.tableName = "orders";
         DBTable.query = DBQ_INSERT + DBTable.tableName + " (Quantity, Price, RegistrationTime, CustomerNationalCode, FlightID) VALUES (?, ?, ?, ?, ?)";
         boolean recordInserted = false;
 
         try (final Connection con = getConnection(DBTable.host, DBTable.username, DBTable.password);
              PreparedStatement INSERT = con.prepareStatement(DBTable.query)) {
-            List<Order> orderList = getAllRecords();
+            List<OrderDTO> orderList = getAllRecords();
             if (!orderList.contains(newRecord)) {
                 INSERT.setInt(1, newRecord.getQuantity());
                 INSERT.setDouble(2, newRecord.getPrice().getAmount());

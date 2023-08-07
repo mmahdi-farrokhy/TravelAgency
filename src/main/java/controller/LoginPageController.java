@@ -1,6 +1,6 @@
 package controller;
 
-import data.factory.CustomerDAOFactory;
+import data.dao.factory.CustomerDAOFactory;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoSuchFXMLFileExistingException;
 import exceptions.NoUserLoggedInException;

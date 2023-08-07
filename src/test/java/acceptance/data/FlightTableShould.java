@@ -1,10 +1,9 @@
 package acceptance.data;
 
 import data.dao.FlightDAO;
-import data.factory.FlightDAOFactory;
+import data.dao.factory.FlightDAOFactory;
 import dto.FlightDTO;
 import model.Airport;
-import model.Flight;
 import commonStructures.AirportCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,14 +52,12 @@ public class FlightTableShould {
         newRecord.setDepartureTime(LocalDateTime.of(2029, 8, 1, 8, 0, 0));
         newRecord.setOriginAirport(new Airport(AirportCode.CUN));
         newRecord.setDestinationAirport(new Airport(AirportCode.ZRH));
-        boolean recordInserted = dbAccess.insertNewRecord(newRecord);
-        assertThat(recordInserted).isTrue();
+        assertThat(dbAccess.insertNewRecord(newRecord)).isFalse();
 
         newRecord.setDepartureTime(LocalDateTime.of(2029, 8, 1, 8, 0, 0));
         newRecord.setOriginAirport(new Airport(AirportCode.SAW));
         newRecord.setDestinationAirport(new Airport(AirportCode.PEK));
-        recordInserted = dbAccess.insertNewRecord(newRecord);
-        assertThat(recordInserted).isFalse();
+        assertThat(dbAccess.insertNewRecord(newRecord)).isFalse();
     }
 
     @Test

@@ -2,7 +2,7 @@ package model;
 
 import commonStructures.AirportCode;
 import data.dao.AirportDAO;
-import data.factory.AirportDAOFactory;
+import data.dao.factory.AirportDAOFactory;
 import model.submodel.Coordinate;
 import model.submodel.Location;
 

@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
-import static data.factory.CustomerDAOFactory.createCustomerDAO;
+import static data.dao.factory.CustomerDAOFactory.createCustomerDAO;
 import static main.Main.loggedInCustomer;
 import static utilities.ButtonActionInitializer.setOnActionMethods;
 import static utilities.GUIUtils.*;

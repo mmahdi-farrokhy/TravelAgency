@@ -1,7 +1,7 @@
 package acceptance.data;
 
 import commonStructures.AirportCode;
-import data.factory.AirportDAOFactory;
+import data.dao.factory.AirportDAOFactory;
 import data.dao.AirportDAO;
 import model.Airport;
 import model.submodel.Coordinate;

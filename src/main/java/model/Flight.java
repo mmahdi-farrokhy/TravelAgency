@@ -2,7 +2,7 @@ package model;
 
 import commonStructures.AirportCode;
 import data.dao.FlightDAO;
-import data.factory.FlightDAOFactory;
+import data.dao.factory.FlightDAOFactory;
 import dto.FlightDTO;
 
 import java.time.LocalDateTime;

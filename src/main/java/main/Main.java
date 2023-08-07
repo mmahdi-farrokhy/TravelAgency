@@ -1,6 +1,7 @@
 package main;
 
 import controller.MainWindowController;
+import dto.FlightDTO;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +12,7 @@ import model.Flight;
 
 public class Main extends Application {
     public static Customer loggedInCustomer;
-    public static Flight selectedFlight;
+    public static FlightDTO selectedFlight;
 
     public static MainWindowController mainWindowController;
 

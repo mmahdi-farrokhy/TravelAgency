@@ -19,6 +19,24 @@ public class Order extends DBTable {
     private Customer customerInfo;
     private Flight flight;
 
+    public Order() {
+        this.id = "";
+        this.quantity = 0;
+        this.price = new Price(0,CurrencyType.NONE);
+        this.registrationTime = LocalDateTime.of(1,1,1,1,1,1);
+        this.customerInfo = new Customer();
+        this.flight = new Flight();
+    }
+
+    public Order(String id, int quantity, Price price, LocalDateTime registrationTime, Customer customerInfo, Flight flight) {
+        this.id = id;
+        this.quantity = quantity;
+        this.price = price;
+        this.registrationTime = registrationTime;
+        this.customerInfo = customerInfo;
+        this.flight = flight;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

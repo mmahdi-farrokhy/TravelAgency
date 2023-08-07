@@ -4,7 +4,8 @@ import commonStructures.AirportCode;
 import commonStructures.City;
 import commonStructures.CurrencyType;
 import data.dao.OrderDAO;
-import data.factory.OrderDAOFactory;
+import data.dao.factory.OrderDAOFactory;
+import dto.OrderDTO;
 import model.Airport;
 import model.Customer;
 import model.Flight;
@@ -25,14 +26,14 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class OrderTableShould {
     private OrderDAO dbAccess;
-    private Order order;
+    private OrderDTO order;
     private Customer bradPitt;
     private Flight flight;
 
     @BeforeEach
     void setUp() {
         dbAccess = OrderDAOFactory.createOrderDAO();
-        order = new Order();
+        order = new OrderDTO();
         bradPitt = new Customer();
         flight = new Flight();
 
@@ -56,25 +57,28 @@ public class OrderTableShould {
 
     @Test
     void get_all_orders_from_the_order_table() {
-        List<Order> allCustomers = dbAccess.getAllRecords();
+        List<OrderDTO> allCustomers = dbAccess.getAllRecords();
         assertThat(allCustomers.isEmpty()).isFalse();
         assertThat(allCustomers.get(0)).isEqualTo(order);
     }
 
     @Test
     void get_a_specific_order_from_order_table() {
-        Order orderById = dbAccess.getRecordById("1");
+        OrderDTO orderById = dbAccess.getRecordById("1");
         assertThat(orderById).isEqualTo(order);
     }
 
     @Test
     void insert_a_new_order_to_order_table() {
-        Order newRecord = new Order();
+        OrderDTO newRecord = new OrderDTO();
         newRecord.setQuantity(1);
         newRecord.setRegistrationTime(now());
         newRecord.setCustomerInfo(new Customer("456"));
         newRecord.setFlight(new Flight("11"));
-        newRecord.calculateOrderPriceAmountByUSD();
+
+        Order tmpOrder = newRecord.convertOrderDTOToOrder();
+        tmpOrder.calculateOrderPriceAmountByUSD();
+        newRecord.setPrice(tmpOrder.getPrice());
         assertThat(dbAccess.insertNewRecord(newRecord)).isFalse();
         assertThat(dbAccess.insertNewRecord(newRecord)).isFalse();
     }

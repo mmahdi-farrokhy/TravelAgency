@@ -2,7 +2,7 @@ package model;
 
 import commonStructures.City;
 import data.dao.CustomerDAO;
-import data.factory.CustomerDAOFactory;
+import data.dao.factory.CustomerDAOFactory;
 import model.submodel.Address;
 import model.submodel.FullName;
 

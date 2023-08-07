@@ -1,4 +1,4 @@
-package data.factory;
+package data.dao.factory;
 
 import data.dao.impl.FlightTable;
 import data.dao.FlightDAO;

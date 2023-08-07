@@ -1,7 +1,8 @@
 package controller;
 
 import commonStructures.CurrencyType;
-import data.factory.OrderDAOFactory;
+import data.dao.factory.OrderDAOFactory;
+import dto.OrderDTO;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoSuchFXMLFileExistingException;
 import exceptions.NoUserLoggedInException;
@@ -12,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import model.Flight;
 import model.Order;
 import model.submodel.Price;
 
@@ -77,7 +79,7 @@ public class BookingPageController implements Initializable {
     @FXML
     private Button cancelBtn;
 
-    private Order currentOrder;
+    private OrderDTO currentOrder;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -119,17 +121,18 @@ public class BookingPageController implements Initializable {
     }
 
     private void fillFlightInformation() {
-        originAirportField.setText(selectedFlight.getFlightOriginAirportCode() + ": " + selectedFlight.getFlightOriginAirportName());
-        destinationAirportField.setText(selectedFlight.getFlightDestinationAirportCode() + ": " + selectedFlight.getFlightDestinationAirportName());
-        flightDateTimeField.setText(selectedFlight.getDepartureTime().toString().replaceAll("-", "/").replace("T", " "));
-        flightIdField.setText(selectedFlight.getId());
-        flightDistanceField.setText(Double.toString(selectedFlight.estimateFlightDistance()));
+        Flight flight = selectedFlight.convertFlightDTOToFlight();
+        originAirportField.setText(flight.getFlightOriginAirportCode() + ": " + flight.getFlightOriginAirportName());
+        destinationAirportField.setText(flight.getFlightDestinationAirportCode() + ": " + flight.getFlightDestinationAirportName());
+        flightDateTimeField.setText(flight.getDepartureTime().toString().replaceAll("-", "/").replace("T", " "));
+        flightIdField.setText(flight.getId());
+        flightDistanceField.setText(Double.toString(flight.estimateFlightDistance()));
     }
 
     private void initCurrentOrder() {
-        currentOrder = new Order();
+        currentOrder = new OrderDTO();
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
-        currentOrder.setFlight(selectedFlight);
+        currentOrder.setFlight(selectedFlight.convertFlightDTOToFlight());
         currentOrder.setCustomerInfo(loggedInCustomer);
         currentOrder.setRegistrationTime(LocalDateTime.now());
         currentOrder.setPrice(new Price(parseDouble(priceField.getText()), valueOf(currencyCombo.getValue().substring(0, 3))));
@@ -138,7 +141,9 @@ public class BookingPageController implements Initializable {
     private void calculatePrice() {
         initCurrentOrder();
         currentOrder.setQuantity(numberOfTicketsCombo.getValue());
-        currentOrder.calculateOrderPriceAmountByUSD();
+        Order tmpOrder = currentOrder.convertOrderDTOToOrder();
+        tmpOrder.calculateOrderPriceAmountByUSD();
+        currentOrder.setPrice(tmpOrder.getPrice());
         CurrencyType selectedCurrency = valueOf(currencyCombo.getValue().substring(0, 3));
         double convertedPrice = tryToConvertCurrencies(selectedCurrency);
         currentOrder.getPrice().setAmount(convertedPrice);
@@ -148,7 +153,7 @@ public class BookingPageController implements Initializable {
     private double tryToConvertCurrencies(CurrencyType selectedCurrency) {
         double convertedPrice = 0;
         try {
-            convertedPrice = convertCurrency(currentOrder.getOrderPriceCurrency(), selectedCurrency, currentOrder.getOrderPriceAmount());
+            convertedPrice = convertCurrency(currentOrder.getPrice().getCurrency(), selectedCurrency, currentOrder.getPrice().getAmount());
         } catch (IOException e) {
             showMessageBox("Error","Currency Conversion Failed","Make sure you are connected to the internet.", Alert.AlertType.ERROR);
         }

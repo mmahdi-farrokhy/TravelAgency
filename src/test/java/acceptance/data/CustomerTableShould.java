@@ -1,7 +1,7 @@
 package acceptance.data;
 
 import commonStructures.City;
-import data.factory.CustomerDAOFactory;
+import data.dao.factory.CustomerDAOFactory;
 import data.dao.CustomerDAO;
 import model.Customer;
 import model.submodel.Address;

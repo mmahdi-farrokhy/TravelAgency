@@ -70,7 +70,7 @@ public class FlightDTO extends DBTable {
         return flightList;
     }
 
-    private Flight convertFlightDTOToFlight() {
+    public Flight convertFlightDTOToFlight() {
         return new Flight(
                 getId(),
                 getDepartureTime(),
@@ -83,7 +83,7 @@ public class FlightDTO extends DBTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FlightDTO flightDTO = (FlightDTO) o;
-        return Objects.equals(id, flightDTO.id) && Objects.equals(departureTime, flightDTO.departureTime) && Objects.equals(originAirport, flightDTO.originAirport) && Objects.equals(destinationAirport, flightDTO.destinationAirport);
+        return Objects.equals(departureTime, flightDTO.departureTime) && Objects.equals(originAirport, flightDTO.originAirport) && Objects.equals(destinationAirport, flightDTO.destinationAirport);
     }
 
     @Override

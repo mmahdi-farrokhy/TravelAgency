@@ -1,4 +1,4 @@
-package data.factory;
+package data.dao.factory;
 
 import data.dao.impl.CustomerTable;
 import data.dao.CustomerDAO;

@@ -1,8 +1,8 @@
 package controller;
 
 import commonStructures.AirportCode;
-import data.factory.AirportDAOFactory;
-import data.factory.FlightDAOFactory;
+import data.dao.factory.AirportDAOFactory;
+import data.dao.factory.FlightDAOFactory;
 import dto.FlightDTO;
 import exceptions.NoFlightSelectedException;
 import exceptions.NoSuchFXMLFileExistingException;
@@ -159,13 +159,13 @@ public class FlightsListPageController implements Initializable {
         }
     }
 
-    private Flight getSelectedFlightFromTable(FlightTableRow selectedRow) {
+    private FlightDTO getSelectedFlightFromTable(FlightTableRow selectedRow) {
         String id = selectedRow.getFlightIdCol();
         Airport originAirport = new Airport(valueOf(selectedRow.getOriginAirportCol().substring(0, 3)));
         Airport destinationAirport = new Airport(valueOf(selectedRow.getDestinationAirportCol().substring(0, 3)));
         LocalDateTime departureTime = LocalDateTime.of(selectedRow.getDateCol(), selectedRow.getTimeCol());
 
-        Flight selectedFlight = new Flight();
+        FlightDTO selectedFlight = new FlightDTO();
         selectedFlight.setId(id);
         selectedFlight.setOriginAirport(originAirport);
         selectedFlight.setDestinationAirport(destinationAirport);
