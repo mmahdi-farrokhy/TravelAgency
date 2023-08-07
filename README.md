@@ -1,6 +1,6 @@
 # Travel Agency Flight Booking Program
 NOTE: To run this program make these steps.
- 1. Install [javafx-sdk-17.0.7](https://download2.gluonhq.com/openjfx/17.0.7/openjfx-17.0.7_windows-x64_bin-sdk.zip) to run this program.
+ 1. Install [javafx-sdk-17.0.7](https://download2.gluonhq.com/openjfx/17.0.7/openjfx-17.0.7_windows-x64_bin-sdk.zip).
  2. Open the project in Intellij Idea, then go to Settings -> Appearance & Bahavior -> Path Variables. Click the + button, set Name as PATH_TO_FX and Value as location of javafx-sdk-17.0.7 folder in your computer.
  3. In the project open "Edit Configuration" window, under "Application" select "Main.java" file in the main package.
  4. Click on "Modify Options", choose "Add VM Options" and write this command in the "VM Options" box without the quotes:
