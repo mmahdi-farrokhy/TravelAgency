@@ -9,7 +9,8 @@ NOTE: To run this program make these steps.
 6. Click OK and open "Project Structure".
 7. In "Libraries" tab click the + button and navigate to "lib" folder in the javafx-sdk-17.0.7 directory.
 8. Choose "lib" folder and click OK. You should see the "lib" folder in the "Project" section on the left.
-9. Now the program will run properly.
+9. In "Project Structure" go to "Modules" tab and set "view" package as resource folder.
+10. Now the program will run properly.
 
 ___
 This program is designed to allow users to book flights through a user-friendly interface.
